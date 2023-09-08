@@ -1,4 +1,5 @@
-﻿using Url.Shortener.Api.Data;
+﻿using Carter;
+using Url.Shortener.Api.Data;
 
 namespace Url.Shortener.Api;
 
@@ -16,6 +17,7 @@ public static class DependencyInjectionConfigurator
 
         return serviceCollection.AddControllers().Services
                                 .AddEndpointsApiExplorer()
+                                .AddCarter()
                                 .AddSwaggerGen()
                                 .AddDataServices(dbConnectionString);
     }

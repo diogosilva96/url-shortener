@@ -1,4 +1,5 @@
-﻿using Serilog;
+﻿using Carter;
+using Serilog;
 
 namespace Url.Shortener.Api;
 
@@ -6,7 +7,8 @@ public static class MiddlewareConfigurator
 {
     public static WebApplication ConfigureMiddleware(this WebApplication webApplication)
     {
-        webApplication.ConfigureSwagger();
+        webApplication.ConfigureSwagger()
+                      .MapCarter();
 
         webApplication.UseSerilogRequestLogging()
                       .UseHsts()

@@ -12,23 +12,23 @@ namespace Url.Shortener.Data.Migrator.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "UrlMetadata",
+                name: "url_metadata",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    ShortUrl = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
-                    FullUrl = table.Column<string>(type: "character varying(2048)", maxLength: 2048, nullable: false),
-                    CreatedAtUtc = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false)
+                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    short_url = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
+                    full_url = table.Column<string>(type: "character varying(2048)", maxLength: 2048, nullable: false),
+                    created_at_utc = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UrlMetadata", x => x.Id);
+                    table.PrimaryKey("pk_url_metadata", x => x.id);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_UrlMetadata_ShortUrl",
-                table: "UrlMetadata",
-                column: "ShortUrl",
+                name: "ix_url_metadata_short_url",
+                table: "url_metadata",
+                column: "short_url",
                 unique: true);
         }
 
@@ -36,7 +36,7 @@ namespace Url.Shortener.Data.Migrator.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "UrlMetadata");
+                name: "url_metadata");
         }
     }
 }

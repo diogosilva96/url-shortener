@@ -12,7 +12,7 @@ using Url.Shortener.Data;
 namespace Url.Shortener.Data.Migrator.Migrations
 {
     [DbContext(typeof(UrlShortenerDbContext))]
-    [Migration("20230908181439_InitialCreate")]
+    [Migration("20230908183250_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -29,27 +29,33 @@ namespace Url.Shortener.Data.Migrator.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
 
                     b.Property<DateTimeOffset>("CreatedAtUtc")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at_utc");
 
                     b.Property<string>("FullUrl")
                         .IsRequired()
                         .HasMaxLength(2048)
-                        .HasColumnType("character varying(2048)");
+                        .HasColumnType("character varying(2048)")
+                        .HasColumnName("full_url");
 
                     b.Property<string>("ShortUrl")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("short_url");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("pk_url_metadata");
 
                     b.HasIndex("ShortUrl")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasDatabaseName("ix_url_metadata_short_url");
 
-                    b.ToTable("UrlMetadata");
+                    b.ToTable("url_metadata", (string)null);
                 });
 #pragma warning restore 612, 618
         }

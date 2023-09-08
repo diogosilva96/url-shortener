@@ -15,9 +15,10 @@ internal static class ServiceCollectionExtensions
                                 {
                                     config.Lifetime = ServiceLifetime.Transient;
                                     config.AddOpenBehavior(typeof(ValidationPipelineBehaviour<,>));
+                                    config.RegisterServicesFromAssemblyContaining<Program>();
                                 })
                                 .AddSingleton<ISystemClock, SystemClock>()
-                                .AddValidatorsFromAssembly(typeof(Program).Assembly)
+                                .AddValidatorsFromAssembly(typeof(Program).Assembly, includeInternalTypes: true)
                                 .AddCreateUrlServices(configureUrlShortenerOptions);
     }
 }

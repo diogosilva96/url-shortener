@@ -48,19 +48,28 @@ internal class CreateUrlRequestHandler : IRequestHandler<CreateUrlRequest, strin
     private async Task<string> GenerateShortenedUrlAsync(CancellationToken cancellationToken)
     {
         var generatedUrl = string.Empty;
-        var isValidShortenedUrl = false;
+        var isValidUrl = false;
         
         // TODO: this loop can be optimized, alternatively we could simply insert into db and check for unique constraint exception.
-        while (!isValidShortenedUrl)
+        while (!isValidUrl)
         {
             generatedUrl = _urlShortener.GenerateUrl();
 
-            if (await _dbContext.UrlMetadata.AnyAsync(x => x.ShortUrl == generatedUrl, cancellationToken))
+            if (await IsUrlAlreadyInUseAsync(generatedUrl, cancellationToken))
             {
-                isValidShortenedUrl = true;
+                _logger.LogWarning("The short url '{ShortUrl}' is already in use." , generatedUrl);
+                continue;
             }
+            
+            isValidUrl = true;
         }
+        
+        _logger.LogInformation("The short url '{ShortUrl}' was successfully generated.", generatedUrl);
 
         return generatedUrl;
     }
+
+    private async Task<bool> IsUrlAlreadyInUseAsync(string generatedUrl, CancellationToken cancellationToken) => 
+        await _dbContext.UrlMetadata.AnyAsync(x => x.ShortUrl == generatedUrl, cancellationToken);
+    
 }

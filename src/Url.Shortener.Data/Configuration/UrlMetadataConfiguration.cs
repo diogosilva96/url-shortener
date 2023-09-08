@@ -20,5 +20,8 @@ internal class UrlMetadataConfiguration : IEntityTypeConfiguration<UrlMetadata>
 
         builder.Property(x => x.CreatedAtUtc)
                .IsRequired();
+
+        builder.HasIndex(x => x.ShortUrl)
+               .IsUnique();
     }
 }

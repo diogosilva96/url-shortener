@@ -3,7 +3,7 @@ using Url.Shortener.Data;
 
 namespace Url.Shortener.Api.Data;
 
-public static class ServiceCollectionExtensions
+internal static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddDataServices(this IServiceCollection serviceCollection, string connectionString)
     {

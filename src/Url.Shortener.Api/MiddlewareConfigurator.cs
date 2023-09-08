@@ -1,5 +1,6 @@
 ﻿using Carter;
 using Serilog;
+using Url.Shortener.Api.Domain;
 
 namespace Url.Shortener.Api;
 
@@ -14,6 +15,8 @@ public static class MiddlewareConfigurator
                       .UseHsts()
                       .UseHttpsRedirection()
                       .UseAuthorization();
+
+        webApplication.UseMiddleware<ValidationMappingMiddleware>();
 
         // TODO: remove & use minimal apis
         webApplication.MapControllers();

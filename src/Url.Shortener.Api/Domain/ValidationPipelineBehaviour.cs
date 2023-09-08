@@ -4,8 +4,7 @@ using MediatR;
 
 namespace Url.Shortener.Api.Domain;
 
-public class ValidationPipelineBehaviour<TRequest, TResponse>
-    : IPipelineBehavior<TRequest, TResponse>
+public class ValidationPipelineBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> 
     where TRequest : IRequest<TResponse>
 {
     private readonly IEnumerable<IValidator<TRequest>> _validators;

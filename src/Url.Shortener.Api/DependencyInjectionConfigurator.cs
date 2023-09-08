@@ -22,6 +22,6 @@ public static class DependencyInjectionConfigurator
                                 .AddDomainServices(ConfigureUrlShortenerOptions)
                                 .AddDataServices(dbConnectionString);
 
-        void ConfigureUrlShortenerOptions(UrlShortenerOptions options) => configuration.Bind(ConfigurationSectionNames.UrlShortenerOptions);
+        void ConfigureUrlShortenerOptions(UrlShortenerOptions options) => configuration.GetSection(ConfigurationSectionNames.UrlShortenerOptions).Bind(options);
     }
 }

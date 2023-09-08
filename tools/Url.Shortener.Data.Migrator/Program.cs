@@ -20,7 +20,7 @@ var hostBuilder = Host.CreateDefaultBuilder(args)
                           services.AddLogging()
                                   .AddDbContext<UrlShortenerDbContext>(options => 
                                       options.UseNpgsql(hostContext.Configuration.GetConnectionString("UrlShortenerDatabase"), 
-                                          x => x.MigrationsAssembly("Url.Shortener.Data.Migrator")))
+                                          x => x.MigrationsAssembly(typeof(Program).Assembly.FullName)))
                                   .AddHostedService<DataMigrator>(); 
                       });
 

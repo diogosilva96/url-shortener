@@ -1,5 +1,6 @@
 ﻿using Carter;
 using FluentValidation;
+using Microsoft.Extensions.Internal;
 using Url.Shortener.Api.Domain.CreateUrl;
 
 namespace Url.Shortener.Api.Domain;
@@ -10,6 +11,7 @@ internal static class ServiceCollectionExtensions
     {
         return serviceCollection.AddCarter()
                                 .AddMediatR(config => config.Lifetime = ServiceLifetime.Transient)
+                                .AddSingleton<ISystemClock, SystemClock>()
                                 .AddValidatorsFromAssembly(typeof(Program).Assembly)
                                 .AddCreateUrlServices(configureUrlShortenerOptions);
     }

@@ -1,14 +1,16 @@
 ﻿using Carter;
 using FluentValidation;
+using Url.Shortener.Api.Domain.CreateUrl;
 
 namespace Url.Shortener.Api.Domain;
 
-public static class ServiceCollectionExtensions
+internal static class ServiceCollectionExtensions
 {
-    public static IServiceCollection AddDomainServices(this IServiceCollection serviceCollection)
+    public static IServiceCollection AddDomainServices(this IServiceCollection serviceCollection, Action<UrlShortenerOptions> configureUrlShortenerOptions)
     {
         return serviceCollection.AddCarter()
                                 .AddMediatR(config => config.Lifetime = ServiceLifetime.Transient)
-                                .AddValidatorsFromAssembly(typeof(Program).Assembly);
+                                .AddValidatorsFromAssembly(typeof(Program).Assembly)
+                                .AddCreateUrlServices(configureUrlShortenerOptions);
     }
 }

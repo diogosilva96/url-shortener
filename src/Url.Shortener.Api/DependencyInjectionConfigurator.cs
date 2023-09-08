@@ -1,6 +1,6 @@
-﻿using Carter;
-using Url.Shortener.Api.Data;
+﻿using Url.Shortener.Api.Data;
 using Url.Shortener.Api.Domain;
+using Url.Shortener.Api.Domain.CreateUrl;
 
 namespace Url.Shortener.Api;
 
@@ -19,7 +19,9 @@ public static class DependencyInjectionConfigurator
         return serviceCollection.AddControllers().Services
                                 .AddEndpointsApiExplorer()
                                 .AddSwaggerGen()
-                                .AddDomainServices()
+                                .AddDomainServices(ConfigureUrlShortenerOptions)
                                 .AddDataServices(dbConnectionString);
+
+        void ConfigureUrlShortenerOptions(UrlShortenerOptions options) => configuration.Bind(ConfigurationSectionNames.UrlShortenerOptions);
     }
 }

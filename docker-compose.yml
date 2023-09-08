@@ -1,7 +1,7 @@
 version: '3.9'
 services:
-  url-shortener-api:
-    image: product-catalog-api
+  api:
+    image: url-shortener-api
     build:
       context: .
       dockerfile: ./devops/docker/Dockerfile
@@ -9,7 +9,7 @@ services:
       - '30001:5000'
     environment:
       ASPNETCORE_ENVIRONMENT: "Development"
-  url-shortener-db:
+  db:
     image: postgres
     restart: always
     environment:

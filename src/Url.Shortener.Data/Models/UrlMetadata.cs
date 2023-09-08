@@ -2,11 +2,11 @@
 
 public class UrlMetadata
 {
-    public Guid Id { get; init; }
+    public required Guid Id { get; init; }
 
-    public string ShortUrl { get; set; } = string.Empty;
+    public required string ShortUrl { get; set; } = string.Empty;
     
-    public string FullUrl { get; set; } = string.Empty;
+    public required string FullUrl { get; set; } = string.Empty;
     
-    public DateTimeOffset CreatedAtUtc { get; set; }
+    public required DateTimeOffset CreatedAtUtc { get; set; }
 }

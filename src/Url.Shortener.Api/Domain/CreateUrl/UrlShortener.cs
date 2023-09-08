@@ -14,10 +14,8 @@ internal class UrlShortener : IUrlShortener
         _urlSize = options.Value.UrlSize;
     }
     
-    public string Shorten(string url)
+    public string GenerateUrl()
     {
-        if (string.IsNullOrWhiteSpace(url)) throw new ArgumentException("The url should be specified.", nameof(url));
-        
         var sb = new StringBuilder();
         for (var i = 0; i < _urlSize; i++)
         {

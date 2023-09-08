@@ -2,5 +2,5 @@
 
 internal interface IUrlShortener
 {
-    public string Shorten(string url);
+    public string GenerateUrl();
 }

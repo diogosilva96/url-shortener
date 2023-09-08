@@ -13,5 +13,8 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\tools\Url.Shortener.Data.Migrator\Url.Shortener.Data.Migrator.csproj" />
+  </ItemGroup>
 
 </Project>

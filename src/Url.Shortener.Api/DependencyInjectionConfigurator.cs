@@ -1,4 +1,6 @@
-﻿namespace Url.Shortener.Api;
+﻿using Url.Shortener.Api.Data;
+
+namespace Url.Shortener.Api;
 
 public static class DependencyInjectionConfigurator
 {
@@ -10,8 +12,11 @@ public static class DependencyInjectionConfigurator
         ArgumentNullException.ThrowIfNull(configuration);
         ArgumentNullException.ThrowIfNull(hostEnvironment);
 
+        var dbConnectionString = configuration.GetConnectionString(ConnectionStringNames.MainDatabase)!;
+
         return serviceCollection.AddControllers().Services
                                 .AddEndpointsApiExplorer()
-                                .AddSwaggerGen();
+                                .AddSwaggerGen()
+                                .AddDataServices(dbConnectionString);
     }
 }

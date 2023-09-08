@@ -8,8 +8,13 @@ public class ValidationPipelineBehaviour<TRequest, TResponse> : IPipelineBehavio
     where TRequest : IRequest<TResponse>
 {
     private readonly IEnumerable<IValidator<TRequest>> _validators;
+    private readonly ILogger<ValidationPipelineBehaviour<TRequest, TResponse>> _logger;
 
-    public ValidationPipelineBehaviour(IEnumerable<IValidator<TRequest>> validators) => _validators = validators;
+    public ValidationPipelineBehaviour(IEnumerable<IValidator<TRequest>> validators, ILogger<ValidationPipelineBehaviour<TRequest, TResponse>> logger)
+    {
+        _validators = validators;
+        _logger = logger;
+    }
 
     public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
     {
@@ -24,7 +29,9 @@ public class ValidationPipelineBehaviour<TRequest, TResponse> : IPipelineBehavio
 
         if (!validationFailures.Any())
         {
-            throw new ValidationException(validationFailures);
+            var validationException = new ValidationException(validationFailures);
+            _logger.LogError(validationException, "Validation failed for object of type '{ObjectType}'", typeof(TRequest).FullName);
+            throw validationException;
         }
 
         return await next();

@@ -6,7 +6,7 @@ public static class MiddlewareConfigurator
 {
     public static WebApplication ConfigureMiddleware(this WebApplication webApplication)
     {
-        ConfigureSwagger(webApplication);
+        webApplication.ConfigureSwagger();
 
         webApplication.UseSerilogRequestLogging()
                       .UseHsts()
@@ -19,11 +19,13 @@ public static class MiddlewareConfigurator
         return webApplication;
     }
 
-    private static void ConfigureSwagger(WebApplication webApplication)
+    private static WebApplication ConfigureSwagger(this WebApplication webApplication)
     {
-        if (!webApplication.Environment.IsDevelopment()) return;
+        if (!webApplication.Environment.IsDevelopment()) return webApplication;
         
         webApplication.UseSwagger();
         webApplication.UseSwaggerUI();
+
+        return webApplication;
     }
 }

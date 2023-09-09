@@ -1,9 +1,6 @@
 ﻿using Carter;
-using FluentValidation;
-using MediatR;
 using Serilog;
 using Url.Shortener.Api.Domain;
-using Url.Shortener.Api.Domain.CreateUrl;
 
 namespace Url.Shortener.Api;
 
@@ -35,7 +32,7 @@ public static class MiddlewareConfigurator
     private static WebApplication ConfigureSwagger(this WebApplication webApplication)
     {
         if (!webApplication.Environment.IsDevelopment()) return webApplication;
-        
+
         webApplication.UseSwagger();
         webApplication.UseSwaggerUI();
 

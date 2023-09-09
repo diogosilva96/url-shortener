@@ -19,7 +19,7 @@ internal class CreateUrlRequestValidator : AbstractValidator<CreateUrlRequest>
 
             if (!Uri.TryCreate(url, UriKind.Absolute, out var parsedUri))
             {
-                context.AddFailure(context.MessageFormatter.BuildMessage("The '{PropertyName}' is not valid."));
+                context.AddFailure(context.MessageFormatter.BuildMessage("The '{PropertyName}' is not a valid absolute url."));
                 return;
             }
 

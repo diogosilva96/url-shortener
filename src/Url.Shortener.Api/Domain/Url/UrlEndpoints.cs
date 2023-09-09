@@ -17,7 +17,7 @@ public class UrlEndpoints : ICarterModule
         group.MapPost("", async (CreateUrlRequest request, IMediator mediator, CancellationToken cancellationToken) =>
              {
                  var domainRequest = new Create.CreateUrlRequest(request.Url);
-                 return await mediator.Send(domainRequest, cancellationToken);
+                 TypedResults.Ok(await mediator.Send(domainRequest, cancellationToken));
              })
              .WithName("CreateUrl")
              .WithDescription("Creates a short url based on the specified request.")
@@ -29,7 +29,7 @@ public class UrlEndpoints : ICarterModule
         {
             var domainRequest = new GetUrlRequest(shortUrl);
             var redirectUrl = await mediator.Send(domainRequest, cancellationToken);
-            return Results.Redirect(redirectUrl, permanent: true);
+            return TypedResults.Redirect(redirectUrl, permanent: true);
         })
         .WithName("GetUrl")
         .WithDescription("Redirects the request based on the specified short url.")

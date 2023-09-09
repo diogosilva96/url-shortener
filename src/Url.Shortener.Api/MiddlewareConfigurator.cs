@@ -22,7 +22,7 @@ public static class MiddlewareConfigurator
             webApplication.UseDeveloperExceptionPage();
         }
 
-        webApplication.UseValidationMappingMiddleware();
+        webApplication.UseDomainExceptionMiddleware();
         
         // TODO: remove
         webApplication.MapControllers();

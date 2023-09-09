@@ -1,13 +1,15 @@
 ﻿using System.Net;
 using FluentValidation;
+using Url.Shortener.Api.Exceptions;
 
 namespace Url.Shortener.Api.Domain;
 
-internal static class ValidationMappingMiddleware
+internal static class DomainExceptionMiddleware
 {
     private const int BadRequestStatusCode = (int)HttpStatusCode.BadRequest;
+    private const int NotFoundStatusCode = (int)HttpStatusCode.NotFound;
 
-    public static IApplicationBuilder UseValidationMappingMiddleware(this IApplicationBuilder webApplication) =>
+    public static IApplicationBuilder UseDomainExceptionMiddleware(this IApplicationBuilder webApplication) =>
         webApplication.Use(async (context, next) =>
         {
             try
@@ -27,6 +29,12 @@ internal static class ValidationMappingMiddleware
                     Status = BadRequestStatusCode
                 };
 
+                await context.Response.WriteAsJsonAsync(result);
+            }
+            catch (NotFoundException notFoundException)
+            {
+                context.Response.StatusCode = NotFoundStatusCode;
+                var result = TypedResults.NotFound(notFoundException.Message);
                 await context.Response.WriteAsJsonAsync(result);
             }
         });

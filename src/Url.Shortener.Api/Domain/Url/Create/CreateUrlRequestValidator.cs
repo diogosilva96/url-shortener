@@ -27,6 +27,12 @@ internal class CreateUrlRequestValidator : AbstractValidator<CreateUrlRequest>
             if (parsedUri.Scheme != Uri.UriSchemeHttps)
             {
                 context.AddFailure(context.MessageFormatter.BuildMessage("The '{PropertyName}' must be secure."));
+                return;
+            }
+
+            if (!parsedUri.Authority.Contains('.'))
+            {
+                context.AddFailure(context.MessageFormatter.BuildMessage("The '{PropertyName}' must have a valid authority."));
             }
         };
 }

@@ -1,5 +1,6 @@
 ﻿using Carter;
 using FluentValidation;
+using MediatR.Pipeline;
 using Microsoft.Extensions.Internal;
 using Url.Shortener.Api.Domain.CreateUrl;
 
@@ -14,8 +15,8 @@ internal static class ServiceCollectionExtensions
                                 .AddMediatR(config =>
                                 {
                                     config.Lifetime = ServiceLifetime.Transient;
-                                    config.AddOpenBehavior(typeof(ValidationPipelineBehaviour<,>));
                                     config.RegisterServicesFromAssemblyContaining<Program>();
+                                    config.RequestPreProcessorsToRegister.Add(new(typeof(IRequestPreProcessor<>), typeof(ValidationProcessor<>), ServiceLifetime.Transient));
                                 })
                                 .AddSingleton<ISystemClock, SystemClock>()
                                 .AddValidatorsFromAssembly(typeof(Program).Assembly, includeInternalTypes: true)

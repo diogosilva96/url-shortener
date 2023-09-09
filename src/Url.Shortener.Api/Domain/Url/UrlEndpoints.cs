@@ -34,6 +34,7 @@ public class UrlEndpoints : ICarterModule
         .WithName("GetUrl")
         .WithDescription("Redirects the request based on the specified short url.")
         .Produces(StatusCodes.Status308PermanentRedirect)
+        .Produces<HttpValidationProblemDetails>(StatusCodes.Status400BadRequest)
         .Produces<NotFound>(StatusCodes.Status404NotFound)
         .Produces<ProblemHttpResult>(StatusCodes.Status500InternalServerError);
     }

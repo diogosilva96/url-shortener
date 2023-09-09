@@ -1,7 +1,9 @@
-﻿using Carter;
+﻿using System.ComponentModel.DataAnnotations;
+using Carter;
 using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Url.Shortener.Api.Contracts;
+using Url.Shortener.Api.Domain.Url.Get;
 
 namespace Url.Shortener.Api.Domain.Url;
 
@@ -12,15 +14,27 @@ public class UrlEndpoints : ICarterModule
         var group = app.MapGroup("api/urls")
                        .WithOpenApi();
 
-        group.MapPost("", async (CreateUrlRequest request, IMediator mediator) =>
+        group.MapPost("", async (CreateUrlRequest request, IMediator mediator, CancellationToken cancellationToken) =>
              {
                  var domainRequest = new Create.CreateUrlRequest(request.Url);
-                 return await mediator.Send(domainRequest);
+                 return await mediator.Send(domainRequest, cancellationToken);
              })
              .WithName("CreateUrl")
              .WithDescription("Creates a short url based on the specified request.")
              .Produces<string>()
              .Produces<HttpValidationProblemDetails>(StatusCodes.Status400BadRequest)
              .Produces<ProblemHttpResult>(StatusCodes.Status500InternalServerError);
+
+        group.MapGet("{shortUrl}", async ([Required] string shortUrl, IMediator mediator, CancellationToken cancellationToken) =>
+        {
+            var domainRequest = new GetUrlRequest(shortUrl);
+            var redirectUrl = await mediator.Send(domainRequest, cancellationToken);
+            return Results.Redirect(redirectUrl, permanent: true);
+        })
+        .WithName("GetUrl")
+        .WithDescription("Redirects the request based on the specified short url.")
+        .Produces(StatusCodes.Status308PermanentRedirect)
+        .Produces<NotFound>(StatusCodes.Status404NotFound)
+        .Produces<ProblemHttpResult>(StatusCodes.Status500InternalServerError);
     }
 }

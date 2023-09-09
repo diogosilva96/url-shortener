@@ -54,20 +54,21 @@ internal class CreateUrlRequestHandler : IRequestHandler<CreateUrlRequest, strin
         var isValidUrl = false;
 
         // TODO: this loop can be optimized, alternatively we could simply insert into db and check for unique constraint exception.
+        var retryCount = 0;
         while (!isValidUrl)
         {
             generatedUrl = _urlShortener.GenerateUrl();
 
             if (await IsUrlAlreadyInUseAsync(generatedUrl, cancellationToken))
             {
-                _logger.LogWarning("The short url '{ShortUrl}' is already in use.", generatedUrl);
+                _logger.LogWarning("The short url '{ShortUrl}' is already in use (retry count: {RetryCount}).", generatedUrl, retryCount++);
                 continue;
             }
 
             isValidUrl = true;
         }
 
-        _logger.LogInformation("The short url '{ShortUrl}' was successfully generated.", generatedUrl);
+        _logger.LogInformation("The short url '{ShortUrl}' was successfully generated after {RetryCount} retries.", generatedUrl, retryCount);
 
         return generatedUrl;
     }

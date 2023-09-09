@@ -8,12 +8,15 @@ namespace Url.Shortener.Api.Domain.CreateUrl;
 
 internal class CreateUrlRequestHandler : IRequestHandler<CreateUrlRequest, string>
 {
-    private readonly UrlShortenerDbContext _dbContext;
-    private readonly IUrlShortener _urlShortener;
     private readonly ISystemClock _clock;
+    private readonly UrlShortenerDbContext _dbContext;
     private readonly ILogger<CreateUrlRequestHandler> _logger;
+    private readonly IUrlShortener _urlShortener;
 
-    public CreateUrlRequestHandler(UrlShortenerDbContext dbContext, IUrlShortener urlShortener, ISystemClock clock, ILogger<CreateUrlRequestHandler> logger)
+    public CreateUrlRequestHandler(UrlShortenerDbContext dbContext,
+        IUrlShortener urlShortener,
+        ISystemClock clock,
+        ILogger<CreateUrlRequestHandler> logger)
     {
         _dbContext = dbContext;
         _urlShortener = urlShortener;
@@ -35,7 +38,7 @@ internal class CreateUrlRequestHandler : IRequestHandler<CreateUrlRequest, strin
         var urlMetadata = new UrlMetadata
         {
             Id = Guid.NewGuid(),
-            FullUrl = request.FullUrl,
+            FullUrl = request.Url,
             CreatedAtUtc = _clock.UtcNow,
             ShortUrl = shortenedUrl
         };
@@ -49,7 +52,7 @@ internal class CreateUrlRequestHandler : IRequestHandler<CreateUrlRequest, strin
     {
         var generatedUrl = string.Empty;
         var isValidUrl = false;
-        
+
         // TODO: this loop can be optimized, alternatively we could simply insert into db and check for unique constraint exception.
         while (!isValidUrl)
         {
@@ -57,19 +60,18 @@ internal class CreateUrlRequestHandler : IRequestHandler<CreateUrlRequest, strin
 
             if (await IsUrlAlreadyInUseAsync(generatedUrl, cancellationToken))
             {
-                _logger.LogWarning("The short url '{ShortUrl}' is already in use." , generatedUrl);
+                _logger.LogWarning("The short url '{ShortUrl}' is already in use.", generatedUrl);
                 continue;
             }
-            
+
             isValidUrl = true;
         }
-        
+
         _logger.LogInformation("The short url '{ShortUrl}' was successfully generated.", generatedUrl);
 
         return generatedUrl;
     }
 
-    private async Task<bool> IsUrlAlreadyInUseAsync(string generatedUrl, CancellationToken cancellationToken) => 
+    private async Task<bool> IsUrlAlreadyInUseAsync(string generatedUrl, CancellationToken cancellationToken) =>
         await _dbContext.UrlMetadata.AnyAsync(x => x.ShortUrl == generatedUrl, cancellationToken);
-    
 }

@@ -6,26 +6,27 @@ internal class CreateUrlRequestValidator : AbstractValidator<CreateUrlRequest>
 {
     public CreateUrlRequestValidator()
     {
-        RuleFor(x => x.FullUrl).NotEmpty();
-        
-        RuleFor(x => x.FullUrl).Custom(EnsureValidFullUrl())
-                               .When(x => !string.IsNullOrWhiteSpace(x.FullUrl));
+        RuleFor(x => x.Url).NotEmpty();
+
+        RuleFor(x => x.Url).Custom(EnsureValidUrl())
+                           .When(x => !string.IsNullOrWhiteSpace(x.Url));
     }
 
-    private static Action<string, ValidationContext<CreateUrlRequest>> EnsureValidFullUrl() => 
+    private static Action<string, ValidationContext<CreateUrlRequest>> EnsureValidUrl() =>
         (url, context) =>
         {
+            context.MessageFormatter.AppendPropertyName(context.PropertyPath);
+
             if (!Uri.TryCreate(url, UriKind.Absolute, out var parsedUri))
             {
-                context.AddFailure("The '{PropertyName}' is not a valid url.");
+                context.AddFailure(context.MessageFormatter.BuildMessage("The '{PropertyName}' is not valid."));
                 return;
             }
-                                   
+
             // ReSharper disable once InvertIf
             if (parsedUri.Scheme != Uri.UriSchemeHttps)
             {
-                context.AddFailure("The '{PropertyName}' must be an secure url.");
-                return;
+                context.AddFailure(context.MessageFormatter.BuildMessage("The '{PropertyName}' must be secure."));
             }
         };
 }

@@ -23,9 +23,6 @@ public static class MiddlewareConfigurator
         }
 
         webApplication.UseDomainExceptionMiddleware();
-        
-        // TODO: remove
-        webApplication.MapControllers();
 
         return webApplication;
     }

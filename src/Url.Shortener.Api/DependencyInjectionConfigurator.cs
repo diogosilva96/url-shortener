@@ -16,8 +16,7 @@ public static class DependencyInjectionConfigurator
 
         var dbConnectionString = configuration.GetConnectionString(ConnectionStringNames.MainDatabase)!;
 
-        return serviceCollection.AddControllers().Services
-                                .AddEndpointsApiExplorer()
+        return serviceCollection.AddEndpointsApiExplorer()
                                 .AddSwaggerGen()
                                 .AddDomainServices(ConfigureUrlShortenerOptions)
                                 .AddDataServices(dbConnectionString);

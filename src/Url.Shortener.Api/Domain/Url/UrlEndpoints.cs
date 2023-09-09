@@ -17,7 +17,7 @@ public class UrlEndpoints : ICarterModule
         group.MapPost("", async (CreateUrlRequest request, IMediator mediator, CancellationToken cancellationToken) =>
              {
                  var domainRequest = new Create.CreateUrlRequest(request.Url);
-                 TypedResults.Ok(await mediator.Send(domainRequest, cancellationToken));
+                 return TypedResults.Ok(await mediator.Send(domainRequest, cancellationToken));
              })
              .WithName("CreateUrl")
              .WithDescription("Creates a short url based on the specified request.")

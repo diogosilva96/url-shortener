@@ -20,9 +20,4 @@
     <ProjectReference Include="..\..\tools\Url.Shortener.Data.Migrator\Url.Shortener.Data.Migrator.csproj" />
   </ItemGroup>
 
-
-  <ItemGroup>
-    <Folder Include="Domain\CreateUrl\" />
-  </ItemGroup>
-
 </Project>

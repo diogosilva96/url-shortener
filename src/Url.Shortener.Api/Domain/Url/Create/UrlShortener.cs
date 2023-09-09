@@ -1,7 +1,7 @@
 ﻿using System.Text;
 using Microsoft.Extensions.Options;
 
-namespace Url.Shortener.Api.Domain.CreateUrl;
+namespace Url.Shortener.Api.Domain.Url.Create;
 
 internal class UrlShortener : IUrlShortener
 {
@@ -13,7 +13,7 @@ internal class UrlShortener : IUrlShortener
         _characters = options.Value.Characters.ToCharArray();
         _urlSize = options.Value.UrlSize;
     }
-    
+
     public string GenerateUrl()
     {
         var sb = new StringBuilder();

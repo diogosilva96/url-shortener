@@ -1,15 +1,15 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Url.Shortener.Api.Domain.CreateUrl;
+namespace Url.Shortener.Api.Domain.Url.Create;
 
 internal class UrlShortenerOptions
 {
+    private const int DefaultUrlSize = 10;
+
     [Required]
     public string Characters { get; set; } = string.Empty;
 
     [Required]
-    [Range(5,50)]
+    [Range(5, 50)]
     public int UrlSize { get; set; } = DefaultUrlSize;
-
-    private const int DefaultUrlSize = 10;
 }

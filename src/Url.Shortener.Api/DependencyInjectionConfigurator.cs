@@ -1,6 +1,6 @@
 ﻿using Url.Shortener.Api.Data;
 using Url.Shortener.Api.Domain;
-using Url.Shortener.Api.Domain.CreateUrl;
+using Url.Shortener.Api.Domain.Url.Create;
 
 namespace Url.Shortener.Api;
 

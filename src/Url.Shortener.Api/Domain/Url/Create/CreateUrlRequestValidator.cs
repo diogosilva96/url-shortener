@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace Url.Shortener.Api.Domain.CreateUrl;
+namespace Url.Shortener.Api.Domain.Url.Create;
 
 internal class CreateUrlRequestValidator : AbstractValidator<CreateUrlRequest>
 {

@@ -1,4 +1,4 @@
-﻿namespace Url.Shortener.Api.Domain.CreateUrl;
+﻿namespace Url.Shortener.Api.Domain.Url.Create;
 
 internal interface IUrlShortener
 {

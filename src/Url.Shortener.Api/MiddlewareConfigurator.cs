@@ -15,15 +15,16 @@ public static class MiddlewareConfigurator
                       .UseRouting()
                       .UseHsts()
                       .UseHttpsRedirection()
-                      .UseAuthorization()
-                      .UseValidationMappingMiddleware();
+                      .UseAuthorization();
 
         if (webApplication.Environment.IsDevelopment())
         {
             webApplication.UseDeveloperExceptionPage();
         }
 
-        // TODO: remove & use minimal apis
+        webApplication.UseValidationMappingMiddleware();
+        
+        // TODO: remove
         webApplication.MapControllers();
 
         return webApplication;

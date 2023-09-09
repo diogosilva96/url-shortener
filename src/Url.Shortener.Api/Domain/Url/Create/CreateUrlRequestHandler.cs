@@ -4,7 +4,7 @@ using Microsoft.Extensions.Internal;
 using Url.Shortener.Data;
 using Url.Shortener.Data.Models;
 
-namespace Url.Shortener.Api.Domain.CreateUrl;
+namespace Url.Shortener.Api.Domain.Url.Create;
 
 internal class CreateUrlRequestHandler : IRequestHandler<CreateUrlRequest, string>
 {
@@ -68,7 +68,8 @@ internal class CreateUrlRequestHandler : IRequestHandler<CreateUrlRequest, strin
             isValidUrl = true;
         }
 
-        _logger.LogInformation("The short url '{ShortUrl}' was successfully generated after {RetryCount} retries.", generatedUrl, retryCount);
+        _logger.LogInformation("The short url '{ShortUrl}' was successfully generated after {RetryCount} retries.", generatedUrl,
+            retryCount);
 
         return generatedUrl;
     }

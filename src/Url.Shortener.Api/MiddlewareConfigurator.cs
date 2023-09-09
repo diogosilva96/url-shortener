@@ -1,6 +1,9 @@
 ﻿using Carter;
+using FluentValidation;
+using MediatR;
 using Serilog;
 using Url.Shortener.Api.Domain;
+using Url.Shortener.Api.Domain.CreateUrl;
 
 namespace Url.Shortener.Api;
 
@@ -12,11 +15,16 @@ public static class MiddlewareConfigurator
                       .MapCarter();
 
         webApplication.UseSerilogRequestLogging()
+                      .UseRouting()
                       .UseHsts()
                       .UseHttpsRedirection()
-                      .UseAuthorization();
+                      .UseAuthorization()
+                      .UseValidationMappingMiddleware();
 
-        webApplication.UseMiddleware<ValidationMappingMiddleware>();
+        if (webApplication.Environment.IsDevelopment())
+        {
+            webApplication.UseDeveloperExceptionPage();
+        }
 
         // TODO: remove & use minimal apis
         webApplication.MapControllers();

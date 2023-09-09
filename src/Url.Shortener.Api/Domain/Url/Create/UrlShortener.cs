@@ -19,7 +19,7 @@ internal class UrlShortener : IUrlShortener
         var sb = new StringBuilder();
         for (var i = 0; i < _urlSize; i++)
         {
-            var characterIndex = Random.Shared.Next(0, _urlSize);
+            var characterIndex = Random.Shared.Next(0, _characters.Length);
             sb.Append(_characters[characterIndex]);
         }
 

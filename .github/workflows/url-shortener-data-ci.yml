@@ -34,7 +34,7 @@ jobs:
         run: dotnet tool install --global dotnet-ef
         
       - name: Generate EF core sql migration script
-        run: dotnet ef migrations script --idempotent --project ${{ migrations_project }} --output ${{ env.publish_directory }}/migrations.sql
+        run: dotnet ef migrations script --idempotent --project ${{ env.migrations_project }} --output ${{ env.publish_directory }}/migrations.sql
      
       - name: Upload data artifact
         uses: actions/upload-artifact@v2

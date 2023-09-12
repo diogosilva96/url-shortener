@@ -24,6 +24,7 @@ internal class GetUrlRequestHandler : IRequestHandler<GetUrlRequest, string>
         {
             _logger.LogWarning("Could not find metadata for short url '{ShortUrl}'", request.ShortUrl);
             // might be better to use strongly typed results at the domain level instead - as it has introduces less 'magic'.
+            // E.g, we can use minimal api result type Results<Ok<string>, NotFound, BadRequest>>
             throw new NotFoundException("Could not find matching url for the specified short url.");
         }
 

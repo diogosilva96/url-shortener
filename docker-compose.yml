@@ -1,0 +1,18 @@
+version: '3.9'
+services:
+  api:
+    image: url-shortener-api
+    build:
+      context: .
+      dockerfile: ./devops/docker/Dockerfile
+    ports:
+      - '30001:5000'
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: "my_pg_password"
+    ports:
+      - "30002:5432"

@@ -1,0 +1,16 @@
+﻿# @name=CreateUrl
+# @no-log
+POST http://{{host}}/api/urls HTTP/1.1
+Content-Type: application/json
+
+{
+  "url": "https://google.pt"
+}
+
+###
+# @name=GetUrl
+# @no-log
+GET http://{{host}}/api/urls/{{shortUrl}} HTTP/1.1
+Accept: application/json
+
+

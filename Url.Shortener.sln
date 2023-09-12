@@ -13,6 +13,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{82D4CACF
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Url.Shortener.Data.Migrator", "tools\Url.Shortener.Data.Migrator\Url.Shortener.Data.Migrator.csproj", "{16811730-1B26-4ECD-A25B-65B4ABA63035}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{F07CD191-1A8C-46D7-974B-77A5FD6E9C2E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Url.Shortener.Api.UnitTests", "test\Url.Shortener.Api.UnitTests\Url.Shortener.Api.UnitTests.csproj", "{479E9CE2-84E4-457B-B042-5533E0B2B3AE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -34,10 +38,15 @@ Global
 		{16811730-1B26-4ECD-A25B-65B4ABA63035}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{16811730-1B26-4ECD-A25B-65B4ABA63035}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{16811730-1B26-4ECD-A25B-65B4ABA63035}.Release|Any CPU.Build.0 = Release|Any CPU
+		{479E9CE2-84E4-457B-B042-5533E0B2B3AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{479E9CE2-84E4-457B-B042-5533E0B2B3AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{479E9CE2-84E4-457B-B042-5533E0B2B3AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{479E9CE2-84E4-457B-B042-5533E0B2B3AE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{B47A3567-93BB-4D51-9FAF-466A513A73A6} = {A9862C5F-6637-45C0-8C86-8A779689A24A}
 		{3FF3D018-78A5-4AFB-AEC4-297223D8DED3} = {A9862C5F-6637-45C0-8C86-8A779689A24A}
 		{16811730-1B26-4ECD-A25B-65B4ABA63035} = {82D4CACF-FD0A-4AC0-90AB-B7502088ABA4}
+		{479E9CE2-84E4-457B-B042-5533E0B2B3AE} = {F07CD191-1A8C-46D7-974B-77A5FD6E9C2E}
 	EndGlobalSection
 EndGlobal

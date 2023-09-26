@@ -26,7 +26,7 @@ public class WhenBuildingServiceProvider
     }
 
     [Fact]
-    public void TheNoExceptionIsThrown()
+    public void ThenNoExceptionIsThrown()
     {
         var exception = Record.Exception(WhenBuilding);
 
@@ -34,7 +34,7 @@ public class WhenBuildingServiceProvider
     }
 
     [Fact]
-    public void TheASystemClockCanBeRetrieved()
+    public void ThenASystemClockCanBeRetrieved()
     {
         var provider = WhenBuilding();
 

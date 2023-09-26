@@ -33,7 +33,7 @@ public class WhenBuildingServiceProvider
     }
 
     [Fact]
-    public void TheAUrlShortenerCanBeRetrieved()
+    public void ThenAUrlShortenerCanBeRetrieved()
     {
         var provider = WhenBuilding();
 
@@ -41,7 +41,7 @@ public class WhenBuildingServiceProvider
     }
 
     [Fact]
-    public void TheAUrlShortenerOptionsCanBeRetrieved()
+    public void ThenAUrlShortenerOptionsCanBeRetrieved()
     {
         var provider = WhenBuilding();
 

@@ -20,5 +20,10 @@
     <ProjectReference Include="..\..\tools\Url.Shortener.Data.Migrator\Url.Shortener.Data.Migrator.csproj" />
   </ItemGroup>
 
-
+  <ItemGroup>
+    <InternalsVisibleTo Include="Url.Shortener.Api.UnitTests" />
+    <InternalsVisibleTo Include="Url.Shortener.Api.Tests.Common" />
+    <InternalsVisibleTo Include="DynamicProxyGenAssembly2" />
+  </ItemGroup>
+  
 </Project>

@@ -9,5 +9,9 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\Url.Shortener.Api\Url.Shortener.Api.csproj" />
   </ItemGroup>
-
+  
+  <ItemGroup>
+    <InternalsVisibleTo Include="Url.Shortener.Api.UnitTests" />
+  </ItemGroup>
+  
 </Project>

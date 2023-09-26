@@ -15,7 +15,7 @@ public abstract class TestBuilderBase<T> where T : new()
 
     public T Build()
     {
-        var buildee = BuildDefault();
+        var buildee = CreateDefault();
 
         foreach (var action in _configureActions)
         {
@@ -32,5 +32,5 @@ public abstract class TestBuilderBase<T> where T : new()
         return this;
     }
 
-    protected abstract T BuildDefault();
+    protected abstract T CreateDefault();
 }

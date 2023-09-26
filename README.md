@@ -7,7 +7,7 @@ Small url shortener application using Minimal APIs. It makes use of the followin
 
 ## TODO
 Here is the list of things to do:
-- Add unit tests
+- Add unit tests (on-going)
 - Add integration tests
 - Add CI pipeline for the application
 - Add dev container

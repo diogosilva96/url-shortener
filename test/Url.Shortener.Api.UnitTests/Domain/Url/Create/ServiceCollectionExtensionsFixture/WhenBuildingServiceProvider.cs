@@ -1,11 +1,11 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using Url.Shortener.Api.Domain.Url;
+using Microsoft.Extensions.Options;
 using Url.Shortener.Api.Domain.Url.Create;
 using Url.Shortener.Api.Tests.Common.Domain.Url.Builder;
 using Url.Shortener.Api.UnitTests.Builder;
 using Xunit;
 
-namespace Url.Shortener.Api.UnitTests.Domain.Url.ServiceCollectionExtensionsFixture;
+namespace Url.Shortener.Api.UnitTests.Domain.Url.Create.ServiceCollectionExtensionsFixture;
 
 public class WhenBuildingServiceProvider
 {
@@ -32,6 +32,22 @@ public class WhenBuildingServiceProvider
         Assert.Null(exception);
     }
 
-    private IServiceProvider WhenBuilding() => _serviceCollection.AddUrlServices(_configureUrlShortenerOptions)
+    [Fact]
+    public void ThenAUrlShortenerCanBeRetrieved()
+    {
+        var provider = WhenBuilding();
+
+        Assert.NotNull(provider.GetService<IUrlShortener>());
+    }
+
+    [Fact]
+    public void ThenAUrlShortenerOptionsCanBeRetrieved()
+    {
+        var provider = WhenBuilding();
+
+        Assert.NotNull(provider.GetService<IOptions<UrlShortenerOptions>>());
+    }
+
+    private IServiceProvider WhenBuilding() => _serviceCollection.AddCreateUrlServices(_configureUrlShortenerOptions)
                                                                  .BuildServiceProvider();
 }

@@ -10,6 +10,11 @@ public class UrlShortenerDbContext : DbContext
     // ReSharper disable once ReturnTypeCanBeEnumerable.Global
     public DbSet<UrlMetadata> UrlMetadata => Set<UrlMetadata>();
 
+    protected UrlShortenerDbContext()
+    {
+        
+    }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder.UseSnakeCaseNamingConvention();

@@ -2,7 +2,7 @@
 
 namespace Url.Shortener.Api.Tests.Common.Builder;
 
-public abstract class TestBuilderBase<T> where T : new()
+public abstract class TestBuilderBase<T>
 {
     private readonly List<Action<T>> _configureActions;
     protected readonly Fixture Fixture;

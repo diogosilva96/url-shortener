@@ -8,12 +8,10 @@ public class UrlShortenerDbContext : DbContext
     public UrlShortenerDbContext(DbContextOptions<UrlShortenerDbContext> dbContextOptions) : base(dbContextOptions) { }
 
     // ReSharper disable once ReturnTypeCanBeEnumerable.Global
-    public DbSet<UrlMetadata> UrlMetadata => Set<UrlMetadata>();
+    public virtual DbSet<UrlMetadata> UrlMetadata => Set<UrlMetadata>();
 
-    protected UrlShortenerDbContext()
-    {
-        
-    }
+    protected UrlShortenerDbContext() 
+    { }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

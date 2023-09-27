@@ -10,5 +10,9 @@
   <ItemGroup>
     <ProjectReference Include="..\Url.Shortener.Api.Tests.Common\Url.Shortener.Api.Tests.Common.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MockQueryable.NSubstitute" Version="7.0.0" />
+  </ItemGroup>
   
 </Project>

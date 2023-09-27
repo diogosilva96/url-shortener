@@ -24,7 +24,7 @@ internal class CreateUrlRequestHandler : IRequestHandler<CreateUrlRequest, strin
         _logger = logger;
     }
 
-    public async Task<string> Handle(CreateUrlRequest request, CancellationToken cancellationToken)
+    public async Task<string> Handle(CreateUrlRequest request, CancellationToken cancellationToken = default)
     {
         var shortenedUrl = await GenerateShortenedUrlAsync(cancellationToken);
 

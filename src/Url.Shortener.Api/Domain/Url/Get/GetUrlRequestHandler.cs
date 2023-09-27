@@ -16,7 +16,7 @@ internal class GetUrlRequestHandler : IRequestHandler<GetUrlRequest, string>
         _logger = logger;
     }
 
-    public async Task<string> Handle(GetUrlRequest request, CancellationToken cancellationToken)
+    public async Task<string> Handle(GetUrlRequest request, CancellationToken cancellationToken = default)
     {
         var urlMetadata = await _dbContext.UrlMetadata.FirstOrDefaultAsync(x => x.ShortUrl == request.ShortUrl, cancellationToken);
         // ReSharper disable once InvertIf

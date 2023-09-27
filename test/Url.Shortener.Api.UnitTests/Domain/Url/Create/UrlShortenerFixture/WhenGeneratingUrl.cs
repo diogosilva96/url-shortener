@@ -13,7 +13,7 @@ public class WhenGeneratingUrl
     public WhenGeneratingUrl()
     {
         _options = new UrlShortenerOptionsBuilder().With(x => x.UrlSize = 10)
-                                                   .With(x => x.Characters = "_-ABCabc_-")
+                                                   .With(x => x.Characters = "ABCabc_-")
                                                    .Build();
 
         _urlShortener = new UrlShortenerBuilder().With(_options)

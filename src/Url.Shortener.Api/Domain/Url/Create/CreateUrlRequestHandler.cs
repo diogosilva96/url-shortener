@@ -53,7 +53,9 @@ internal class CreateUrlRequestHandler : IRequestHandler<CreateUrlRequest, strin
         var generatedUrl = string.Empty;
         var isValidUrl = false;
 
-        // TODO: this loop can be optimized, alternatively we could simply insert into db and check for unique constraint exception.
+        // TODO: this loop can be optimized, we have a few options:
+        // - We could simply fail fast by returning internal server error (500) if the url cannot be generated, so that the api consumers can retry at a later time
+        // - We could simply insert into db and check for unique constraint exception.
         var retryCount = 0;
         while (!isValidUrl)
         {

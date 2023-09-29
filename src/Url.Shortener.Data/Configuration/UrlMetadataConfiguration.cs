@@ -13,7 +13,7 @@ internal class UrlMetadataConfiguration : IEntityTypeConfiguration<UrlMetadata>
         builder.Property(x => x.ShortUrl)
                .HasMaxLength(50)
                .IsRequired();
-        
+
         builder.Property(x => x.FullUrl)
                .HasMaxLength(2048) // max length 2048 just to be safe in different browsers, as the length depends on the browser used.
                .IsRequired();

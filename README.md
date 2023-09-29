@@ -1,13 +1,17 @@
 # url-shortener
-Small url shortener application using Minimal APIs. It makes use of the following packages:
-- Entity Framework Core
-- MediatR
-- FluentValidation
-- Carter
+Small url shortener application using Minimal APIs & following vertical slice architecture. 
+The application makes use of the following packages:
+- `Entity Framework Core` - for data access
+- `MediatR` - for request handling & request middleware
+- `FluentValidation` - for validation
+- `Carter` - for minimal api endpoint registration
+- `XUnit` - for unit & integration tests
+- `NSubstitute` - for mocking
+- `AutoFixture` - for creating test data
 
 ## TODO
 Here is the list of things to do:
-- Add unit tests
+- Add unit tests (on-going)
 - Add integration tests
 - Add CI pipeline for the application
 - Add dev container

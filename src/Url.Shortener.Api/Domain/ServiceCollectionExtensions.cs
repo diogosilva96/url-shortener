@@ -12,7 +12,6 @@ internal static class ServiceCollectionExtensions
     public static IServiceCollection AddDomainServices(this IServiceCollection serviceCollection,
         Action<UrlShortenerOptions> configureUrlShortenerOptions)
     {
-        // TODO: need to add middleware to handle ValidationExceptions
         return serviceCollection.AddCarter()
                                 .AddMediatR(config =>
                                 {

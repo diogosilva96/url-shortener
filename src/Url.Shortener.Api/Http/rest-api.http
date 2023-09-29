@@ -13,4 +13,16 @@ Content-Type: application/json
 GET http://{{host}}/api/urls/{{shortUrl}} HTTP/1.1
 Accept: application/json
 
+###
+# @name=Live
+# @no-log
+GET http://{{host}}/health/live HTTP/1.1
+Accept: application/json
+
+###
+# @name=Ready
+# @no-log
+GET http://{{host}}/health/ready HTTP/1.1
+Accept: application/json
+
 

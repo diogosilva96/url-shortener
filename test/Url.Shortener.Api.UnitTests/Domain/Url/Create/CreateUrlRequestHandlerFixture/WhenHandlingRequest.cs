@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Internal;
 using NSubstitute;
 using Url.Shortener.Api.Domain.Url.Create;
-using Url.Shortener.Api.UnitTests.Data;
+using Url.Shortener.Api.UnitTests.Data.Builder;
 using Url.Shortener.Api.UnitTests.Domain.Url.Create.Builder;
 using Url.Shortener.Data;
 using Url.Shortener.Data.Models;

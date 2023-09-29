@@ -4,7 +4,7 @@ using NSubstitute;
 using Url.Shortener.Data;
 using Url.Shortener.Data.Models;
 
-namespace Url.Shortener.Api.UnitTests.Data;
+namespace Url.Shortener.Api.UnitTests.Data.Builder;
 
 internal class UrlShortenerDbContextBuilder
 {

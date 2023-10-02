@@ -61,7 +61,8 @@ public sealed class IntegrationTestWebApplicationFactory : WebApplicationFactory
             services.Remove(descriptor);
         }
 
-        services.AddDbContext<UrlShortenerDbContext>(options => options.UseNpgsql(_dbContainer.GetConnectionString())
+        services.AddDbContext<UrlShortenerDbContext>(options => options.UseNpgsql(_dbContainer.GetConnectionString(), 
+                                                                           x => x.MigrationsAssembly("Url.Shortener.Data.Migrator"))
                                                                        .UseSnakeCaseNamingConvention());
     }
 

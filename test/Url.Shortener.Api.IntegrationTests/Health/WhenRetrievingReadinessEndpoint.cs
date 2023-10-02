@@ -4,7 +4,7 @@ using Xunit;
 
 namespace Url.Shortener.Api.IntegrationTests.Health;
 
-public class WhenRetrievingReadinessEndpoint : IntegrationTestBase
+public sealed class WhenRetrievingReadinessEndpoint : IntegrationTestBase
 {
     private readonly HttpClient _client;
 

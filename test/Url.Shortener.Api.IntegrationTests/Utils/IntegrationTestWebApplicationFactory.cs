@@ -14,6 +14,7 @@ namespace Url.Shortener.Api.IntegrationTests.Utils;
 public sealed class IntegrationTestWebApplicationFactory : WebApplicationFactory<Program>, IAsyncLifetime
 {
     private readonly PostgreSqlContainer _dbContainer;
+    private IServiceScope? _scope;
 
     public IntegrationTestWebApplicationFactory() =>
         _dbContainer = new PostgreSqlBuilder()
@@ -23,9 +24,23 @@ public sealed class IntegrationTestWebApplicationFactory : WebApplicationFactory
                        .WithPassword("postgres")
                        .Build();
 
-    public Task InitializeAsync() => _dbContainer.StartAsync();
+    public async Task InitializeAsync()
+    {
+        await _dbContainer.StartAsync();
+        
+        using var scope = Services.CreateScope();
+        await using var dbContext = scope.ServiceProvider.GetRequiredService<UrlShortenerDbContext>();
+        await dbContext.Database.EnsureCreatedAsync();
+    } 
 
     public new Task DisposeAsync() => _dbContainer.StopAsync();
+
+    public T GetRequiredService<T>() where T : notnull
+    {
+        _scope ??= Services.CreateScope();
+
+        return _scope.ServiceProvider.GetRequiredService<T>();
+    }
 
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
@@ -44,6 +59,7 @@ public sealed class IntegrationTestWebApplicationFactory : WebApplicationFactory
     {
         builder.ClearProviders();
 
+        // TODO: find a way to inject ITestOutputHelper
         // var logger = new LoggerConfiguration().MinimumLevel.Information()
         //                                       .WriteTo.TestOutput(_testOutputHelper, 
         //                                           outputTemplate: "[{Timestamp:HH:mm:ss}] [{Level:u3}] [{Version}] {SourceContext} [{EventId}]: {Message:lj}{NewLine}{Exception}")

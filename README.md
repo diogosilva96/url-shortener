@@ -11,7 +11,6 @@ The application makes use of the following packages:
 
 ## TODO
 Here is the list of things to do:
-- Add integration tests (on-going)
 - Add CI pipeline for the application
 - Add dev container
 - Improve the algorithm of the `UrlShortener`

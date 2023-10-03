@@ -48,11 +48,7 @@ public sealed class IntegrationTestWebApplicationFactory : WebApplicationFactory
 
         builder.UseEnvironment(Environments.Development)
                .ConfigureLogging(ConfigureIntegrationTestLogging)
-               .ConfigureTestServices(services =>
-               {
-                   ReplaceEntityFrameworkServices(services);
-                   ReplaceExternalServicesWithSubstitutes(services);
-               });
+               .ConfigureTestServices(ReplaceEntityFrameworkServices);
     }
 
     private void ConfigureIntegrationTestLogging(ILoggingBuilder builder)
@@ -81,10 +77,6 @@ public sealed class IntegrationTestWebApplicationFactory : WebApplicationFactory
                                                                            x => x.MigrationsAssembly("Url.Shortener.Data.Migrator"))
                                                                        .UseSnakeCaseNamingConvention());
     }
-
-
-    private static void ReplaceExternalServicesWithSubstitutes(IServiceCollection services)
-    { }
 
     public void SeedData(Action<UrlShortenerDbContext> seedDelegate)
     {

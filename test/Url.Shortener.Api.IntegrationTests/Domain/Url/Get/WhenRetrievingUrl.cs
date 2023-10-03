@@ -1,8 +1,6 @@
-﻿using AutoFixture;
-using MediatR;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.HttpResults;
-using Url.Shortener.Api.Domain.Url;
+﻿using System.Net;
+using AutoFixture;
+using Url.Shortener.Api.Contracts;
 using Url.Shortener.Api.IntegrationTests.Data.Builder;
 using Url.Shortener.Api.IntegrationTests.Utils;
 using Xunit;
@@ -13,17 +11,15 @@ public sealed class WhenRetrievingUrl : IntegrationTestBase
 {
     private readonly string _expectedRedirectUrl;
     private readonly string _shortUrl;
-    private readonly IntegrationTestWebApplicationFactory _webApplicationFactory;
 
     public WhenRetrievingUrl(IntegrationTestWebApplicationFactory webApplicationFactory) : base(webApplicationFactory)
     {
         var fixture = new Fixture();
         var urlMetadata = new UrlMetadataBuilder().With(x => x.ShortUrl = fixture.Create<string>()[..15])
                                                   .Build();
+
         _shortUrl = urlMetadata.ShortUrl;
         _expectedRedirectUrl = urlMetadata.FullUrl;
-
-        _webApplicationFactory = webApplicationFactory;
 
         webApplicationFactory.SeedData(context => context.Add(urlMetadata));
     }
@@ -37,22 +33,21 @@ public sealed class WhenRetrievingUrl : IntegrationTestBase
     }
 
     [Fact]
-    public async Task ThenAnRedirectResultIsReturned()
+    public async Task ThenAMovedPermanentlyResponseIsReturned()
     {
-        var result = await WhenRetrievingAsync();
+        var response = await WhenRetrievingAsync();
 
-        Assert.IsType<RedirectHttpResult>(result);
+        Assert.Equal(HttpStatusCode.PermanentRedirect, response.StatusCode);
     }
 
     [Fact]
-    public async Task ThenARedirectResultIsReturnedForTheExpectedUrl()
+    public async Task ThenTheExpectedRedirectUrlIsContainedInTheLocationHeader()
     {
-        var result = await WhenRetrievingAsync();
+        var response = await WhenRetrievingAsync();
 
-        var redirectResult = (RedirectHttpResult)result;
-        Assert.Equal(_expectedRedirectUrl, redirectResult.Url);
+        Assert.Equal(_expectedRedirectUrl, response.Headers.Location!.ToString());
     }
 
-    private async Task<IResult> WhenRetrievingAsync() =>
-        await UrlEndpoints.GetUrl(_shortUrl, _webApplicationFactory.GetRequiredService<IMediator>());
+    private async Task<HttpResponseMessage> WhenRetrievingAsync() =>
+        await Client.GetAsync(Urls.Api.Urls.Get(_shortUrl));
 }

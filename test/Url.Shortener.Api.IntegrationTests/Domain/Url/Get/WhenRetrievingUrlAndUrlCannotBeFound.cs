@@ -1,8 +1,6 @@
-﻿using AutoFixture;
-using MediatR;
-using Microsoft.AspNetCore.Http;
-using Url.Shortener.Api.Domain.Url;
-using Url.Shortener.Api.Exceptions;
+﻿using System.Net;
+using AutoFixture;
+using Url.Shortener.Api.Contracts;
 using Url.Shortener.Api.IntegrationTests.Data.Builder;
 using Url.Shortener.Api.IntegrationTests.Utils;
 using Xunit;
@@ -11,9 +9,7 @@ namespace Url.Shortener.Api.IntegrationTests.Domain.Url.Get;
 
 public sealed class WhenRetrievingUrlAndUrlCannotBeFound : IntegrationTestBase
 {
-    private readonly HttpClient _client;
     private readonly string _shortUrl;
-    private readonly IntegrationTestWebApplicationFactory _webApplicationFactory;
 
     public WhenRetrievingUrlAndUrlCannotBeFound(IntegrationTestWebApplicationFactory webApplicationFactory) : base(webApplicationFactory)
     {
@@ -29,30 +25,25 @@ public sealed class WhenRetrievingUrlAndUrlCannotBeFound : IntegrationTestBase
 
         _shortUrl = fixture.Create<string>()[..5];
 
-
-        _webApplicationFactory = webApplicationFactory;
-
         webApplicationFactory.SeedData(context => context.UrlMetadata.AddRange(metadata));
-
-        _client = webApplicationFactory.CreateClient();
     }
 
     [Fact]
-    public async Task ThenAnExceptionIsThrown()
+    public async Task ThenNoExceptionIsThrown()
     {
         var exception = await Record.ExceptionAsync(WhenRetrievingAsync);
 
-        Assert.NotNull(exception);
+        Assert.Null(exception);
     }
 
     [Fact]
-    public async Task ThenAnNotFoundExceptionIsThrown()
+    public async Task ThenANotFoundResponseIsReturned()
     {
-        var exception = await Record.ExceptionAsync(WhenRetrievingAsync);
+        var response = await WhenRetrievingAsync();
 
-        Assert.IsType<NotFoundException>(exception);
+        Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
     }
 
-    private async Task<IResult> WhenRetrievingAsync() =>
-        await UrlEndpoints.GetUrl(_shortUrl, _webApplicationFactory.GetRequiredService<IMediator>());
+    private async Task<HttpResponseMessage> WhenRetrievingAsync() =>
+        await Client.GetAsync(Urls.Api.Urls.Get(_shortUrl));
 }

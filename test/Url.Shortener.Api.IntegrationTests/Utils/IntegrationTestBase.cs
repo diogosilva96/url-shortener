@@ -6,8 +6,9 @@ public class IntegrationTestBase : IClassFixture<IntegrationTestWebApplicationFa
 {
     protected readonly HttpClient Client;
 
-    protected IntegrationTestBase(IntegrationTestWebApplicationFactory webApplicationFactory)
-    {
-        Client = webApplicationFactory.CreateClient();
-    }
+    protected IntegrationTestBase(IntegrationTestWebApplicationFactory webApplicationFactory) =>
+        Client = webApplicationFactory.CreateClient(new()
+        {
+            AllowAutoRedirect = false
+        });
 }

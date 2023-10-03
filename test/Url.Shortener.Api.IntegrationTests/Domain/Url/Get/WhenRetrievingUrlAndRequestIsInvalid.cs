@@ -1,8 +1,8 @@
-﻿using AutoFixture;
-using FluentValidation;
-using MediatR;
+﻿using System.Net;
+using System.Net.Http.Json;
+using AutoFixture;
 using Microsoft.AspNetCore.Http;
-using Url.Shortener.Api.Domain.Url;
+using Url.Shortener.Api.Contracts;
 using Url.Shortener.Api.IntegrationTests.Data.Builder;
 using Url.Shortener.Api.IntegrationTests.Utils;
 using Xunit;
@@ -12,7 +12,6 @@ namespace Url.Shortener.Api.IntegrationTests.Domain.Url.Get;
 public sealed class WhenRetrievingUrlAndRequestIsInvalid : IntegrationTestBase
 {
     private readonly string _shortUrl;
-    private readonly IntegrationTestWebApplicationFactory _webApplicationFactory;
 
     public WhenRetrievingUrlAndRequestIsInvalid(IntegrationTestWebApplicationFactory webApplicationFactory) : base(webApplicationFactory)
     {
@@ -26,30 +25,37 @@ public sealed class WhenRetrievingUrlAndRequestIsInvalid : IntegrationTestBase
                                     .Build()
         };
 
-        _shortUrl = "  ";
-
-
-        _webApplicationFactory = webApplicationFactory;
+        // long short url (invalid)
+        _shortUrl = "EpyD2QL2ecThCbgX1flUmiHXtEpyD2QL2ecThCbgX1flUmiHXtA";
 
         webApplicationFactory.SeedData(context => context.UrlMetadata.AddRange(metadata));
     }
 
     [Fact]
-    public async Task ThenAnExceptionIsThrown()
+    public async Task ThenNoExceptionIsThrown()
     {
         var exception = await Record.ExceptionAsync(WhenRetrievingAsync);
 
-        Assert.NotNull(exception);
+        Assert.Null(exception);
     }
 
     [Fact]
-    public async Task ThenAValidationExceptionIsThrown()
+    public async Task ThenABadRequestResponseIsReturned()
     {
-        var exception = await Record.ExceptionAsync(WhenRetrievingAsync);
+        var response = await WhenRetrievingAsync();
 
-        Assert.IsType<ValidationException>(exception);
+        Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
     }
 
-    private async Task<IResult> WhenRetrievingAsync() =>
-        await UrlEndpoints.GetUrl(_shortUrl, _webApplicationFactory.GetRequiredService<IMediator>());
+    [Fact]
+    public async Task ThenValidationProblemsAreReturned()
+    {
+        var response = await WhenRetrievingAsync();
+
+        var problem = (await response.Content.ReadFromJsonAsync<HttpValidationProblemDetails>())!;
+        Assert.NotEmpty(problem.Errors);
+    }
+
+    private async Task<HttpResponseMessage> WhenRetrievingAsync() =>
+        await Client.GetAsync(Urls.Api.Urls.Get(_shortUrl));
 }

@@ -40,6 +40,6 @@ public class UrlEndpoints : ICarterModule
     {
         var domainRequest = new GetUrlRequest(shortUrl);
         var redirectUrl = await mediator.Send(domainRequest, cancellationToken);
-        return TypedResults.Redirect(redirectUrl, permanent: true);
+        return TypedResults.Redirect(redirectUrl, permanent: true, preserveMethod: true);
     }
 }

@@ -14,14 +14,14 @@ public class UrlEndpoints : ICarterModule
         var group = app.MapGroup("api/urls")
                        .WithOpenApi();
 
-        group.MapPost("", CreateUrl)
+        group.MapPost("", CreateUrlAsync)
              .WithName("CreateUrl")
              .WithDescription("Creates a short url based on the specified request.")
              .Produces<string>()
              .Produces<HttpValidationProblemDetails>(StatusCodes.Status400BadRequest)
              .Produces<ProblemHttpResult>(StatusCodes.Status500InternalServerError);
 
-        group.MapGet("{shortUrl}", GetUrl)
+        group.MapGet("{shortUrl}", GetUrlAsync)
         .WithName("GetUrl")
         .WithDescription("Redirects the request based on the specified short url.")
         .Produces(StatusCodes.Status308PermanentRedirect)
@@ -30,13 +30,14 @@ public class UrlEndpoints : ICarterModule
         .Produces<ProblemHttpResult>(StatusCodes.Status500InternalServerError);
     }
     
-    public static async Task<IResult> CreateUrl(CreateUrlRequest request, IMediator mediator, CancellationToken cancellationToken = default)
+    public static async Task<IResult> CreateUrlAsync(CreateUrlRequest request, IMediator mediator, CancellationToken cancellationToken = default)
     {
         var domainRequest = new Create.CreateUrlRequest(request.Url);
-        return TypedResults.Ok(await mediator.Send(domainRequest, cancellationToken));
+        var shortUrl = await mediator.Send(domainRequest, cancellationToken);
+        return TypedResults.Ok(shortUrl);
     }
 
-    public static async Task<IResult> GetUrl(string shortUrl, IMediator mediator, CancellationToken cancellationToken = default)
+    public static async Task<IResult> GetUrlAsync(string shortUrl, IMediator mediator, CancellationToken cancellationToken = default)
     {
         var domainRequest = new GetUrlRequest(shortUrl);
         var redirectUrl = await mediator.Send(domainRequest, cancellationToken);

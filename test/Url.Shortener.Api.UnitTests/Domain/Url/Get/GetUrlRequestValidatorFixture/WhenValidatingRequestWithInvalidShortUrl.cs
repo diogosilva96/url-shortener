@@ -52,6 +52,7 @@ public class WhenValidatingRequestWithInvalidShortUrl
             Add(string.Empty);
             Add(default!);
             Add("  ");
+            Add("EpyD2QL2ecThCbgX1flUmiHXtEpyD2QL2ecThCbgX1flUmiHXtA"); // more than 50 characters long
         }
     }
 }

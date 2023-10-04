@@ -9,7 +9,7 @@ internal static class ServiceCollectionExtensions
     {
         if (string.IsNullOrWhiteSpace(connectionString)) throw new ArgumentException("The connection string should be specified.", nameof(connectionString));
         
-        return serviceCollection.AddDbContext<UrlShortenerDbContext>
+        return serviceCollection.AddDbContext<ApplicationDbContext>
         (
             options => options.UseNpgsql(connectionString, 
             x => x.MigrationsAssembly("Url.Shortener.Data.Migrator"))

@@ -2,7 +2,6 @@
 using Microsoft.Extensions.Internal;
 using NSubstitute;
 using Url.Shortener.Api.Domain.Url.Create;
-using Url.Shortener.Api.UnitTests.Data;
 using Url.Shortener.Api.UnitTests.Data.Builder;
 using Url.Shortener.Api.UnitTests.Domain.Url.Create.Builder;
 using Url.Shortener.Data;
@@ -13,7 +12,7 @@ namespace Url.Shortener.Api.UnitTests.Domain.Url.Create.CreateUrlRequestHandlerF
 
 public class WhenHandlingRequestAndUrlIsAlreadyInUse
 {
-    private readonly UrlShortenerDbContext _dbContext;
+    private readonly ApplicationDbContext _dbContext;
     private readonly DateTimeOffset _expectedDateTime;
     private readonly int _expectedGeneratedUrlCount;
     private readonly string _expectedUrl;

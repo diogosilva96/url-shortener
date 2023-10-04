@@ -6,6 +6,6 @@ internal static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddHealthServices(this IServiceCollection serviceCollection) =>
         serviceCollection.AddHealthChecks()
-                         .AddDbContextCheck<UrlShortenerDbContext>(nameof(UrlShortenerDbContext), tags: new[] { HealthTags.Live })
+                         .AddDbContextCheck<ApplicationDbContext>(nameof(ApplicationDbContext), tags: new[] { HealthTags.Live })
                          .Services;
 }

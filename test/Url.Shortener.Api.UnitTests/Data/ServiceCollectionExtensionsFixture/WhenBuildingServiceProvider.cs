@@ -36,11 +36,11 @@ public class WhenBuildingServiceProvider
     }
 
     [Fact]
-    public void ThenAUrlShortenerDbContextCanBeRetrieved()
+    public void ThenAnApplicationDbContextCanBeRetrieved()
     {
         var provider = WhenBuilding();
 
-        Assert.NotNull(provider.GetService<UrlShortenerDbContext>());
+        Assert.NotNull(provider.GetService<ApplicationDbContext>());
     }
 
     private IServiceProvider WhenBuilding() => _serviceCollection.AddDataServices(_connectionString)

@@ -8,7 +8,7 @@ namespace Url.Shortener.Api.UnitTests.Domain.Url.Get.Builder;
 
 internal class GetUrlRequestHandlerBuilder
 {
-    private UrlShortenerDbContext _dbContext;
+    private ApplicationDbContext _dbContext;
     private ILogger<GetUrlRequestHandler> _logger;
 
     public GetUrlRequestHandlerBuilder()
@@ -19,7 +19,7 @@ internal class GetUrlRequestHandlerBuilder
 
     public GetUrlRequestHandler Build() => new(_dbContext, _logger);
 
-    public GetUrlRequestHandlerBuilder With(UrlShortenerDbContext dbContext)
+    public GetUrlRequestHandlerBuilder With(ApplicationDbContext dbContext)
     {
         _dbContext = dbContext;
 

@@ -3,14 +3,14 @@ using Url.Shortener.Data.Models;
 
 namespace Url.Shortener.Data;
 
-public class UrlShortenerDbContext : DbContext
+public class ApplicationDbContext : DbContext
 {
-    public UrlShortenerDbContext(DbContextOptions<UrlShortenerDbContext> dbContextOptions) : base(dbContextOptions) { }
+    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> dbContextOptions) : base(dbContextOptions) { }
 
     // ReSharper disable once ReturnTypeCanBeEnumerable.Global
     public virtual DbSet<UrlMetadata> UrlMetadata => Set<UrlMetadata>();
 
-    protected UrlShortenerDbContext() 
+    protected ApplicationDbContext() 
     { }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -21,7 +21,7 @@ public class UrlShortenerDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.ApplyConfigurationsFromAssembly(typeof(UrlShortenerDbContext).Assembly);
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
         base.OnModelCreating(modelBuilder);
     }
 }

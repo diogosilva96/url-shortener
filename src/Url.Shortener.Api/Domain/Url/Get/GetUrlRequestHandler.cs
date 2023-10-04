@@ -7,10 +7,10 @@ namespace Url.Shortener.Api.Domain.Url.Get;
 
 internal class GetUrlRequestHandler : IRequestHandler<GetUrlRequest, string>
 {
-    private readonly UrlShortenerDbContext _dbContext;
+    private readonly ApplicationDbContext _dbContext;
     private readonly ILogger<GetUrlRequestHandler> _logger;
 
-    public GetUrlRequestHandler(UrlShortenerDbContext dbContext, ILogger<GetUrlRequestHandler> logger)
+    public GetUrlRequestHandler(ApplicationDbContext dbContext, ILogger<GetUrlRequestHandler> logger)
     {
         _dbContext = dbContext;
         _logger = logger;

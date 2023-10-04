@@ -14,6 +14,7 @@ Here is the list of things to do:
 - Add CI pipeline for the application
 - Add dev containers
 - Add k6 load testing
+- Add output caching ? Need if it even possible to do on redirects, otherwise can always use `IMemoryCache`.
 - Improve the algorithm of the `UrlShortener`
 - Use `Result<T1,T2...>` for the api responses (instead of exceptions) to reduce some of the magic?
 

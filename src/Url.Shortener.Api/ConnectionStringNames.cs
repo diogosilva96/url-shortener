@@ -2,5 +2,5 @@
 
 public static class ConnectionStringNames
 {
-    public const string MainDatabase = "UrlShortenerDatabase";
+    public const string ApplicationDatabase = "ApplicationDatabase";
 }

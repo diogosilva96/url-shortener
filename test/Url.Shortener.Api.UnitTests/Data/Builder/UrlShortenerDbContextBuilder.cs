@@ -10,9 +10,9 @@ internal class UrlShortenerDbContextBuilder
 {
     private IEnumerable<UrlMetadata> _urlMetadata = BuildDbSet(Array.Empty<UrlMetadata>());
 
-    public UrlShortenerDbContext Build()
+    public ApplicationDbContext Build()
     {
-        var dbContext = Substitute.For<UrlShortenerDbContext>();
+        var dbContext = Substitute.For<ApplicationDbContext>();
         dbContext.UrlMetadata.Returns(_urlMetadata);
         return dbContext;
     }

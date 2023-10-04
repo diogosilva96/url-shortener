@@ -9,11 +9,11 @@ namespace Url.Shortener.Api.Domain.Url.Create;
 internal class CreateUrlRequestHandler : IRequestHandler<CreateUrlRequest, string>
 {
     private readonly ISystemClock _clock;
-    private readonly UrlShortenerDbContext _dbContext;
+    private readonly ApplicationDbContext _dbContext;
     private readonly ILogger<CreateUrlRequestHandler> _logger;
     private readonly IUrlShortener _urlShortener;
 
-    public CreateUrlRequestHandler(UrlShortenerDbContext dbContext,
+    public CreateUrlRequestHandler(ApplicationDbContext dbContext,
         IUrlShortener urlShortener,
         ISystemClock clock,
         ILogger<CreateUrlRequestHandler> logger)

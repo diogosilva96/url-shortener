@@ -15,7 +15,7 @@ public static class DependencyInjectionConfigurator
         ArgumentNullException.ThrowIfNull(configuration);
         ArgumentNullException.ThrowIfNull(hostEnvironment);
 
-        var dbConnectionString = configuration.GetConnectionString(ConnectionStringNames.MainDatabase)!;
+        var dbConnectionString = configuration.GetConnectionString(ConnectionStringNames.ApplicationDatabase)!;
 
         return serviceCollection.AddEndpointsApiExplorer()
                                 .AddSwaggerGen()

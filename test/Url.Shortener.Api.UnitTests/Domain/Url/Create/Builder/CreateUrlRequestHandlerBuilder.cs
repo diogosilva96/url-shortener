@@ -10,7 +10,7 @@ namespace Url.Shortener.Api.UnitTests.Domain.Url.Create.Builder;
 internal class CreateUrlRequestHandlerBuilder
 {
     private ISystemClock _clock;
-    private UrlShortenerDbContext _dbContext;
+    private ApplicationDbContext _dbContext;
     private ILogger<CreateUrlRequestHandler> _logger;
     private IUrlShortener _urlShortener;
 
@@ -24,7 +24,7 @@ internal class CreateUrlRequestHandlerBuilder
 
     public CreateUrlRequestHandler Build() => new(_dbContext, _urlShortener, _clock, _logger);
 
-    public CreateUrlRequestHandlerBuilder With(UrlShortenerDbContext dbContext)
+    public CreateUrlRequestHandlerBuilder With(ApplicationDbContext dbContext)
     {
         _dbContext = dbContext;
 

@@ -23,19 +23,18 @@ public class DataMigrator : BackgroundService
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         using var scope = _serviceProvider.CreateScope();
-        await using var dbContext = scope.ServiceProvider.GetRequiredService<UrlShortenerDbContext>();
+        await using var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
 
-        await ApplyDatabaseMigrations(stoppingToken, dbContext);
+        await ApplyDatabaseMigrations(dbContext, stoppingToken);
 
         await StopAsync(stoppingToken);
     }
 
-    private async Task ApplyDatabaseMigrations(CancellationToken stoppingToken,
-        DbContext dbContext)
+    private async Task ApplyDatabaseMigrations(DbContext dbContext, CancellationToken cancellationToken = default)
     {
         _logger.LogInformation("Starting data migration...");
 
-        await dbContext.Database.MigrateAsync(stoppingToken);
+        await dbContext.Database.MigrateAsync(cancellationToken);
 
         _logger.LogInformation("Data migration completed.");
     }

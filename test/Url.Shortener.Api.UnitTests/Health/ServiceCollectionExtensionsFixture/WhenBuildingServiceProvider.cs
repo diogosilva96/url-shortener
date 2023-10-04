@@ -31,12 +31,12 @@ public class WhenBuildingServiceProvider
     }
 
     [Fact]
-    public void ThenAHealthCheckRegistrationCanBeRetrievedForTheUrlShortenerDbContext()
+    public void ThenAHealthCheckRegistrationCanBeRetrievedForTheApplicationDbContext()
     {
         var provider = WhenBuilding();
 
         var options = provider.GetRequiredService<IOptions<HealthCheckServiceOptions>>();
-        Assert.NotNull(options.Value.Registrations.Single(x => x.Name == nameof(UrlShortenerDbContext)));
+        Assert.NotNull(options.Value.Registrations.Single(x => x.Name == nameof(ApplicationDbContext)));
     }
 
     private IServiceProvider WhenBuilding() => _serviceCollection.AddHealthServices()

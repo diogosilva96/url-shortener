@@ -29,7 +29,7 @@ public sealed class IntegrationTestWebApplicationFactory : WebApplicationFactory
         await _dbContainer.StartAsync();
         
         using var scope = Services.CreateScope();
-        await using var dbContext = scope.ServiceProvider.GetRequiredService<UrlShortenerDbContext>();
+        await using var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
         await dbContext.Database.EnsureCreatedAsync();
     } 
 
@@ -66,23 +66,23 @@ public sealed class IntegrationTestWebApplicationFactory : WebApplicationFactory
 
     private void ReplaceEntityFrameworkServices(IServiceCollection services)
     {
-        var descriptor = services.SingleOrDefault(s => s.ServiceType == typeof(DbContextOptions<UrlShortenerDbContext>));
+        var descriptor = services.SingleOrDefault(s => s.ServiceType == typeof(DbContextOptions<ApplicationDbContext>));
 
         if (descriptor is not null)
         {
             services.Remove(descriptor);
         }
 
-        services.AddDbContext<UrlShortenerDbContext>(options => options.UseNpgsql(_dbContainer.GetConnectionString(), 
+        services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(_dbContainer.GetConnectionString(), 
                                                                            x => x.MigrationsAssembly("Url.Shortener.Data.Migrator"))
                                                                        .UseSnakeCaseNamingConvention());
     }
 
-    public void SeedData(Action<UrlShortenerDbContext> seedDelegate)
+    public void SeedData(Action<ApplicationDbContext> seedDelegate)
     {
         using var scope = Services.CreateScope();
 
-        using var dbContext = scope.ServiceProvider.GetRequiredService<UrlShortenerDbContext>();
+        using var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
 
         seedDelegate.Invoke(dbContext);
 

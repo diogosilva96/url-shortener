@@ -11,7 +11,7 @@ using Url.Shortener.Data;
 
 namespace Url.Shortener.Data.Migrator.Migrations
 {
-    [DbContext(typeof(UrlShortenerDbContext))]
+    [DbContext(typeof(ApplicationDbContext))]
     [Migration("20230908183250_InitialCreate")]
     partial class InitialCreate
     {

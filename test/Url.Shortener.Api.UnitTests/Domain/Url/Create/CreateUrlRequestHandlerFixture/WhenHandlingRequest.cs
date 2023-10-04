@@ -12,7 +12,7 @@ namespace Url.Shortener.Api.UnitTests.Domain.Url.Create.CreateUrlRequestHandlerF
 
 public class WhenHandlingRequest
 {
-    private readonly UrlShortenerDbContext _dbContext;
+    private readonly ApplicationDbContext _dbContext;
     private readonly DateTimeOffset _expectedDateTime;
     private readonly string _expectedUrl;
     private readonly CreateUrlRequestHandler _handler;

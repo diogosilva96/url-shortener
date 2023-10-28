@@ -4,7 +4,6 @@ services:
     image: url-shortener-api
     build:
       context: .
-      dockerfile: ./devops/docker/Dockerfile
     ports:
       - '30001:5000'
     environment:

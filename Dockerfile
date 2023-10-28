@@ -2,11 +2,11 @@
 
 WORKDIR /app
 
-COPY /../.. .
+COPY / .
 
 RUN dotnet restore
 
-RUN dotnet publish -c release -o /app/publish
+RUN dotnet publish /app/src/Url.Shortener.Api/Url.Shortener.Api.csproj -c release -o /app/publish
 
 FROM mcr.microsoft.com/dotnet/aspnet:7.0 as runtime
 

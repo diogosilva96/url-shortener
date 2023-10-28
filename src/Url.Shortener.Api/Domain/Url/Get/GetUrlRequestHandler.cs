@@ -18,9 +18,13 @@ internal class GetUrlRequestHandler : IRequestHandler<GetUrlRequest, string>
 
     public async Task<string> Handle(GetUrlRequest request, CancellationToken cancellationToken = default)
     {
-        var urlMetadata = await _dbContext.UrlMetadata.FirstOrDefaultAsync(x => x.ShortUrl == request.ShortUrl, cancellationToken);
+        var fullUrl = await _dbContext.UrlMetadata
+                                      .Where(x => x.ShortUrl == request.ShortUrl)
+                                      .Select(x => x.FullUrl)
+                                      .FirstOrDefaultAsync(cancellationToken);
+
         // ReSharper disable once InvertIf
-        if (urlMetadata == default)
+        if (string.IsNullOrWhiteSpace(fullUrl))
         {
             _logger.LogWarning("Could not find metadata for short url '{ShortUrl}'", request.ShortUrl);
             // might be better to use strongly typed results at the domain level instead - as it has introduces less 'magic'.
@@ -28,6 +32,6 @@ internal class GetUrlRequestHandler : IRequestHandler<GetUrlRequest, string>
             throw new NotFoundException("Could not find matching url for the specified short url.");
         }
 
-        return urlMetadata.FullUrl;
+        return fullUrl;
     }
 }

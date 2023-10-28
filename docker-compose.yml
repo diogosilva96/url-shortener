@@ -2,6 +2,7 @@ version: '3.9'
 services:
   url-shortener-api:
     image: url-shortener-api
+    container_name: "url-shortener-api"
     build:
       context: .
     ports:
@@ -11,6 +12,7 @@ services:
 
   url-shortener-db:
     image: postgres
+    container_name: "url-shortener-db"
     restart: always
     environment:
       POSTGRES_PASSWORD: "my_pg_password"
@@ -19,6 +21,7 @@ services:
   
   url-shortener-seq:
     image: datalust/seq:latest
+    container_name: "url-shortener-seq"
     environment:
       - ACCEPT_EULA=Y
     ports:

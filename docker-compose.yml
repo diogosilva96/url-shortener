@@ -5,9 +5,10 @@ services:
     build:
       context: .
     ports:
-      - '30001:5000'
+      - "30001:5000"
     environment:
       ASPNETCORE_ENVIRONMENT: "Development"
+
   db:
     image: postgres
     restart: always
@@ -15,3 +16,11 @@ services:
       POSTGRES_PASSWORD: "my_pg_password"
     ports:
       - "30002:5432"
+  
+  seq:
+    image: datalust/seq:latest
+    environment:
+      - ACCEPT_EULA=Y
+    ports:
+      - "30003:5341"
+      - "30004:80" # Seq ui

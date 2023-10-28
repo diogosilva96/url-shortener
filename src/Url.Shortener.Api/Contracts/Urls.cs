@@ -17,7 +17,7 @@ public static class Urls
 
             public const string Create = BasePath;
 
-            public static string Get(string shortUrl) => $"{BasePath}/{shortUrl}";
+            public static string Get(string shortUrl) => $"{shortUrl}";
         }
     }
 }

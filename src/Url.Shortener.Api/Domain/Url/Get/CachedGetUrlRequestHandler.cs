@@ -6,16 +6,16 @@ namespace Url.Shortener.Api.Domain.Url.Get;
 internal class CachedGetUrlRequestHandler : IRequestHandler<GetUrlRequest, string>
 {
     private static readonly TimeSpan _relativeExpirationTimespan = TimeSpan.FromMinutes(5);
-    private readonly GetUrlRequestHandler _handler;
+    private readonly IRequestHandler<GetUrlRequest, string> _handler;
     private readonly IMemoryCache _memoryCache;
 
-    public CachedGetUrlRequestHandler(GetUrlRequestHandler handler, IMemoryCache memoryCache)
+    public CachedGetUrlRequestHandler(IRequestHandler<GetUrlRequest, string> handler, IMemoryCache memoryCache)
     {
         _handler = handler;
         _memoryCache = memoryCache;
     }
 
-    public async Task<string> Handle(GetUrlRequest request, CancellationToken cancellationToken) =>
+    public async Task<string> Handle(GetUrlRequest request, CancellationToken cancellationToken = default) =>
     (
         await _memoryCache.GetOrCreateAsync(CacheKeys.GetUrl(request.ShortUrl),
             async entry =>

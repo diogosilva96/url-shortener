@@ -1,6 +1,6 @@
 version: '3.9'
 services:
-  api:
+  url-shortener-api:
     image: url-shortener-api
     build:
       context: .
@@ -9,7 +9,7 @@ services:
     environment:
       ASPNETCORE_ENVIRONMENT: "Development"
 
-  db:
+  url-shortener-db:
     image: postgres
     restart: always
     environment:
@@ -17,7 +17,7 @@ services:
     ports:
       - "30002:5432"
   
-  seq:
+  url-shortener-seq:
     image: datalust/seq:latest
     environment:
       - ACCEPT_EULA=Y

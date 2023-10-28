@@ -10,7 +10,7 @@ Content-Type: application/json
 ###
 # @name=GetUrl
 # @no-log
-GET http://{{host}}/api/urls/{{shortUrl}} HTTP/1.1
+GET http://{{host}}/{{shortUrl}} HTTP/1.1
 Accept: application/json
 
 ###

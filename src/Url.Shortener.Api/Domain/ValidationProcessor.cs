@@ -21,7 +21,7 @@ internal class ValidationProcessor<TRequest> : IRequestPreProcessor<TRequest> wh
         if (validationResult.IsValid) return;
         
         var validationException = new ValidationException(validationResult.Errors);
-        _logger.LogWarning(validationException, "Validation failed for object of type '{ObjectType}'", typeof(TRequest).FullName);
+        _logger.LogWarning(validationException, "Validation failed for object {@RequestObject}", request);
         throw validationException;
     }
 }

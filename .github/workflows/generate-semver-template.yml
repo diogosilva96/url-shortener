@@ -25,6 +25,7 @@ jobs:
           
     outputs:
       needs: generate-semver
+      runs-on: ubuntu-latest
       env:
         semver: ${{ needs.generate-semver.semver }}
       steps:

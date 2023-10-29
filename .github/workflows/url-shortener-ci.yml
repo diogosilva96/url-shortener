@@ -53,12 +53,12 @@ jobs:
     - name: ✅ Checkout 
       uses: actions/checkout@v3
 
-    - name: print username
-      run: echo ${{ secrets.DOCKERHUB_USERNAME }}
-      
     - name: ⚙️ Set tag
       run: echo "tag=$(date +%s)" >> $GITHUB_OUTPUT
-
+      
+    - name: print image name
+      run: echo ${{ secrets.DOCKERHUB_USERNAME }}:${{ steps.date.outputs.tag }}
+      
     - name: Docker login
       run: docker login --username ${{ secrets.DOCKERHUB_USERNAME }} --password ${{ secrets.DOCKERHUB_PASSWORD }}
       

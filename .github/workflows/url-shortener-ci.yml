@@ -49,7 +49,7 @@ jobs:
     environment: dev
     runs-on: ubuntu-latest
     env: 
-      image_name: ${{ secrets.DOCKERHUB_USERNAME }}/url-shortener-api
+      image_name: ${{ vars.DOCKERHUB_HUB }}/url-shortener-api
     steps:
     - name: ✅ Checkout 
       uses: actions/checkout@v3

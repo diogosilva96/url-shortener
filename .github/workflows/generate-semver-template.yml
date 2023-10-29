@@ -22,13 +22,4 @@ jobs:
           else
             echo "semver=${{ steps.semver.outputs.version }}" >> "$GITHUB_OUTPUT"
           fi
-          
-    outputs:
-      needs: generate-semver
-      runs-on: ubuntu-latest
-      env:
-        semver: ${{ needs.generate-semver.semver }}
-      steps:
-        - name: debug
-          run: echo "${{ needs.generate-semver.outputs.semver }}"
         

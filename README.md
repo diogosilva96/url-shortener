@@ -11,8 +11,8 @@ The application makes use of the following packages:
 
 ## TODO
 Here is the list of things to do:
-- Automate db initialization for docker.
-- Add CI pipeline for the application that publishes the docker image
+- Automate db initialization for docker-compose
+- Move workflow templates to separate repo
 - Add dev containers
 - Add k6 load testing
 - Improve the algorithm of the `UrlShortener`

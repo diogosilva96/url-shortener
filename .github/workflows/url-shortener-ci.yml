@@ -8,11 +8,10 @@ on:
     
 env:
   DOTNET_VERSION: '7.x.x'
-  OS: ubuntu-latest
   
 jobs:
   build-and-test:
-    runs-on: ${{ env.OS }}
+    runs-on: ubuntu-latest
     env:
       coverage_directory: ./coverage
       coverage_report_directory: coverage-report
@@ -47,7 +46,7 @@ jobs:
         
   publish-image:
     needs: build-and-test
-    runs-on: ${{ env.OS }}
+    runs-on: ubuntu-latest
     env: 
       image_name: ${{ secrets.DOCKERHUB_USERNAME }}/url-shortener-api
     steps:

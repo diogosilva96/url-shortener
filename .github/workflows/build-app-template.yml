@@ -48,13 +48,13 @@ jobs:
 #      - name: 🧪 Test
 #        run: dotnet test --no-restore --verbosity normal --collect:"XPlat Code Coverage" --results-directory ${{ env.coverage_directory }}
         
-      - name: 👨‍💻 Generate code coverage report
-        uses: danielpalme/ReportGenerator-GitHub-Action@5.1.18
-        with:
-          reports: ${{ env.coverage_directory }}/**/coverage.cobertura.xml
-          targetdir: ${{ env.coverage_report_directory }}
-          reporttypes: 'HtmlInline;Cobertura;MarkdownSummary'
-          tag: '${{ env.tag }}'
+#      - name: 👨‍💻 Generate code coverage report
+#        uses: danielpalme/ReportGenerator-GitHub-Action@5.1.18
+#        with:
+#          reports: ${{ env.coverage_directory }}/**/coverage.cobertura.xml
+#          targetdir: ${{ env.coverage_report_directory }}
+#          reporttypes: 'HtmlInline;Cobertura;MarkdownSummary'
+#          tag: '${{ env.tag }}'
       
       - name: 💻 Display code coverage report
         run: cat ${{ env.coverage_report_directory }}/Summary.md >> $GITHUB_STEP_SUMMARY

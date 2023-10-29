@@ -43,9 +43,6 @@ jobs:
       coverage_report_directory: coverage-report
       tag: ${{ needs.generate-semver.outputs.semver }}
     steps:
-      - name: debug
-        run: echo "${{ needs.generate-semver.steps.generate-semver.outputs.semver }}"
-        
       - name: ✅ Checkout 
         uses: actions/checkout@v3
         

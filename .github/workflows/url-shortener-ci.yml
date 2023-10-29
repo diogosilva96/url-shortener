@@ -67,5 +67,37 @@ jobs:
       
     - name: 🐋 Push Docker image
       run: docker push ${{ env.image_name }}:${{ steps.date.outputs.tag }}
-
+      
+  build-data:
+      needs: build-and-test
+      runs-on: ubuntu-latest
+      env:
+        publish_directory: publish/data
+        migrations_project: ./tools/Url.Shortener.Data.Migrator/
+      steps:
+        - name: ✅ Checkout 
+          uses: actions/checkout@v3
+          
+        - name: ⚙️ Setup .NET Core SDK ${{ env.DOTNET_VERSION }}
+          uses: actions/setup-dotnet@v3
+          with:
+            dotnet-version: ${{ env.DOTNET_VERSION }}
+        
+        - name: Restore
+          run: dotnet restore
+        
+        - name: 🔨 Build
+          run: dotnet build --configuration Release --no-restore      
+       
+        - name: 🔨 Install EF Core tool
+          run: dotnet tool install --global dotnet-ef
+          
+        - name: 🔨 Generate EF core sql migration script
+          run: dotnet ef migrations script --idempotent --project ${{ env.migrations_project }} --output ${{ env.publish_directory }}/migrations.sql
+       
+        - name: 📡 Upload data artifact
+          uses: actions/upload-artifact@v2
+          with: 
+            name: data
+            path: ${{ env.publish_directory }}
     

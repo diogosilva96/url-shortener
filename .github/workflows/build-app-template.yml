@@ -15,7 +15,7 @@ on:
 
 jobs:
   generate-semver:
-    uses: diogosilva96/url-shortener/.github/workflows/generate-semver-template.yml@main
+    uses: ./.github/workflows/generate-semver-template.yml
       
   build-and-test:
     runs-on: ubuntu-latest

@@ -4,17 +4,20 @@ namespace Url.Shortener.Api;
 
 public static class LoggingConfigurator
 {
-    public static IHostBuilder ConfigureSerilogAsOnlyLoggingProvider(this IHostBuilder hostBuilder,
+    public static WebApplicationBuilder ConfigureSerilogAsOnlyLoggingProvider(this WebApplicationBuilder hostBuilder,
         IConfiguration configuration)
     {
         ArgumentNullException.ThrowIfNull(hostBuilder);
         ArgumentNullException.ThrowIfNull(configuration);
 
+        hostBuilder.Logging.ClearProviders();
+        
         var logger = new LoggerConfiguration().MinimumLevel.Debug()
                                               .ReadFrom.Configuration(configuration)
                                               .CreateLogger();
+        
+        hostBuilder.Host.UseSerilog(logger);
 
-        return hostBuilder.ConfigureLogging(loggingBuilder => loggingBuilder.ClearProviders())
-                          .UseSerilog(logger);
+        return hostBuilder;
     }
 }

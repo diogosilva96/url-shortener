@@ -1,17 +1,17 @@
 ﻿on:
   workflow_call:
     outputs:
-      semver: 
+      - semver: 
         value: ${{ jobs.generate-semver.outputs.semver }}
-      build-semver:
+      - build-semver:
         value: ${{ jobs.generate-semver.outputs.build-semver }}
     
 jobs:
   generate-semver:
     runs-on: ubuntu-latest
     outputs:
-      semver: ${{ steps.semver.outputs.semver }}
-      build-semver: ${{ steps.build-semver.outputs.build-semver }}
+      semver: ${{ steps.semver.outputs.version }}
+      build-semver: ${{ steps.build-semver.outputs.semver }}
     steps:
       - name: ✅ Checkout
         uses: actions/checkout@v3
@@ -23,4 +23,4 @@ jobs:
       - name: ⚙️ Generate build SemVersion 
         id: build-semver
         run: |
-          echo "build-semver=${{ steps.semver.outputs.version }}-${{ github.run_id }}.${{ github.run_number }}" >> "$GITHUB_OUTPUT"
+          echo "semver=${{ steps.semver.outputs.version }}-${{ github.run_id }}.${{ github.run_number }}" >> "$GITHUB_OUTPUT"

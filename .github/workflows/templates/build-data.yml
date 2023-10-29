@@ -1,0 +1,45 @@
+on:
+  workflow_call: 
+    inputs: 
+      dotnet-version:
+        required: false
+        default: '7.x.x'
+        type: string
+      publish-directory:
+        required: false
+        default: 'publish/data'
+        type: string
+      migrations-project:
+        required: true
+        type: string
+
+jobs: 
+  build-data:
+      needs: build-and-test
+      runs-on: ubuntu-latest
+      steps:
+        - name: ✅ Checkout 
+          uses: actions/checkout@v3
+          
+        - name: ⚙️ Setup .NET Core SDK ${{ inputs.dotnet-version }}
+          uses: actions/setup-dotnet@v3
+          with:
+            dotnet-version: ${{ inputs.dotnet-version }}
+        
+        - name: Restore
+          run: dotnet restore
+        
+        - name: 🔨 Build
+          run: dotnet build --configuration Release --no-restore      
+       
+        - name: 🔨 Install EF Core tool
+          run: dotnet tool install --global dotnet-ef
+          
+        - name: 🔨 Generate EF core sql migration script
+          run: dotnet ef migrations script --idempotent --project ${{ inputs.migrations-project }} --output ${{ inputs.publish-directory }}/migrations.sql
+       
+        - name: 📡 Upload data artifact
+          uses: actions/upload-artifact@v2
+          with: 
+            name: data
+            path: ${{ env.publish-directory }}

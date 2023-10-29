@@ -3,7 +3,7 @@ name: CI
 on:
   push:
     branches: [ "main" ]
-    
+
 jobs:
   build:
     uses: diogosilva96/url-shortener/.github/workflows/build-app-template.yml@main

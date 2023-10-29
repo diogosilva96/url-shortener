@@ -15,7 +15,6 @@ on:
 
 jobs: 
   build-data:
-      needs: build-and-test
       runs-on: ubuntu-latest
       steps:
         - name: ✅ Checkout 

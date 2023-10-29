@@ -7,6 +7,9 @@ jobs:
       outputs:
         semver: ${{ steps.full-semver.output.semver }}
       steps:
+      - name: ✅ Checkout
+        uses: actions/checkout@v3
+        
       - name: Generate SemVersion
         id: semver
         uses: paulhatch/semantic-version@v5.3.0

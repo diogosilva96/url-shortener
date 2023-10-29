@@ -14,6 +14,10 @@ on:
         type: string
 
 jobs:
+  generate-semver:
+    if: ${{ inputs.docker-publish }}
+    uses: diogosilva96/url-shortener/.github/workflows/semver-template.yml@main
+    
   build-and-test:
     runs-on: ubuntu-latest
     env:
@@ -47,14 +51,17 @@ jobs:
       
       - name: 💻 Display code coverage report
         run: cat ${{ env.coverage_report_directory }}/Summary.md >> $GITHUB_STEP_SUMMARY
-        
+    
   publish-image:
     if: ${{ inputs.docker-publish }}
-    needs: build-and-test
+    needs: 
+    - build-and-test
+    - generate-semver 
     environment: ${{ inputs.environment }}
     runs-on: ubuntu-latest
     env: 
       image_name: ${{ vars.DOCKERHUB_HUB }}/url-shortener-api
+      image_tag: ${{ needs.generate-semver.outputs.semver }}
     steps:
     - name: ✅ Checkout 
       uses: actions/checkout@v3
@@ -66,7 +73,7 @@ jobs:
         password: ${{ secrets.DOCKERHUB_PASSWORD }}
       
     - name: 🔨 Build Docker image
-      run: docker build . --file Dockerfile --tag ${{ env.image_name }}:${{github.ref_name}}
+      run: docker build . --file Dockerfile --tag ${{ env.image_name }}:${{ env.image_tag }}
       
     - name: 🐋 Push Docker image
-      run: docker push ${{ env.image_name }}:${{github.ref_name}}
+      run: docker push ${{ env.image_name }}:${{ env.image_tag }}}

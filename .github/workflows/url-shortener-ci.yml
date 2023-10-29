@@ -2,21 +2,23 @@ name: CI
 
 on:
   push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+    #branches: [ "main" ]
+  #pull_request:
+    #branches: [ "main" ]
     
 env:
   DOTNET_VERSION: '7.x.x'
+  OS: ubuntu-latest
   
 jobs:
   build-and-test:
-    runs-on: ubuntu-latest
+    runs-on: ${{ env.OS }}
     env:
       coverage_directory: ./coverage
       coverage_report_directory: coverage-report
     steps:
-      - uses: ✅ actions/checkout@v3
+      - name: ✅ Checkout 
+        uses: actions/checkout@v3
         
       - name: ⚙️ Setup .NET Core SDK ${{ env.DOTNET_VERSION }}
         uses: actions/setup-dotnet@v3
@@ -45,11 +47,12 @@ jobs:
         
   publish-image:
     needs: build-and-test
-    runs-on: ubuntu-latest
+    runs-on: ${{ env.OS }}
     env: 
-      image_name: ds96/url-shortener-api
+      image_name: ${{ secrets.DOCKERHUB_USERNAME }}/url-shortener-api
     steps:
-    - uses: ✅ actions/checkout@v3
+    - name: ✅ Checkout 
+      uses: actions/checkout@v3
     
     - name: ⚙️ Set tag variable
       run: echo "::set-output name=tag::$(date +%s)"

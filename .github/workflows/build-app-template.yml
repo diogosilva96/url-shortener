@@ -55,6 +55,15 @@ jobs:
       
       - name: 💻 Display code coverage report
         run: cat ${{ env.coverage_report_directory }}/Summary.md >> $GITHUB_STEP_SUMMARY
+        
+      - name: Publish
+        run: dotnet publish ./src/Url.Shortener.Api/Url.Shortener.Api.csproj -c release -o /app/publish
+
+      - name: Publish artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: app
+          path: /app/publish
     
   publish-image:
     if: ${{ inputs.docker-publish }}

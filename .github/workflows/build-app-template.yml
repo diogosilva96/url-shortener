@@ -16,7 +16,7 @@ on:
 jobs:
   generate-semver:
     if: ${{ inputs.docker-publish }}
-    uses: diogosilva96/url-shortener/.github/workflows/semver-template.yml@main
+    uses: diogosilva96/url-shortener/.github/workflows/generate-semver-template.yml@main
     
   build-and-test:
     runs-on: ubuntu-latest

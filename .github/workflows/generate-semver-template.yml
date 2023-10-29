@@ -3,7 +3,8 @@
     outputs:
       semver: 
         value: ${{ jobs.generate-semver.outputs.semver }}
-        build-semver: ${{ jobs.generate-semver.outputs.build-semver }}
+      build-semver:
+        value: ${{ jobs.generate-semver.outputs.build-semver }}
     
 jobs:
   generate-semver:

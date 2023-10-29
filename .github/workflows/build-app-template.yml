@@ -26,7 +26,8 @@ jobs:
       tag: ${{ needs.generate-semver.outputs.semver }}
     steps:
       - name: debug
-        run: echo "${{ needs.generate-semver.outputs.semver }}"
+        run: echo "${{ generate-semver.outputs.semver }}"
+        
       - name: ✅ Checkout 
         uses: actions/checkout@v3
         

@@ -30,7 +30,7 @@ jobs:
       coverage_directory: ./coverage
       coverage_report_directory: coverage-report
       publish_directory: ./publish
-      tag: ${{ needs.generate-semver.outputs.semver }}
+      tag: ${{ needs.generate-semver.outputs.build-semver }}
     steps:
       - name: ✅ Checkout 
         uses: actions/checkout@v3
@@ -73,7 +73,8 @@ jobs:
     - name: ✅ Checkout 
       uses: actions/checkout@v3
     
-    - run: |
+    - name: Replace tag for branch
+      run: |
         if [ ${{ github.ref_name }} == 'main' ]; then
           echo "tag=latest" >> $GITHUB_ENV
         fi

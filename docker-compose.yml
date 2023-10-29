@@ -7,6 +7,7 @@ services:
     container_name: "url-shortener-api"
     build:
       context: .
+      dockerfile: Dockerfile
     ports:
       - "30001:5000"
     environment:

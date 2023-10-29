@@ -20,7 +20,7 @@ jobs:
         id: semver
         uses: paulhatch/semantic-version@v5.3.0
 
-      - name: ⚙️ Set build SemVersion 
+      - name: ⚙️ Generate build SemVersion 
         id: build-semver
         run: |
           echo "build-semver=${{ steps.semver.outputs.version }}-${{ github.run_id }}.${{ github.run_number }}" >> "$GITHUB_OUTPUT"

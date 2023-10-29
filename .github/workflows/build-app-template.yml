@@ -45,15 +45,6 @@ jobs:
       
       - name: 🔨 Build
         run: dotnet build --configuration Release --no-restore
-
-      - name: Publish
-        run: dotnet publish ${{ inputs.project-path }} -c release -o ${{ env.publish_directory }}
-
-      - name: Publish artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: app
-          path: ${{ env.publish_directory }}
           
       - name: 🧪 Test
         run: dotnet test --no-restore --verbosity normal --collect:"XPlat Code Coverage" --results-directory ${{ env.coverage_directory }}

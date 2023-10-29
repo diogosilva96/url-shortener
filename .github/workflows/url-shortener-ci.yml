@@ -4,14 +4,11 @@ on:
   push:
     branches: [ "main" ]
     
-env:
-  DOTNET_VERSION: '7.x.x'
-  
 jobs:
   build:
     uses: diogosilva96/url-shortener/.github/workflows/build-app-template.yml@main
     with:
-      dotnet-version: ${{ env.DOTNET_VERSION }}
+      dotnet-version: '7.x.x'
       docker-publish: true
       environment: dev
     secrets: inherit
@@ -19,6 +16,6 @@ jobs:
   build-data:
     uses: diogosilva96/url-shortener/.github/workflows/build-data-template.yml@main
     with:
-      dotnet-version: ${{ env.DOTNET_VERSION }}
+      dotnet-version: '7.x.x'
       migrations-project: ./tools/Url.Shortener.Data.Migrator/
     secrets: inherit

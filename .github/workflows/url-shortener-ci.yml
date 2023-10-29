@@ -64,7 +64,7 @@ jobs:
       run: docker build . --file Dockerfile --tag ${{ env.image_name }}:${{github.ref_name}}
       
     - name: 🐋 Push Docker image
-      run: docker push ${{ env.image_name }}:${{ steps.date.outputs.tag }}
+      run: docker push ${{ env.image_name }}:${{github.ref_name}}
       
   build-data:
       needs: build-and-test

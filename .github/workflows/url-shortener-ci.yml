@@ -1,0 +1,66 @@
+name: CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+    
+env:
+  DOTNET_VERSION: '7.x.x'
+  
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    env:
+      coverage_directory: ./coverage
+      coverage_report_directory: coverage-report
+    steps:
+      - uses: ✅ actions/checkout@v3
+        
+      - name: ⚙️ Setup .NET Core SDK ${{ env.DOTNET_VERSION }}
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+      
+      - name: Restore
+        run: dotnet restore
+      
+      - name: 🔨 Build
+        run: dotnet build --configuration Release --no-restore
+     
+      - name: 🧪 Test
+        run: dotnet test --no-restore --verbosity normal --collect:"XPlat Code Coverage" --results-directory ${{ env.coverage_directory }}
+        
+      - name: 👨‍💻 Generate code coverage report
+        uses: danielpalme/ReportGenerator-GitHub-Action@5.1.18
+        with:
+          reports: ${{ env.coverage_directory }}/**/coverage.cobertura.xml
+          targetdir: ${{ env.coverage_report_directory }}
+          reporttypes: 'HtmlInline;Cobertura;MarkdownSummary'
+          tag: '${{ github.run_number }}_${{ github.run_id }}'
+      
+      - name: 💻 Display code coverage report
+        run: cat ${{ env.coverage_report_directory }}/Summary.md >> $GITHUB_STEP_SUMMARY
+        
+  publish-image:
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    env: 
+      image_name: ds96/url-shortener-api
+    steps:
+    - uses: ✅ actions/checkout@v3
+    
+    - name: ⚙️ Set tag variable
+      run: echo "::set-output name=tag::$(date +%s)"
+
+    - name: Docker login
+      run: docker login --username ${{ secrets.DOCKERHUB_USERNAME }} --password ${{ secrets.DOCKERHUB_PASSWORD }}
+      
+    - name: 🔨 Build Docker image
+      run: docker build . --file Dockerfile --tag ${{ env.image_name }}:${{ steps.date.outputs.tag }}
+      
+    - name: 🐋 Push Docker image
+      run: docker push ${{ env.image_name }}:${{ steps.date.outputs.tag }}
+
+    

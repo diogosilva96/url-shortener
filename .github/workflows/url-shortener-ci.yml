@@ -8,7 +8,6 @@ jobs:
   build:
     uses: ./.github/workflows/build-app-template.yml
     with:
-      project-path: ./src/Url.Shortener.Api/Url.Shortener.Api.csproj
       dotnet-version: '7.x.x'
       docker-publish: true
       docker-image-name: ds96/url-shortener-api

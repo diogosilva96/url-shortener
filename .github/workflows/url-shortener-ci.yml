@@ -8,7 +8,7 @@ on:
     
 env:
   DOTNET_VERSION: '7.x.x'
-  GH_ENVIRONMENT: dev
+  GH_ENVIRONMENT: 'dev'
   
 jobs:
   build-and-test:
@@ -47,7 +47,7 @@ jobs:
         
   publish-image:
     needs: build-and-test
-    environment: ${{ GH_ENVIRONMENT }}
+    environment: ${{ env.GH_ENVIRONMENT }}
     runs-on: ubuntu-latest
     env: 
       image_name: ${{ secrets.DOCKERHUB_USERNAME }}/url-shortener-api

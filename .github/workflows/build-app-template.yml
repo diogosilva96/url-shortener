@@ -29,6 +29,7 @@ jobs:
     env:
       coverage_directory: ./coverage
       coverage_report_directory: coverage-report
+      publish_directory: ./publish
       tag: ${{ needs.generate-semver.outputs.semver }}
     steps:
       - name: ✅ Checkout 
@@ -46,13 +47,13 @@ jobs:
         run: dotnet build --configuration Release --no-restore
 
       - name: Publish
-        run: dotnet publish ${{ inputs.project-path }} -c release -o ./publish
+        run: dotnet publish ${{ inputs.project-path }} -c release -o ${{ env.publish_directory }}
 
       - name: Publish artifact
         uses: actions/upload-artifact@v3
         with:
           name: app
-          path: /publish
+          path: ${{ env.publish_directory }}
           
       - name: 🧪 Test
         run: dotnet test --no-restore --verbosity normal --collect:"XPlat Code Coverage" --results-directory ${{ env.coverage_directory }}

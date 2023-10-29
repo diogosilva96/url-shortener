@@ -12,5 +12,6 @@ jobs:
     with:
       dotnet-version: '7.x.x'
       docker-publish: false
+      docker-image-name: ds96/url-shortener-api
       environment: dev
     secrets: inherit

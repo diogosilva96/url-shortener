@@ -12,6 +12,9 @@ on:
       environment:
         required: true
         type: string
+      docker-image-name:
+        required: true
+        type: string
 
 jobs:
   generate-semver:
@@ -61,7 +64,6 @@ jobs:
     environment: ${{ inputs.environment }}
     runs-on: ubuntu-latest
     env: 
-      image_name: ds96/url-shortener-api
       tag: ${{ needs.generate-semver.outputs.semver }}
     steps:
     - name: ✅ Checkout 
@@ -79,7 +81,7 @@ jobs:
         password: ${{ secrets.DOCKERHUB_PASSWORD }}
     
     - name: 🔨 Build Docker image
-      run: docker build . --file Dockerfile --tag ${{ env.image_name }}:${{ env.tag }}
+      run: docker build . --file Dockerfile --tag ${{ inputs.docker-image-name }}:${{ env.tag }}
        
     - name: 🐋 Push Docker image
-      run: docker push ${{ env.image_name }}:${{ env.tag }}}
+      run: docker push ${{ inputs.docker-image-name }}:${{ env.tag }}}

@@ -5,19 +5,19 @@ jobs:
     generate-semver:
       runs-on: ubuntu-latest
       outputs:
-        semver: ${{ steps.full-semver.output.semver }}
+        semver: ${{ steps.fullsemver.output.semver }}
       steps:
       - name: ✅ Checkout
         uses: actions/checkout@v3
         
-      - name: Generate SemVersion
+      - name: ⚙️ Generate SemVersion
         id: semver
         uses: paulhatch/semantic-version@v5.3.0
           
-      - name: Set SemVersion output
-        id: full-semver
+      - name: ⚙️ Set SemVersion output
+        id: fullsemver
         run: |
-          if [ ${{ github.ref }} != 'refs/heads/main' ]; then
+          if [ ${{ github.ref_name }} != 'main' ]; then
             echo "semver=${{ steps.semver.outputs.version }}-${{ github.run_id }}.${{ github.run_number }}" >> "$GITHUB_OUTPUT"
           else
             echo "semver=${{ steps.semver.outputs.version }}" >> "$GITHUB_OUTPUT"

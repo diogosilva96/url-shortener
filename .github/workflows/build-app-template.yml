@@ -81,7 +81,7 @@ jobs:
         password: ${{ secrets.DOCKERHUB_PASSWORD }}
     
     - name: 🔨 Build Docker image
-      run: docker build . --file Dockerfile --tag ${{ inputs.docker-image-name }}:${{ env.tag }}
+      run: docker build . --file Dockerfile --tag "${{ inputs.docker-image-name }}:${{ env.tag }}"
        
     - name: 🐋 Push Docker image
-      run: docker push ${{ inputs.docker-image-name }}:${{ env.tag }}}
+      run: docker push "${{ inputs.docker-image-name }}:${{ env.tag }}}"

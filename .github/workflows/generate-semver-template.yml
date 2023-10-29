@@ -23,8 +23,5 @@ jobs:
       - name: ⚙️ Set SemVersion output
         id: build-semver
         run: |
-          if [ ${{ github.ref_name }} != 'main' ]; then
-            echo "semver=${{ steps.semver.outputs.version }}-${{ github.run_id }}.${{ github.run_number }}" >> "$GITHUB_OUTPUT"
-          else
-            echo "semver=${{ steps.semver.outputs.version }}" >> "$GITHUB_OUTPUT"
-          fi
+          echo "build-semver=${{ steps.semver.outputs.version }}-${{ github.run_id }}.${{ github.run_number }}" >> "$GITHUB_OUTPUT"
+          echo "semver=${{ steps.semver.outputs.version }}" >> "$GITHUB_OUTPUT"

@@ -12,6 +12,10 @@ on:
       migrations-project:
         required: true
         type: string
+      run-tests:
+        required: false
+        default: true
+        type: boolean
 
 jobs: 
   build-data:
@@ -30,6 +34,10 @@ jobs:
         
         - name: 🔨 Build
           run: dotnet build --configuration Release --no-restore      
+          
+        - name: 🧪 Test
+          if: ${{ inputs.run-tests }}
+          run: dotnet test --no-restore --verbosity normal
        
         - name: 🔨 Install EF Core tool
           run: dotnet tool install --global dotnet-ef

@@ -1,11 +1,13 @@
 ﻿on:
   workflow_call:
     outputs:
-      semver: ${{ jobs.fullsemver.outputs.semver }}
+      semver: ${{ jobs.generate-semver.outputs.semver }}
     
 jobs:
   generate-semver:
     runs-on: ubuntu-latest
+    outputs:
+      semver: ${{ steps.fullsemver.outputs.semver }}
     steps:
       - name: ✅ Checkout
         uses: actions/checkout@v3

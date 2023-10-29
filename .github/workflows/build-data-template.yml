@@ -13,9 +13,33 @@ on:
         required: true
         type: string
 
-jobs: 
+jobs:
+  generate-semver:
+    runs-on: ubuntu-latest
+    outputs:
+      semver: ${{ steps.fullsemver.outputs.semver }}
+    steps:
+      - name: ✅ Checkout
+        uses: actions/checkout@v3
+
+      - name: ⚙️ Generate SemVersion
+        id: semver
+        uses: paulhatch/semantic-version@v5.3.0
+
+      - name: ⚙️ Set SemVersion output
+        id: fullsemver
+        run: |
+          if [ ${{ github.ref_name }} != 'main' ]; then
+            echo "semver=${{ steps.semver.outputs.version }}-${{ github.run_id }}.${{ github.run_number }}" >> "$GITHUB_OUTPUT"
+          else
+            echo "semver=${{ steps.semver.outputs.version }}" >> "$GITHUB_OUTPUT"
+          fi
+          
   build-data:
+      needs: generate-semver
       runs-on: ubuntu-latest
+      env:
+        version: ${{ needs.generate-semver.outputs.semver }}
       steps:
         - name: ✅ Checkout 
           uses: actions/checkout@v3
@@ -35,7 +59,7 @@ jobs:
           run: dotnet tool install --global dotnet-ef
           
         - name: 🔨 Generate EF core sql migration script
-          run: dotnet ef migrations script --idempotent --project ${{ inputs.migrations-project }} --output ${{ inputs.publish-directory }}/migrations.sql
+          run: dotnet ef migrations script --idempotent --project ${{ inputs.migrations-project }} --output ${{ inputs.publish-directory }}/${{ env.version }}.sql
        
         - name: 📡 Upload data artifact
           uses: actions/upload-artifact@v2

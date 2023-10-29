@@ -5,7 +5,10 @@ on:
     branches: [ "main" ]
 
 jobs:
+  semver:
+    uses: diogosilva96/url-shortener/.github/workflows/semver-template.yml@main
   build:
+    needs: semver
     uses: diogosilva96/url-shortener/.github/workflows/build-app-template.yml@main
     with:
       dotnet-version: '7.x.x'

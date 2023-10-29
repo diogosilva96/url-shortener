@@ -5,6 +5,9 @@ on:
         required: false
         default: '7.x.x'
         type: string
+      project-path:
+        required: true
+        type: string
       docker-publish:
         required: false
         default: false
@@ -57,13 +60,13 @@ jobs:
         run: cat ${{ env.coverage_report_directory }}/Summary.md >> $GITHUB_STEP_SUMMARY
         
       - name: Publish
-        run: dotnet publish ./src/Url.Shortener.Api/Url.Shortener.Api.csproj -c release -o /app/publish
+        run: dotnet publish ./src/Url.Shortener.Api/Url.Shortener.Api.csproj -c release -o /publish
 
       - name: Publish artifact
         uses: actions/upload-artifact@v3
         with:
           name: app
-          path: /app/publish
+          path: /publish
     
   publish-image:
     if: ${{ inputs.docker-publish }}

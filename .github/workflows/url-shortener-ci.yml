@@ -6,7 +6,7 @@ on:
 
 jobs:
   build:
-    uses: diogosilva96/url-shortener/.github/workflows/build-app-template.yml@main
+    uses: diogosilva96/url-shortener/.github/workflows/build-app-template.yml@${{ github.ref_name }}
     with:
       dotnet-version: '7.x.x'
       docker-publish: true
@@ -14,7 +14,7 @@ jobs:
     secrets: inherit
       
   build-data:
-    uses: diogosilva96/url-shortener/.github/workflows/build-data-template.yml@main
+    uses: diogosilva96/url-shortener/.github/workflows/build-data-template.yml@${{ github.ref_name }}
     with:
       dotnet-version: '7.x.x'
       migrations-project: ./tools/Url.Shortener.Data.Migrator/

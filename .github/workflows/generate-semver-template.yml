@@ -1,9 +1,9 @@
 ﻿on:
   workflow_call:
     outputs:
-      - semver: 
+      semver: 
         value: ${{ jobs.generate-semver.outputs.semver }}
-      - build-semver:
+      build-semver:
         value: ${{ jobs.generate-semver.outputs.build-semver }}
     
 jobs:

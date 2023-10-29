@@ -46,7 +46,7 @@ jobs:
         run: dotnet build --configuration Release --no-restore
 
       - name: Publish
-        run: dotnet publish ${{ inputs.project-path }} -c release -o /publish
+        run: dotnet publish ${{ inputs.project-path }} -c release -o ./publish
 
       - name: Publish artifact
         uses: actions/upload-artifact@v3

@@ -84,4 +84,4 @@ jobs:
       run: docker build . --file Dockerfile --tag "${{ inputs.docker-image-name }}:${{ env.tag }}"
        
     - name: 🐋 Push Docker image
-      run: docker push "${{ inputs.docker-image-name }}:${{ env.tag }}}"
+      run: docker push "${{ inputs.docker-image-name }}:${{ env.tag }}"

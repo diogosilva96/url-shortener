@@ -5,7 +5,7 @@ jobs:
     generate-semver:
       runs-on: ubuntu-latest
       outputs:
-        semver: ${{ steps.full-semver.output.semver }}
+        semver: ${{ steps.semver.output.semver }}
       steps:
       - name: ✅ Checkout
         uses: actions/checkout@v3

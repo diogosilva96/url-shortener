@@ -1,4 +1,6 @@
 version: '3.9'
+
+# This file should only be used to run the app locally with the required infrastructure
 services:
   url-shortener-api:
     image: url-shortener-api
@@ -8,8 +10,10 @@ services:
     ports:
       - "30001:5000"
     environment:
-      ASPNETCORE_ENVIRONMENT: "Development"
-
+      ASPNETCORE_ENVIRONMENT: Development
+      App_ConnectionStrings__ApplicationDatabase: "Server=url-shortener-db;Port=5432;Database=UrlShortener;User Id=postgres;Password=my_pg_password;"
+      App_Serilog__WriteTo__1__Args__ServerUrl: "http://url-shortener-seq:5341"
+      
   url-shortener-db:
     image: postgres
     container_name: "url-shortener-db"

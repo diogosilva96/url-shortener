@@ -44,7 +44,7 @@ jobs:
         run: dotnet build --configuration Release --no-restore
           
       - name: 🧪 Test
-        run: dotnet test --no-restore --verbosity normal --collect:"XPlat Code Coverage" --results-directory ${{ env.coverage_directory }}
+        run: dotnet test --no-restore --no-build --verbosity normal --collect:"XPlat Code Coverage" --results-directory ${{ env.coverage_directory }}
         
       - name: 👨‍💻 Generate code coverage report
         uses: danielpalme/ReportGenerator-GitHub-Action@5.1.18

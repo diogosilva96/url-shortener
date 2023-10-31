@@ -37,7 +37,7 @@ jobs:
           
         - name: 🧪 Test
           if: ${{ inputs.run-tests }}
-          run: dotnet test --no-build --no-restore --verbosity normal
+          run: dotnet test --no-restore --verbosity normal
        
         - name: 🔨 Install EF Core tool
           run: dotnet tool install --global dotnet-ef

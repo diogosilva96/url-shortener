@@ -6,7 +6,7 @@ on:
 
 jobs:
   build:
-    uses: ./.github/workflows/build-app-template.yml
+    uses: diogosilva96/workflow-templates/.github/workflows/dotnet-build-app-template.yml@main
     with:
       dotnet-version: '7.x.x'
       docker-publish: true
@@ -15,7 +15,7 @@ jobs:
     secrets: inherit
       
   build-data:
-    uses: ./.github/workflows/build-data-template.yml
+    uses: diogosilva96/workflow-templates/.github/workflows/dotnet-build-data-template.yml@main
     with:
       dotnet-version: '7.x.x'
       migrations-project: ./tools/Url.Shortener.Data.Migrator/

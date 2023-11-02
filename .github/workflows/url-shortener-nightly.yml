@@ -8,7 +8,7 @@ on:
   
 jobs:
   build:
-    uses: diogosilva96/workflow-templates/.github/workflows/dotnet-build-app-template.yml@main
+    uses: diogosilva96/workflow-templates/.github/workflows/dotnet-build-app.yml@main
     with:
       dotnet-version: '7.x.x'
       docker-publish: false

@@ -14,6 +14,7 @@ Here is the list of things to do:
 - Automate db initialization for docker-compose
 - Add dev containers
 - Refactor to functional result pattern (e.g., `Result<T1,T2...>`) for the api responses (instead of exceptions) to reduce some of the magic?
+- Add automatic expiration of urls (e.g., after 6 months)
 
 ## Adding migrations
 To add a migration to the `Url.Shortener.Data.Migrator` project do the following:

@@ -12,10 +12,7 @@ The application makes use of the following packages:
 ## TODO
 Here is the list of things to do:
 - Automate db initialization for docker-compose
-- Move workflow templates to separate repo
 - Add dev containers
-- Add k6 load testing
-- Improve the algorithm of the `UrlShortener`
 - Refactor to functional result pattern (e.g., `Result<T1,T2...>`) for the api responses (instead of exceptions) to reduce some of the magic?
 
 ## Adding migrations

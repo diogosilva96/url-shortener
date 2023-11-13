@@ -15,4 +15,5 @@ jobs:
       docker-publish: false
       docker-image-name: ds96/url-shortener-api
       environment: dev
+      project-path: src/Url.Shortener.Api/Url.Shortener.Api.csproj
     secrets: inherit

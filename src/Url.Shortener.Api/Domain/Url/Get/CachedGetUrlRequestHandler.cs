@@ -9,7 +9,8 @@ internal class CachedGetUrlRequestHandler : IRequestHandler<GetUrlRequest, strin
     private readonly IRequestHandler<GetUrlRequest, string> _handler;
     private readonly IMemoryCache _memoryCache;
 
-    public CachedGetUrlRequestHandler(IRequestHandler<GetUrlRequest, string> handler, IMemoryCache memoryCache)
+    public CachedGetUrlRequestHandler([FromKeyedServices(ServiceKeys.GetUrlRequestHandler)] IRequestHandler<GetUrlRequest, string> handler,
+        IMemoryCache memoryCache)
     {
         _handler = handler;
         _memoryCache = memoryCache;

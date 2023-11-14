@@ -1,4 +1,4 @@
-﻿FROM mcr.microsoft.com/dotnet/sdk:7.0 as build
+﻿FROM mcr.microsoft.com/dotnet/sdk:8.0 as build
 
 WORKDIR /app
 
@@ -8,7 +8,7 @@ RUN dotnet restore
 
 RUN dotnet publish /app/src/Url.Shortener.Api/Url.Shortener.Api.csproj -c release -o /app/publish
 
-FROM mcr.microsoft.com/dotnet/aspnet:7.0 as runtime
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 as runtime
 
 WORKDIR /app
 

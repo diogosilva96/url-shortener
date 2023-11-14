@@ -5,14 +5,11 @@ on:
   push:
     branches: [ "main", "development" ]
     
-env:
-  DOTNET_VERSION: '8.x.x'
-  
 jobs:
-  build:
+  build-app:
     uses: diogosilva96/workflow-templates/.github/workflows/dotnet-build-app.yml@main
     with:
-      dotnet-version: '$DOTNET_VERSION'
+      dotnet-version: '8.x.x'
       docker-publish: true
       docker-image-name: ds96/url-shortener-api
       environment: dev
@@ -21,7 +18,7 @@ jobs:
   build-data:
     uses: diogosilva96/workflow-templates/.github/workflows/dotnet-build-data.yml@main
     with:
-      dotnet-version: '$DOTNET_VERSION'
+      dotnet-version: '8.x.x'
       migrations-project: ./tools/Url.Shortener.Data.Migrator/
       run-tests: false
     secrets: inherit

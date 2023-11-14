@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Caching.Memory;
+﻿using MediatR;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection;
 using NSubstitute;
 using Url.Shortener.Api.Domain.Url.Get;
@@ -12,7 +13,7 @@ public class WhenBuildingServiceProvider
 {
     private readonly IServiceCollection _serviceCollection;
 
-    public WhenBuildingServiceProvider() => 
+    public WhenBuildingServiceProvider() =>
         _serviceCollection = ServiceCollectionBuilder.Build()
                                                      .AddSingleton(Substitute.For<ApplicationDbContext>())
                                                      .AddLogging();
@@ -38,7 +39,23 @@ public class WhenBuildingServiceProvider
     {
         var provider = WhenBuilding();
 
-        Assert.NotNull(provider.GetService<GetUrlRequestHandler>());
+        Assert.NotNull(provider.GetService<IRequestHandler<GetUrlRequest, string>>());
+    }
+
+    [Fact]
+    public void ThenACachedGetUrlRequestHandlerCanBeRetrieved()
+    {
+        var provider = WhenBuilding();
+
+        Assert.IsType<CachedGetUrlRequestHandler>(provider.GetRequiredService<IRequestHandler<GetUrlRequest, string>>());
+    }
+
+    [Fact]
+    public void ThenAKeyedGetUrlRequestHandlerCanBeRetrieved()
+    {
+        var provider = WhenBuilding();
+
+        Assert.NotNull(provider.GetKeyedService<IRequestHandler<GetUrlRequest, string>>(ServiceKeys.GetUrlRequestHandler));
     }
 
     private IServiceProvider WhenBuilding() => _serviceCollection.AddGetUrlServices()

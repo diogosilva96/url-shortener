@@ -12,7 +12,7 @@ jobs:
   build:
     uses: diogosilva96/workflow-templates/.github/workflows/dotnet-build-app.yml@main
     with:
-      dotnet-version: $DOTNET_VERSION
+      dotnet-version: '$DOTNET_VERSION'
       docker-publish: true
       docker-image-name: ds96/url-shortener-api
       environment: dev
@@ -21,7 +21,7 @@ jobs:
   build-data:
     uses: diogosilva96/workflow-templates/.github/workflows/dotnet-build-data.yml@main
     with:
-      dotnet-version: $DOTNET_VERSION
+      dotnet-version: '$DOTNET_VERSION'
       migrations-project: ./tools/Url.Shortener.Data.Migrator/
       run-tests: false
     secrets: inherit

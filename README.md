@@ -9,6 +9,8 @@ The application makes use of the following packages:
 - `NSubstitute` - for mocking
 - `AutoFixture` - for creating test data
 
+The application uses exception middleware & RequestPreProcessors (from MediatR) in order to simplify & minimize code duplication in the control flow of the api responses. However, the result pattern could have also been used.
+
 ## TODO
 Here is the list of things to do:
 - Add more url management endpoints such as:

@@ -15,11 +15,9 @@ Here is the list of things to do:
   - Get UrlMetadata (no redirect)
   - Expire url
   - List UrlMetadata
+  - Allow creation of url while specifying shortUrl (if it does not yet exist return ok, otherwise retun bad request or conflict)
 - Add auth for UrlMetadata management endpoints (either via azure active directory or Entity framework + identity)
 - Add open telemetry
-- Automate db initialization for docker-compose
-- Add dev containers
-- Refactor to functional result pattern (e.g., `Result<T1,T2...>`) for the api responses (instead of exceptions) to reduce some of the magic?
 - Add automatic expiration of urls (e.g., after 6 months)
 
 ## Adding migrations

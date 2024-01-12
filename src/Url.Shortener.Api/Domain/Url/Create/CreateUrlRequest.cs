@@ -2,5 +2,5 @@
 
 namespace Url.Shortener.Api.Domain.Url.Create;
 
-internal record CreateUrlRequest(string Url) : IRequest<string>, IValidatableRequest
+internal record CreateUrlRequest(string Url, string? ShortUrl = default) : IRequest<string>, IValidatableRequest
 { }

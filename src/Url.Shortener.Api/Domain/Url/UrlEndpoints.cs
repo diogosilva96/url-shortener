@@ -31,7 +31,7 @@ public class UrlEndpoints : ICarterModule
 
     public static async Task<IResult> CreateUrlAsync(CreateUrlRequest request, IMediator mediator, CancellationToken cancellationToken = default)
     {
-        var domainRequest = new Create.CreateUrlRequest(request.Url);
+        var domainRequest = new Create.CreateUrlRequest(request.Url, request.ShortUrl);
         var shortUrl = await mediator.Send(domainRequest, cancellationToken);
         return TypedResults.Ok(shortUrl);
     }

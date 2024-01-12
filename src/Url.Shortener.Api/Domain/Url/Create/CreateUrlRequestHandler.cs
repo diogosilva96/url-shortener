@@ -26,11 +26,20 @@ internal class CreateUrlRequestHandler : IRequestHandler<CreateUrlRequest, strin
 
     public async Task<string> Handle(CreateUrlRequest request, CancellationToken cancellationToken = default)
     {
-        var shortenedUrl = await GenerateShortenedUrlAsync(cancellationToken);
+        if (request.ShortUrl == default)
+        {
+            var shortenedUrl = await GenerateShortenedUrlAsync(cancellationToken);
+            await CreateUrlMetadataAsync(request, shortenedUrl, cancellationToken);
+            return shortenedUrl;
+        }
 
-        await CreateUrlMetadataAsync(request, shortenedUrl, cancellationToken);
+        if (await IsShortUrlAlreadyInUseAsync(request.ShortUrl, cancellationToken))
+        {
+            throw CreateUrlExceptions.ShortUrlAlreadyInUse();
+        }
 
-        return shortenedUrl;
+        await CreateUrlMetadataAsync(request, request.ShortUrl, cancellationToken);
+        return request.ShortUrl;
     }
 
     private async Task CreateUrlMetadataAsync(CreateUrlRequest request, string shortenedUrl, CancellationToken cancellationToken = default)
@@ -61,7 +70,7 @@ internal class CreateUrlRequestHandler : IRequestHandler<CreateUrlRequest, strin
         {
             generatedUrl = _urlShortener.GenerateUrl();
 
-            if (await IsUrlAlreadyInUseAsync(generatedUrl, cancellationToken))
+            if (await IsShortUrlAlreadyInUseAsync(generatedUrl, cancellationToken))
             {
                 _logger.LogWarning("The short url '{ShortUrl}' is already in use (retry count: {RetryCount}).", generatedUrl, retryCount++);
                 continue;
@@ -76,6 +85,6 @@ internal class CreateUrlRequestHandler : IRequestHandler<CreateUrlRequest, strin
         return generatedUrl;
     }
 
-    private async Task<bool> IsUrlAlreadyInUseAsync(string generatedUrl, CancellationToken cancellationToken) =>
+    private async Task<bool> IsShortUrlAlreadyInUseAsync(string generatedUrl, CancellationToken cancellationToken) =>
         await _dbContext.UrlMetadata.AnyAsync(x => x.ShortUrl == generatedUrl, cancellationToken);
 }

@@ -8,32 +8,43 @@ namespace Url.Shortener.Api.UnitTests.Domain.Url.Create.CreateUrlRequestValidato
 
 public class WhenValidatingRequest
 {
-    private readonly CreateUrlRequest _request;
     private readonly CreateUrlRequestValidator _validator;
+    
+    public WhenValidatingRequest() => _validator = CreateUrlRequestValidatorBuilder.Build();
 
-    public WhenValidatingRequest()
+    [Theory]
+    [ClassData(typeof(TestData))]
+    public async Task ThenNoExceptionIsThrown(string url, string? shortUrl)
     {
-        var fixture = new Fixture();
-        _request = new($"https://{fixture.Create<string>()}.com/{fixture.Create<string>()}");
-
-        _validator = CreateUrlRequestValidatorBuilder.Build();
-    }
-
-    [Fact]
-    public async Task ThenNoExceptionIsThrown()
-    {
-        var exception = await Record.ExceptionAsync(WhenValidatingAsync);
+        var exception = await Record.ExceptionAsync(() => WhenValidatingAsync(url, shortUrl));
 
         Assert.Null(exception);
     }
 
-    [Fact]
-    public async Task ThenTheValidationSucceeds()
+    [Theory]
+    [ClassData(typeof(TestData))]
+    public async Task ThenTheValidationSucceeds(string url, string? shortUrl)
     {
-        var validationResult = await WhenValidatingAsync();
+        var validationResult = await WhenValidatingAsync(url, shortUrl);
 
         Assert.True(validationResult.IsValid);
     }
 
-    private async Task<ValidationResult> WhenValidatingAsync() => await _validator.ValidateAsync(_request);
+    private async Task<ValidationResult> WhenValidatingAsync(string url, string? shortUrl)
+    {
+        var request = new CreateUrlRequest(url, shortUrl);
+        return await _validator.ValidateAsync(request);
+    }
+
+    private class TestData : TheoryData<string, string?>
+    {
+        public TestData()
+        {
+            var fixture = new Fixture();
+            var validUrl = $"https://{fixture.Create<string>()}.com/{fixture.Create<string>()}";
+            Add(validUrl, default);
+            Add(validUrl, "abcde");                                              // 5 length string
+            Add(validUrl, "tAJqPRr@ywgK5Av+nzu6c@WgB5AfxWj4Mmnt5o3UuqEqYFsARJ"); // 50 length string
+        }
+    }
 }

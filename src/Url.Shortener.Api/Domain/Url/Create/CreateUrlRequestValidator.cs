@@ -13,6 +13,10 @@ internal class CreateUrlRequestValidator : AbstractValidator<CreateUrlRequest>
 
         RuleFor(x => x.ShortUrl).MinimumLength(5)
                                 .MaximumLength(50)
+                                .Must(x => Uri.IsWellFormedUriString(x, UriKind.Relative))
+                                .WithMessage("The '{PropertyName}' must be a valid relative uri.")
+                                .Must(x => !x.Contains('/'))
+                                .WithMessage("The '{PropertyName}' must not contain a path separator character ('/').")
                                 .When(x => !string.IsNullOrWhiteSpace(x.ShortUrl));
 
         RuleFor(x => x.ShortUrl).NotEmpty()

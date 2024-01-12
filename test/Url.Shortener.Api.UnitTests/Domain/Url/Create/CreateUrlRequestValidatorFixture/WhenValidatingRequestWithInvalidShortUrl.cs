@@ -56,6 +56,8 @@ public class WhenValidatingRequestWithInvalidShortUrl
             Add("   ");
             Add("tAJq");                                                // string with 4 length
             Add("tAJqPRr@ywgK5Av*nzu6c@Wg+5#fxWj4Mmnt5o3UuqEqYFsARJT"); // string with 51 length
+            Add("abcde/ab");                                            // path separator ('/') character not allowed
+            Add("abcde\\ab");                                           // invalid relative uri
         }
     }
 }

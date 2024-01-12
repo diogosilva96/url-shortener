@@ -19,7 +19,7 @@ public sealed class WhenCreatingUrlWhileSpecifyingShortUrl : IntegrationTestBase
         _request = new()
         {
             Url = $"https://{fixture.Create<string>()}.com/",
-            ShortUrl = "my-short-url"
+            ShortUrl = fixture.Create<string>()
         };
 
         var metadata = new[]

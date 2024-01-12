@@ -1,6 +1,5 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Url.Shortener.Api.Exceptions;
 using Url.Shortener.Data;
 
 namespace Url.Shortener.Api.Domain.Url.Get;
@@ -27,7 +26,7 @@ internal class GetUrlRequestHandler : IRequestHandler<GetUrlRequest, string>
         if (string.IsNullOrWhiteSpace(fullUrl))
         {
             _logger.LogWarning("Could not find metadata for short url '{ShortUrl}'", request.ShortUrl);
-            throw new NotFoundException("Could not find matching url for the specified short url.");
+            throw GetUrlExceptions.UrlNotFound();
         }
 
         return fullUrl;

@@ -1,7 +1,6 @@
 ﻿using AutoFixture;
 using Url.Shortener.Api.Domain.Url.Get;
 using Url.Shortener.Api.Exceptions;
-using Url.Shortener.Api.UnitTests.Data;
 using Url.Shortener.Api.UnitTests.Data.Builder;
 using Url.Shortener.Api.UnitTests.Domain.Url.Get.Builder;
 using Xunit;
@@ -46,6 +45,17 @@ public class WhenHandlingRequestAndUrlMetadataCannotBeFound
         var exception = await Record.ExceptionAsync(WhenHandlingAsync);
 
         Assert.IsType<NotFoundException>(exception);
+    }
+
+    [Fact]
+    public async Task ThenTheExpectedNotFoundExceptionIsThrown()
+    {
+        var exception = await Record.ExceptionAsync(WhenHandlingAsync);
+
+        var notFoundException = (exception as NotFoundException)!;
+        var expectedException = GetUrlExceptions.UrlNotFound();
+
+        Assert.Equal(expectedException.Message, notFoundException.Message);
     }
 
     private async Task<string> WhenHandlingAsync() => await _handler.Handle(_request);

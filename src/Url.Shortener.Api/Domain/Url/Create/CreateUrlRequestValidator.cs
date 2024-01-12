@@ -10,6 +10,13 @@ internal class CreateUrlRequestValidator : AbstractValidator<CreateUrlRequest>
 
         RuleFor(x => x.Url).Custom(EnsureValidUrl())
                            .When(x => !string.IsNullOrWhiteSpace(x.Url));
+
+        RuleFor(x => x.ShortUrl).MinimumLength(5)
+                                .MaximumLength(50)
+                                .When(x => !string.IsNullOrWhiteSpace(x.ShortUrl));
+
+        RuleFor(x => x.ShortUrl).NotEmpty()
+                                .When(x => x.ShortUrl is not null);
     }
 
     private static Action<string, ValidationContext<CreateUrlRequest>> EnsureValidUrl() =>

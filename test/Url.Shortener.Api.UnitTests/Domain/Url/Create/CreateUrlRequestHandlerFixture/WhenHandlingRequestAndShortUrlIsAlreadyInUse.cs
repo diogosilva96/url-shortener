@@ -10,26 +10,42 @@ using Xunit;
 
 namespace Url.Shortener.Api.UnitTests.Domain.Url.Create.CreateUrlRequestHandlerFixture;
 
-public class WhenHandlingRequest
+public class WhenHandlingRequestAndShortUrlIsAlreadyInUse
 {
     private readonly ApplicationDbContext _dbContext;
     private readonly DateTimeOffset _expectedDateTime;
-    private readonly string _expectedShortUrl;
+    private readonly int _expectedGeneratedUrlCount;
+    private readonly string _expectedUrl;
     private readonly CreateUrlRequestHandler _handler;
     private readonly CreateUrlRequest _request;
     private readonly IUrlShortener _urlShortener;
 
-    public WhenHandlingRequest()
+    public WhenHandlingRequestAndShortUrlIsAlreadyInUse()
     {
         var fixture = new Fixture();
 
         _request = new(fixture.Create<string>());
 
-        _dbContext = new UrlShortenerDbContextBuilder().Build();
+        var urlMetadata = new[]
+        {
+            new UrlMetadataBuilder().Build(),
+            new UrlMetadataBuilder().Build()
+        };
 
-        _expectedShortUrl = fixture.Create<string>();
+        _dbContext = new UrlShortenerDbContextBuilder().With(urlMetadata)
+                                                       .Build();
+        _expectedUrl = fixture.Create<string>();
+
+        var generatedUrls = new[]
+        {
+            urlMetadata[0].ShortUrl,
+            urlMetadata[1].ShortUrl,
+            _expectedUrl
+        };
         _urlShortener = Substitute.For<IUrlShortener>();
-        _urlShortener.GenerateUrl().Returns(_expectedShortUrl);
+        _urlShortener.GenerateUrl().Returns(generatedUrls[0], generatedUrls[1..]);
+
+        _expectedGeneratedUrlCount = generatedUrls.Length;
 
         _expectedDateTime = fixture.Create<DateTimeOffset>();
         var clock = Substitute.For<ISystemClock>();
@@ -54,7 +70,7 @@ public class WhenHandlingRequest
     {
         await WhenHandlingAsync();
 
-        _urlShortener.ReceivedWithAnyArgs(1)
+        _urlShortener.ReceivedWithAnyArgs(_expectedGeneratedUrlCount)
                      .GenerateUrl();
     }
 
@@ -75,7 +91,7 @@ public class WhenHandlingRequest
 
         _dbContext.UrlMetadata
                   .Received(1)
-                  .Add(Arg.Is<UrlMetadata>(x => x.ShortUrl == _expectedShortUrl &&
+                  .Add(Arg.Is<UrlMetadata>(x => x.ShortUrl == _expectedUrl &&
                                                 x.FullUrl == _request.Url &&
                                                 x.CreatedAtUtc == _expectedDateTime));
     }
@@ -98,11 +114,11 @@ public class WhenHandlingRequest
     }
 
     [Fact]
-    public async Task ThenTheExpectedShortUrlIsReturned()
+    public async Task ThenTheExpectedUrlIsReturned()
     {
         var url = await WhenHandlingAsync();
 
-        Assert.Equal(_expectedShortUrl, url);
+        Assert.Equal(_expectedUrl, url);
     }
 
     private async Task<string> WhenHandlingAsync() => await _handler.Handle(_request);

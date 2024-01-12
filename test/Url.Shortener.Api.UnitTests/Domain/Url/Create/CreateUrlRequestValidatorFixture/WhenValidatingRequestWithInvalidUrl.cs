@@ -15,27 +15,27 @@ public class WhenValidatingRequestWithInvalidUrl
 
     [Theory]
     [ClassData(typeof(TestData))]
-    public async Task ThenNoExceptionIsThrown(string? shortUrl)
+    public async Task ThenNoExceptionIsThrown(string? url)
     {
-        var exception = await Record.ExceptionAsync(() => WhenValidatingAsync(shortUrl));
+        var exception = await Record.ExceptionAsync(() => WhenValidatingAsync(url));
 
         Assert.Null(exception);
     }
 
     [Theory]
     [ClassData(typeof(TestData))]
-    public async Task ThenTheValidationFails(string? shortUrl)
+    public async Task ThenTheValidationFails(string? url)
     {
-        var validationResult = await WhenValidatingAsync(shortUrl);
+        var validationResult = await WhenValidatingAsync(url);
 
         Assert.False(validationResult.IsValid);
     }
 
     [Theory]
     [ClassData(typeof(TestData))]
-    public async Task ThenTheValidationFailsForTheUrl(string? shortUrl)
+    public async Task ThenTheValidationFailsForTheUrl(string? url)
     {
-        var validationResult = await WhenValidatingAsync(shortUrl);
+        var validationResult = await WhenValidatingAsync(url);
 
         Assert.Contains(validationResult.Errors, e => e.PropertyName == nameof(CreateUrlRequest.Url));
     }

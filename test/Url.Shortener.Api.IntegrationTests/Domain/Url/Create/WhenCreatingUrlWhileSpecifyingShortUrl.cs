@@ -8,17 +8,18 @@ using Xunit;
 
 namespace Url.Shortener.Api.IntegrationTests.Domain.Url.Create;
 
-public sealed class WhenCreatingUrl : IntegrationTestBase
+public sealed class WhenCreatingUrlWhileSpecifyingShortUrl : IntegrationTestBase
 {
     private readonly CreateUrlRequest _request;
 
-    public WhenCreatingUrl(IntegrationTestWebApplicationFactory webApplicationFactory) : base(webApplicationFactory)
+    public WhenCreatingUrlWhileSpecifyingShortUrl(IntegrationTestWebApplicationFactory webApplicationFactory) : base(webApplicationFactory)
     {
         var fixture = new Fixture();
 
         _request = new()
         {
-            Url = $"https://{fixture.Create<string>()}.com/"
+            Url = $"https://{fixture.Create<string>()}.com/",
+            ShortUrl = "my-short-url"
         };
 
         var metadata = new[]
@@ -49,12 +50,13 @@ public sealed class WhenCreatingUrl : IntegrationTestBase
     }
 
     [Fact]
-    public async Task ThenAShortUrlIsReturned()
+    public async Task ThenTheExpectedShortUrlIsReturned()
     {
         var response = await WhenRetrievingAsync();
 
-        var url = await response.Content.ReadAsStringAsync();
-        Assert.NotEmpty(url);
+        var shortUrl = await response.Content.ReadAsStringAsync();
+
+        Assert.Contains(_request.ShortUrl!, shortUrl);
     }
 
     private async Task<HttpResponseMessage> WhenRetrievingAsync() =>

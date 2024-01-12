@@ -44,7 +44,7 @@ public class WhenValidatingRequest
             var validUrl = $"https://{fixture.Create<string>()}.com/{fixture.Create<string>()}";
             Add(validUrl, default);
             Add(validUrl, "abcde");                                              // 5 length string
-            Add(validUrl, "tAJqPRr@ywgK5Av*nzu6c@Wg+5#fxWj4Mmnt5o3UuqEqYFsARJ"); // 50 length string
+            Add(validUrl, "tAJqPRr@ywgK5Av+nzu6c@WgB5AfxWj4Mmnt5o3UuqEqYFsARJ"); // 50 length string
         }
     }
 }

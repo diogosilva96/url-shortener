@@ -1,6 +1,5 @@
 ﻿using Carter;
 using Serilog;
-using Url.Shortener.Api.Domain;
 
 namespace Url.Shortener.Api;
 
@@ -11,18 +10,12 @@ public static class MiddlewareConfigurator
         webApplication.ConfigureSwagger()
                       .MapCarter();
 
-        webApplication.UseSerilogRequestLogging()
+        webApplication.UseExceptionHandler()
+                      .UseSerilogRequestLogging()
                       .UseRouting()
                       .UseHsts()
                       .UseHttpsRedirection()
                       .UseAuthorization();
-
-        if (webApplication.Environment.IsDevelopment())
-        {
-            webApplication.UseDeveloperExceptionPage();
-        }
-
-        webApplication.UseDomainExceptionMiddleware();
 
         return webApplication;
     }

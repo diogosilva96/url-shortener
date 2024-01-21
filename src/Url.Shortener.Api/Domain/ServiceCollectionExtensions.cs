@@ -20,7 +20,7 @@ internal static class ServiceCollectionExtensions
                                     config.RequestPreProcessorsToRegister.Add(new(typeof(IRequestPreProcessor<>),
                                         typeof(ValidationProcessor<>), ServiceLifetime.Transient));
                                 })
-                                .AddSingleton<ISystemClock, SystemClock>()
+                                .AddSingleton<ISystemClock, SystemClock>() // TODO: use time provider (.NET 8)
                                 .AddValidatorsFromAssembly(typeof(Program).Assembly, includeInternalTypes: true)
                                 .AddUrlServices(configureUrlShortenerOptions);
     }

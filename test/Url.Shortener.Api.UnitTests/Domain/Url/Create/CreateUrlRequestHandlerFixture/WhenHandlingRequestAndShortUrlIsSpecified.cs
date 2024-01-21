@@ -1,5 +1,4 @@
 ﻿using AutoFixture;
-using Microsoft.Extensions.Internal;
 using NSubstitute;
 using Url.Shortener.Api.Domain.Url.Create;
 using Url.Shortener.Api.UnitTests.Data.Builder;
@@ -16,6 +15,7 @@ public class WhenHandlingRequestAndShortUrlIsSpecified
     private readonly DateTimeOffset _expectedDateTime;
     private readonly CreateUrlRequestHandler _handler;
     private readonly CreateUrlRequest _request;
+    private readonly TimeProvider _timeProvider;
     private readonly IUrlShortener _urlShortener;
 
     public WhenHandlingRequestAndShortUrlIsSpecified()
@@ -29,12 +29,12 @@ public class WhenHandlingRequestAndShortUrlIsSpecified
         _urlShortener = Substitute.For<IUrlShortener>();
 
         _expectedDateTime = fixture.Create<DateTimeOffset>();
-        var clock = Substitute.For<ISystemClock>();
-        clock.UtcNow.Returns(_expectedDateTime);
+        _timeProvider = Substitute.For<TimeProvider>();
+        _timeProvider.GetUtcNow().Returns(_expectedDateTime);
 
         _handler = new CreateUrlRequestHandlerBuilder().With(_dbContext)
                                                        .With(_urlShortener)
-                                                       .With(clock)
+                                                       .With(_timeProvider)
                                                        .Build();
     }
 
@@ -44,6 +44,15 @@ public class WhenHandlingRequestAndShortUrlIsSpecified
         var exception = await Record.ExceptionAsync(WhenHandlingAsync);
 
         Assert.Null(exception);
+    }
+
+    [Fact]
+    public async Task ThenCurrentTimeIsRetrieved()
+    {
+        await WhenHandlingAsync();
+
+        _timeProvider.ReceivedWithAnyArgs(1)
+                     .GetUtcNow();
     }
 
     [Fact]

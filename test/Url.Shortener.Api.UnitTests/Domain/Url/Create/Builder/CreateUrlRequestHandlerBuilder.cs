@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Internal;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using NSubstitute;
 using Url.Shortener.Api.Domain.Url.Create;
 using Url.Shortener.Api.UnitTests.Data.Builder;
@@ -9,20 +8,20 @@ namespace Url.Shortener.Api.UnitTests.Domain.Url.Create.Builder;
 
 internal class CreateUrlRequestHandlerBuilder
 {
-    private ISystemClock _clock;
     private ApplicationDbContext _dbContext;
     private ILogger<CreateUrlRequestHandler> _logger;
+    private TimeProvider _timeProvider;
     private IUrlShortener _urlShortener;
 
     public CreateUrlRequestHandlerBuilder()
     {
         _dbContext = new UrlShortenerDbContextBuilder().Build();
         _urlShortener = Substitute.For<IUrlShortener>();
-        _clock = Substitute.For<ISystemClock>();
+        _timeProvider = Substitute.For<TimeProvider>();
         _logger = Substitute.For<ILogger<CreateUrlRequestHandler>>();
     }
 
-    public CreateUrlRequestHandler Build() => new(_dbContext, _urlShortener, _clock, _logger);
+    public CreateUrlRequestHandler Build() => new(_dbContext, _urlShortener, _timeProvider, _logger);
 
     public CreateUrlRequestHandlerBuilder With(ApplicationDbContext dbContext)
     {
@@ -38,9 +37,9 @@ internal class CreateUrlRequestHandlerBuilder
         return this;
     }
 
-    public CreateUrlRequestHandlerBuilder With(ISystemClock clock)
+    public CreateUrlRequestHandlerBuilder With(TimeProvider timeProvider)
     {
-        _clock = clock;
+        _timeProvider = timeProvider;
 
         return this;
     }

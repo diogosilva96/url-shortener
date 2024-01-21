@@ -1,6 +1,5 @@
 ﻿using AutoFixture;
 using FluentValidation;
-using Microsoft.Extensions.Internal;
 using NSubstitute;
 using Url.Shortener.Api.Domain.Url.Create;
 using Url.Shortener.Api.UnitTests.Data.Builder;
@@ -31,13 +30,8 @@ public class WhenHandlingRequestAndShortUrlIsSpecifiedAndShortUrlIsAlreadyInUse
 
         var urlShortener = Substitute.For<IUrlShortener>();
 
-        var expectedDateTime = fixture.Create<DateTimeOffset>();
-        var clock = Substitute.For<ISystemClock>();
-        clock.UtcNow.Returns(expectedDateTime);
-
         _handler = new CreateUrlRequestHandlerBuilder().With(dbContext)
                                                        .With(urlShortener)
-                                                       .With(clock)
                                                        .Build();
     }
 

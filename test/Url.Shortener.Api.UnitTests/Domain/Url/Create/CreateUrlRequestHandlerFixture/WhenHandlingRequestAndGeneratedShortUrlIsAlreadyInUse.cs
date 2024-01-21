@@ -1,5 +1,4 @@
 ﻿using AutoFixture;
-using Microsoft.Extensions.Internal;
 using NSubstitute;
 using Url.Shortener.Api.Domain.Url.Create;
 using Url.Shortener.Api.UnitTests.Data.Builder;
@@ -10,7 +9,7 @@ using Xunit;
 
 namespace Url.Shortener.Api.UnitTests.Domain.Url.Create.CreateUrlRequestHandlerFixture;
 
-public class WhenHandlingRequestAndShortUrlIsAlreadyInUse
+public class WhenHandlingRequestAndGeneratedShortUrlIsAlreadyInUse
 {
     private readonly ApplicationDbContext _dbContext;
     private readonly DateTimeOffset _expectedDateTime;
@@ -18,9 +17,10 @@ public class WhenHandlingRequestAndShortUrlIsAlreadyInUse
     private readonly string _expectedUrl;
     private readonly CreateUrlRequestHandler _handler;
     private readonly CreateUrlRequest _request;
+    private readonly TimeProvider _timeProvider;
     private readonly IUrlShortener _urlShortener;
 
-    public WhenHandlingRequestAndShortUrlIsAlreadyInUse()
+    public WhenHandlingRequestAndGeneratedShortUrlIsAlreadyInUse()
     {
         var fixture = new Fixture();
 
@@ -48,12 +48,12 @@ public class WhenHandlingRequestAndShortUrlIsAlreadyInUse
         _expectedGeneratedUrlCount = generatedUrls.Length;
 
         _expectedDateTime = fixture.Create<DateTimeOffset>();
-        var clock = Substitute.For<ISystemClock>();
-        clock.UtcNow.Returns(_expectedDateTime);
+        _timeProvider = Substitute.For<TimeProvider>();
+        _timeProvider.GetUtcNow().Returns(_expectedDateTime);
 
         _handler = new CreateUrlRequestHandlerBuilder().With(_dbContext)
                                                        .With(_urlShortener)
-                                                       .With(clock)
+                                                       .With(_timeProvider)
                                                        .Build();
     }
 
@@ -63,6 +63,15 @@ public class WhenHandlingRequestAndShortUrlIsAlreadyInUse
         var exception = await Record.ExceptionAsync(WhenHandlingAsync);
 
         Assert.Null(exception);
+    }
+
+    [Fact]
+    public async Task ThenCurrentTimeIsRetrieved()
+    {
+        await WhenHandlingAsync();
+
+        _timeProvider.ReceivedWithAnyArgs(1)
+                     .GetUtcNow();
     }
 
     [Fact]

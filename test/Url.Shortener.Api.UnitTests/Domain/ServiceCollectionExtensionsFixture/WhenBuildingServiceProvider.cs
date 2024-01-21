@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Internal;
 using Url.Shortener.Api.Domain;
 using Url.Shortener.Api.Domain.Url.Create;
 using Url.Shortener.Api.Tests.Common.Domain.Url.Builder;
@@ -34,11 +33,11 @@ public class WhenBuildingServiceProvider
     }
 
     [Fact]
-    public void ThenASystemClockCanBeRetrieved()
+    public void ThenATimeProviderCanBeRetrieved()
     {
         var provider = WhenBuilding();
 
-        Assert.NotNull(provider.GetService<ISystemClock>());
+        Assert.NotNull(provider.GetService<TimeProvider>());
     }
 
     private IServiceProvider WhenBuilding() => _serviceCollection.AddDomainServices(_configureUrlShortenerOptions)

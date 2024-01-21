@@ -1,6 +1,5 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Internal;
 using Url.Shortener.Data;
 using Url.Shortener.Data.Models;
 
@@ -8,19 +7,19 @@ namespace Url.Shortener.Api.Domain.Url.Create;
 
 internal class CreateUrlRequestHandler : IRequestHandler<CreateUrlRequest, string>
 {
-    private readonly ISystemClock _clock;
     private readonly ApplicationDbContext _dbContext;
     private readonly ILogger<CreateUrlRequestHandler> _logger;
+    private readonly TimeProvider _timeProvider;
     private readonly IUrlShortener _urlShortener;
 
     public CreateUrlRequestHandler(ApplicationDbContext dbContext,
         IUrlShortener urlShortener,
-        ISystemClock clock,
+        TimeProvider timeProvider,
         ILogger<CreateUrlRequestHandler> logger)
     {
         _dbContext = dbContext;
         _urlShortener = urlShortener;
-        _clock = clock;
+        _timeProvider = timeProvider;
         _logger = logger;
     }
 
@@ -48,7 +47,7 @@ internal class CreateUrlRequestHandler : IRequestHandler<CreateUrlRequest, strin
         {
             Id = Guid.NewGuid(),
             FullUrl = request.Url,
-            CreatedAtUtc = _clock.UtcNow,
+            CreatedAtUtc = _timeProvider.GetUtcNow(),
             ShortUrl = shortenedUrl
         };
 

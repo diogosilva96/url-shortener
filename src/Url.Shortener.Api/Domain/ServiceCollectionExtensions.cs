@@ -1,7 +1,6 @@
 ﻿using Carter;
 using FluentValidation;
 using MediatR.Pipeline;
-using Microsoft.Extensions.Internal;
 using Url.Shortener.Api.Domain.Url;
 using Url.Shortener.Api.Domain.Url.Create;
 
@@ -20,7 +19,7 @@ internal static class ServiceCollectionExtensions
                                     config.RequestPreProcessorsToRegister.Add(new(typeof(IRequestPreProcessor<>),
                                         typeof(ValidationProcessor<>), ServiceLifetime.Transient));
                                 })
-                                .AddSingleton<ISystemClock, SystemClock>() // TODO: use time provider (.NET 8)
+                                .AddSingleton<TimeProvider>(_ => TimeProvider.System)
                                 .AddValidatorsFromAssembly(typeof(Program).Assembly, includeInternalTypes: true)
                                 .AddUrlServices(configureUrlShortenerOptions);
     }

@@ -30,7 +30,7 @@ public class WhenRetrievingUrl
     [Fact]
     public async Task ThenNoExceptionIsThrown()
     {
-        var exception = await Record.ExceptionAsync(WhenRetrievingAsync);
+        var exception = await Record.ExceptionAsync(WhenRedirectingAsync);
 
         Assert.Null(exception);
     }
@@ -38,7 +38,7 @@ public class WhenRetrievingUrl
     [Fact]
     public async Task ThenARedirectUrlRequestIsSent()
     {
-        await WhenRetrievingAsync();
+        await WhenRedirectingAsync();
 
         await _mediator.ReceivedWithAnyArgs(1)
                        .Send(Arg.Any<RedirectUrlRequest>(), Arg.Any<CancellationToken>());
@@ -47,7 +47,7 @@ public class WhenRetrievingUrl
     [Fact]
     public async Task ThenTheExpectedRedirectUrlRequestIsSent()
     {
-        await WhenRetrievingAsync();
+        await WhenRedirectingAsync();
 
         await _mediator.Received(1)
                        .Send(Arg.Is<RedirectUrlRequest>(x => x.ShortUrl == _shortUrl), Arg.Any<CancellationToken>());
@@ -56,7 +56,7 @@ public class WhenRetrievingUrl
     [Fact]
     public async Task ThenARedirectResultIsReturned()
     {
-        var result = await WhenRetrievingAsync();
+        var result = await WhenRedirectingAsync();
 
         Assert.IsType<RedirectHttpResult>(result);
     }
@@ -64,11 +64,11 @@ public class WhenRetrievingUrl
     [Fact]
     public async Task ThenARedirectResultIsReturnedWithTheExpectedShortUrl()
     {
-        var result = await WhenRetrievingAsync();
+        var result = await WhenRedirectingAsync();
 
         var redirectResult = (result as RedirectHttpResult)!;
         Assert.Equal(_expectedUrl, redirectResult.Url);
     }
 
-    private async Task<IResult> WhenRetrievingAsync() => await UrlEndpoints.RedirectUrlAsync(_shortUrl, _mediator);
+    private async Task<IResult> WhenRedirectingAsync() => await UrlEndpoints.RedirectUrlAsync(_shortUrl, _mediator);
 }

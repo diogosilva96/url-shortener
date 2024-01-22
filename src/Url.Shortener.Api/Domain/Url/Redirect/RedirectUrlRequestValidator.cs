@@ -1,10 +1,10 @@
 ﻿using FluentValidation;
 
-namespace Url.Shortener.Api.Domain.Url.Get;
+namespace Url.Shortener.Api.Domain.Url.Redirect;
 
-internal class GetUrlRequestValidator : AbstractValidator<GetUrlRequest>
+internal class RedirectUrlRequestValidator : AbstractValidator<RedirectUrlRequest>
 {
-    public GetUrlRequestValidator()
+    public RedirectUrlRequestValidator()
     {
         RuleFor(x => x.ShortUrl).NotEmpty();
 

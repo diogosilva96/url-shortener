@@ -1,22 +1,22 @@
 ﻿using AutoFixture;
 using FluentValidation.Results;
-using Url.Shortener.Api.Domain.Url.Get;
-using Url.Shortener.Api.UnitTests.Domain.Url.Get.Builder;
+using Url.Shortener.Api.Domain.Url.Redirect;
+using Url.Shortener.Api.UnitTests.Domain.Url.Redirect.Builder;
 using Xunit;
 
-namespace Url.Shortener.Api.UnitTests.Domain.Url.Get.GetUrlRequestValidatorFixture;
+namespace Url.Shortener.Api.UnitTests.Domain.Url.Redirect.RedirectUrlRequestValidatorFixture;
 
 public class WhenValidatingRequest
 {
-    private readonly GetUrlRequest _request;
-    private readonly GetUrlRequestValidator _validator;
+    private readonly RedirectUrlRequest _request;
+    private readonly RedirectUrlRequestValidator _validator;
 
     public WhenValidatingRequest()
     {
         var fixture = new Fixture();
         _request = new(fixture.Create<string>());
 
-        _validator = GetUrlRequestValidatorBuilder.Build();
+        _validator = RedirectUrlRequestValidatorBuilder.Build();
     }
 
     [Fact]

@@ -1,18 +1,18 @@
 ﻿using AutoFixture;
 using MediatR;
 using NSubstitute;
-using Url.Shortener.Api.Domain.Url.Get;
-using Url.Shortener.Api.UnitTests.Domain.Url.Get.Builder;
+using Url.Shortener.Api.Domain.Url.Redirect;
+using Url.Shortener.Api.UnitTests.Domain.Url.Redirect.Builder;
 using Xunit;
 
-namespace Url.Shortener.Api.UnitTests.Domain.Url.Get.CachedGetUrlRequestHandlerFixture;
+namespace Url.Shortener.Api.UnitTests.Domain.Url.Redirect.CachedRedirectUrlRequestHandlerFixture;
 
 public class WhenHandlingRequest
 {
-    private readonly CachedGetUrlRequestHandler _cachedHandler;
+    private readonly CachedRedirectUrlRequestHandler _cachedHandler;
     private readonly string _expectedResult;
-    private readonly IRequestHandler<GetUrlRequest, string> _handler;
-    private readonly GetUrlRequest _request;
+    private readonly IRequestHandler<RedirectUrlRequest, string> _handler;
+    private readonly RedirectUrlRequest _request;
 
     public WhenHandlingRequest()
     {
@@ -21,11 +21,11 @@ public class WhenHandlingRequest
         _request = new(fixture.Create<string>());
 
         _expectedResult = fixture.Create<string>();
-        _handler = Substitute.For<IRequestHandler<GetUrlRequest, string>>();
-        _handler.Handle(Arg.Any<GetUrlRequest>(), Arg.Any<CancellationToken>())
+        _handler = Substitute.For<IRequestHandler<RedirectUrlRequest, string>>();
+        _handler.Handle(Arg.Any<RedirectUrlRequest>(), Arg.Any<CancellationToken>())
                 .Returns(_expectedResult);
 
-        _cachedHandler = new CachedGetUrlRequestHandlerBuilder().With(_handler)
+        _cachedHandler = new CachedRedirectUrlRequestHandlerBuilder().With(_handler)
                                                                 .Build();
     }
 
@@ -43,7 +43,7 @@ public class WhenHandlingRequest
         await WhenHandlingAsync();
 
         await _handler.ReceivedWithAnyArgs(1)
-                      .Handle(Arg.Any<GetUrlRequest>(), Arg.Any<CancellationToken>());
+                      .Handle(Arg.Any<RedirectUrlRequest>(), Arg.Any<CancellationToken>());
     }
 
     [Fact]

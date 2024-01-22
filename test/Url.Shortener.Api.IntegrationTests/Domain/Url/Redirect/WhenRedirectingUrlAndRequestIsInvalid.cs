@@ -7,13 +7,13 @@ using Url.Shortener.Api.IntegrationTests.Data.Builder;
 using Url.Shortener.Api.IntegrationTests.Utils;
 using Xunit;
 
-namespace Url.Shortener.Api.IntegrationTests.Domain.Url.Get;
+namespace Url.Shortener.Api.IntegrationTests.Domain.Url.Redirect;
 
-public sealed class WhenRetrievingUrlAndRequestIsInvalid : IntegrationTestBase
+public sealed class WhenRedirectingUrlAndRequestIsInvalid : IntegrationTestBase
 {
     private readonly string _shortUrl;
 
-    public WhenRetrievingUrlAndRequestIsInvalid(IntegrationTestWebApplicationFactory webApplicationFactory) : base(webApplicationFactory)
+    public WhenRedirectingUrlAndRequestIsInvalid(IntegrationTestWebApplicationFactory webApplicationFactory) : base(webApplicationFactory)
     {
         var fixture = new Fixture();
 
@@ -34,7 +34,7 @@ public sealed class WhenRetrievingUrlAndRequestIsInvalid : IntegrationTestBase
     [Fact]
     public async Task ThenNoExceptionIsThrown()
     {
-        var exception = await Record.ExceptionAsync(WhenRetrievingAsync);
+        var exception = await Record.ExceptionAsync(WhenRedirectingAsync);
 
         Assert.Null(exception);
     }
@@ -42,7 +42,7 @@ public sealed class WhenRetrievingUrlAndRequestIsInvalid : IntegrationTestBase
     [Fact]
     public async Task ThenABadRequestResponseIsReturned()
     {
-        var response = await WhenRetrievingAsync();
+        var response = await WhenRedirectingAsync();
 
         Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
     }
@@ -50,12 +50,12 @@ public sealed class WhenRetrievingUrlAndRequestIsInvalid : IntegrationTestBase
     [Fact]
     public async Task ThenValidationProblemsAreReturned()
     {
-        var response = await WhenRetrievingAsync();
+        var response = await WhenRedirectingAsync();
 
         var problem = (await response.Content.ReadFromJsonAsync<HttpValidationProblemDetails>())!;
         Assert.NotEmpty(problem.Errors);
     }
 
-    private async Task<HttpResponseMessage> WhenRetrievingAsync() =>
+    private async Task<HttpResponseMessage> WhenRedirectingAsync() =>
         await Client.GetAsync(Urls.Api.Urls.Get(_shortUrl));
 }

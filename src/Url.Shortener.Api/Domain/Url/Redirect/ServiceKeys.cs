@@ -1,4 +1,4 @@
-﻿namespace Url.Shortener.Api.Domain.Url.Get;
+﻿namespace Url.Shortener.Api.Domain.Url.Redirect;
 
 /// <summary>
 /// Class that contains service keys.
@@ -8,5 +8,5 @@ internal static class ServiceKeys
     /// <summary>
     /// The service key for the GetUrlRequestHandler.
     /// </summary>
-    public const string GetUrlRequestHandler = "GetUrlRequestHandler";
+    public const string RedirectUrlRequestHandler = "RedirectUrlRequestHandler";
 }

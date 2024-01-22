@@ -2,20 +2,20 @@
 using MediatR;
 using Microsoft.Extensions.Caching.Memory;
 using NSubstitute;
-using Url.Shortener.Api.Domain.Url.Get;
+using Url.Shortener.Api.Domain.Url.Redirect;
 using Url.Shortener.Api.UnitTests.Builder;
-using Url.Shortener.Api.UnitTests.Domain.Url.Get.Builder;
+using Url.Shortener.Api.UnitTests.Domain.Url.Redirect.Builder;
 using Xunit;
 
-namespace Url.Shortener.Api.UnitTests.Domain.Url.Get.CachedGetUrlRequestHandlerFixture;
+namespace Url.Shortener.Api.UnitTests.Domain.Url.Redirect.CachedRedirectUrlRequestHandlerFixture;
 
 public class WhenHandlingRequestAndUrlIsCached
 {
-    private readonly CachedGetUrlRequestHandler _cachedHandler;
+    private readonly CachedRedirectUrlRequestHandler _cachedHandler;
     private readonly string _expectedResult;
-    private readonly IRequestHandler<GetUrlRequest, string> _handler;
+    private readonly IRequestHandler<RedirectUrlRequest, string> _handler;
     private readonly IMemoryCache _memoryCache;
-    private readonly GetUrlRequest _request;
+    private readonly RedirectUrlRequest _request;
 
     public WhenHandlingRequestAndUrlIsCached()
     {
@@ -24,12 +24,12 @@ public class WhenHandlingRequestAndUrlIsCached
         _request = new(fixture.Create<string>());
 
         _expectedResult = fixture.Create<string>();
-        _handler = Substitute.For<IRequestHandler<GetUrlRequest, string>>();
+        _handler = Substitute.For<IRequestHandler<RedirectUrlRequest, string>>();
 
-        _memoryCache = new MemoryCacheBuilder().Setup(CacheKeys.GetUrl(_request.ShortUrl), _expectedResult)
+        _memoryCache = new MemoryCacheBuilder().Setup(CacheKeys.RedirectUrl(_request.ShortUrl), _expectedResult)
                                                .Build();
 
-        _cachedHandler = new CachedGetUrlRequestHandlerBuilder().With(_handler)
+        _cachedHandler = new CachedRedirectUrlRequestHandlerBuilder().With(_handler)
                                                                 .With(_memoryCache)
                                                                 .Build();
     }
@@ -48,7 +48,7 @@ public class WhenHandlingRequestAndUrlIsCached
         await WhenHandlingAsync();
 
         await _handler.DidNotReceiveWithAnyArgs()
-                      .Handle(Arg.Any<GetUrlRequest>(), Arg.Any<CancellationToken>());
+                      .Handle(Arg.Any<RedirectUrlRequest>(), Arg.Any<CancellationToken>());
     }
 
     [Fact]

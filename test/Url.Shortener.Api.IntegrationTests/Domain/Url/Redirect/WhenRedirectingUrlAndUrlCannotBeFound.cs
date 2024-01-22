@@ -5,13 +5,13 @@ using Url.Shortener.Api.IntegrationTests.Data.Builder;
 using Url.Shortener.Api.IntegrationTests.Utils;
 using Xunit;
 
-namespace Url.Shortener.Api.IntegrationTests.Domain.Url.Get;
+namespace Url.Shortener.Api.IntegrationTests.Domain.Url.Redirect;
 
-public sealed class WhenRetrievingUrlAndUrlCannotBeFound : IntegrationTestBase
+public sealed class WhenRedirectingUrlAndUrlCannotBeFound : IntegrationTestBase
 {
     private readonly string _shortUrl;
 
-    public WhenRetrievingUrlAndUrlCannotBeFound(IntegrationTestWebApplicationFactory webApplicationFactory) : base(webApplicationFactory)
+    public WhenRedirectingUrlAndUrlCannotBeFound(IntegrationTestWebApplicationFactory webApplicationFactory) : base(webApplicationFactory)
     {
         var fixture = new Fixture();
 
@@ -31,7 +31,7 @@ public sealed class WhenRetrievingUrlAndUrlCannotBeFound : IntegrationTestBase
     [Fact]
     public async Task ThenNoExceptionIsThrown()
     {
-        var exception = await Record.ExceptionAsync(WhenRetrievingAsync);
+        var exception = await Record.ExceptionAsync(WhenRedirectingAsync);
 
         Assert.Null(exception);
     }
@@ -39,11 +39,11 @@ public sealed class WhenRetrievingUrlAndUrlCannotBeFound : IntegrationTestBase
     [Fact]
     public async Task ThenANotFoundResponseIsReturned()
     {
-        var response = await WhenRetrievingAsync();
+        var response = await WhenRedirectingAsync();
 
         Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
     }
 
-    private async Task<HttpResponseMessage> WhenRetrievingAsync() =>
+    private async Task<HttpResponseMessage> WhenRedirectingAsync() =>
         await Client.GetAsync(Urls.Api.Urls.Get(_shortUrl));
 }

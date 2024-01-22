@@ -1,15 +1,15 @@
 ﻿using FluentValidation.Results;
-using Url.Shortener.Api.Domain.Url.Get;
-using Url.Shortener.Api.UnitTests.Domain.Url.Get.Builder;
+using Url.Shortener.Api.Domain.Url.Redirect;
+using Url.Shortener.Api.UnitTests.Domain.Url.Redirect.Builder;
 using Xunit;
 
-namespace Url.Shortener.Api.UnitTests.Domain.Url.Get.GetUrlRequestValidatorFixture;
+namespace Url.Shortener.Api.UnitTests.Domain.Url.Redirect.RedirectUrlRequestValidatorFixture;
 
 public class WhenValidatingRequestWithInvalidShortUrl
 {
-    private readonly GetUrlRequestValidator _validator;
+    private readonly RedirectUrlRequestValidator _validator;
 
-    public WhenValidatingRequestWithInvalidShortUrl() => _validator = GetUrlRequestValidatorBuilder.Build();
+    public WhenValidatingRequestWithInvalidShortUrl() => _validator = RedirectUrlRequestValidatorBuilder.Build();
 
     [Theory]
     [ClassData(typeof(TestData))]
@@ -35,12 +35,12 @@ public class WhenValidatingRequestWithInvalidShortUrl
     {
         var validationResult = await WhenValidatingAsync(shortUrl);
 
-        Assert.Contains(validationResult.Errors, e => e.PropertyName == nameof(GetUrlRequest.ShortUrl));
+        Assert.Contains(validationResult.Errors, e => e.PropertyName == nameof(RedirectUrlRequest.ShortUrl));
     }
 
     private async Task<ValidationResult> WhenValidatingAsync(string? shortUrl)
     {
-        var request = new GetUrlRequest(shortUrl!);
+        var request = new RedirectUrlRequest(shortUrl!);
 
         return await _validator.ValidateAsync(request);
     }

@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using NSubstitute;
 using Url.Shortener.Api.Domain.Url;
-using Url.Shortener.Api.Domain.Url.Get;
+using Url.Shortener.Api.Domain.Url.Redirect;
 using Xunit;
 
 namespace Url.Shortener.Api.UnitTests.Domain.Url.UrlEndpointsFixture;
@@ -23,7 +23,7 @@ public class WhenRetrievingUrl
         _expectedUrl = fixture.Create<string>();
 
         _mediator = Substitute.For<IMediator>();
-        _mediator.Send(Arg.Any<GetUrlRequest>(), Arg.Any<CancellationToken>())
+        _mediator.Send(Arg.Any<RedirectUrlRequest>(), Arg.Any<CancellationToken>())
                  .Returns(_expectedUrl);
     }
 
@@ -36,21 +36,21 @@ public class WhenRetrievingUrl
     }
 
     [Fact]
-    public async Task ThenAGetUrlRequestIsSent()
+    public async Task ThenARedirectUrlRequestIsSent()
     {
         await WhenRetrievingAsync();
 
         await _mediator.ReceivedWithAnyArgs(1)
-                       .Send(Arg.Any<GetUrlRequest>(), Arg.Any<CancellationToken>());
+                       .Send(Arg.Any<RedirectUrlRequest>(), Arg.Any<CancellationToken>());
     }
 
     [Fact]
-    public async Task ThenTheExpectedGetUrlRequestIsSent()
+    public async Task ThenTheExpectedRedirectUrlRequestIsSent()
     {
         await WhenRetrievingAsync();
 
         await _mediator.Received(1)
-                       .Send(Arg.Is<GetUrlRequest>(x => x.ShortUrl == _shortUrl), Arg.Any<CancellationToken>());
+                       .Send(Arg.Is<RedirectUrlRequest>(x => x.ShortUrl == _shortUrl), Arg.Any<CancellationToken>());
     }
 
     [Fact]
@@ -70,5 +70,5 @@ public class WhenRetrievingUrl
         Assert.Equal(_expectedUrl, redirectResult.Url);
     }
 
-    private async Task<IResult> WhenRetrievingAsync() => await UrlEndpoints.GetUrlAsync(_shortUrl, _mediator);
+    private async Task<IResult> WhenRetrievingAsync() => await UrlEndpoints.RedirectUrlAsync(_shortUrl, _mediator);
 }

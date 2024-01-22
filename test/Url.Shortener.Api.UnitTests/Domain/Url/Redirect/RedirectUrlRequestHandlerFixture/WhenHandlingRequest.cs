@@ -1,16 +1,15 @@
-﻿using Url.Shortener.Api.Domain.Url.Get;
-using Url.Shortener.Api.UnitTests.Data;
+﻿using Url.Shortener.Api.Domain.Url.Redirect;
 using Url.Shortener.Api.UnitTests.Data.Builder;
-using Url.Shortener.Api.UnitTests.Domain.Url.Get.Builder;
+using Url.Shortener.Api.UnitTests.Domain.Url.Redirect.Builder;
 using Xunit;
 
-namespace Url.Shortener.Api.UnitTests.Domain.Url.Get.GetUrlRequestHandlerFixture;
+namespace Url.Shortener.Api.UnitTests.Domain.Url.Redirect.RedirectUrlRequestHandlerFixture;
 
 public class WhenHandlingRequest
 {
     private readonly string _expectedUrl;
-    private readonly GetUrlRequestHandler _handler;
-    private readonly GetUrlRequest _request;
+    private readonly RedirectUrlRequestHandler _handler;
+    private readonly RedirectUrlRequest _request;
 
     public WhenHandlingRequest()
     {
@@ -26,7 +25,7 @@ public class WhenHandlingRequest
         var dbContext = new UrlShortenerDbContextBuilder().With(urlMetadata)
                                                           .Build();
 
-        _handler = new GetUrlRequestHandlerBuilder().With(dbContext)
+        _handler = new RedirectUrlRequestHandlerBuilder().With(dbContext)
                                                     .Build();
 
         _request = new(expectedUrlMetadata.ShortUrl);

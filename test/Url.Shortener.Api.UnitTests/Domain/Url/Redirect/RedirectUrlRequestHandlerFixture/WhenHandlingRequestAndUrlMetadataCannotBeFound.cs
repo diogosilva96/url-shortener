@@ -1,16 +1,16 @@
 ﻿using AutoFixture;
-using Url.Shortener.Api.Domain.Url.Get;
+using Url.Shortener.Api.Domain.Url.Redirect;
 using Url.Shortener.Api.Exceptions;
 using Url.Shortener.Api.UnitTests.Data.Builder;
-using Url.Shortener.Api.UnitTests.Domain.Url.Get.Builder;
+using Url.Shortener.Api.UnitTests.Domain.Url.Redirect.Builder;
 using Xunit;
 
-namespace Url.Shortener.Api.UnitTests.Domain.Url.Get.GetUrlRequestHandlerFixture;
+namespace Url.Shortener.Api.UnitTests.Domain.Url.Redirect.RedirectUrlRequestHandlerFixture;
 
 public class WhenHandlingRequestAndUrlMetadataCannotBeFound
 {
-    private readonly GetUrlRequestHandler _handler;
-    private readonly GetUrlRequest _request;
+    private readonly RedirectUrlRequestHandler _handler;
+    private readonly RedirectUrlRequest _request;
 
     public WhenHandlingRequestAndUrlMetadataCannotBeFound()
     {
@@ -25,7 +25,7 @@ public class WhenHandlingRequestAndUrlMetadataCannotBeFound
         var dbContext = new UrlShortenerDbContextBuilder().With(urlMetadata)
                                                           .Build();
 
-        _handler = new GetUrlRequestHandlerBuilder().With(dbContext)
+        _handler = new RedirectUrlRequestHandlerBuilder().With(dbContext)
                                                     .Build();
 
         _request = new(fixture.Create<string>());
@@ -53,7 +53,7 @@ public class WhenHandlingRequestAndUrlMetadataCannotBeFound
         var exception = await Record.ExceptionAsync(WhenHandlingAsync);
 
         var notFoundException = (exception as NotFoundException)!;
-        var expectedException = GetUrlExceptions.UrlNotFound();
+        var expectedException = RedirectUrlExceptions.UrlNotFound();
 
         Assert.Equal(expectedException.Message, notFoundException.Message);
     }

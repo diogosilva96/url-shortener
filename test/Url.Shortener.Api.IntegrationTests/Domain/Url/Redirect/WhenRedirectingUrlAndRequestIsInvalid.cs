@@ -57,5 +57,5 @@ public sealed class WhenRedirectingUrlAndRequestIsInvalid : IntegrationTestBase
     }
 
     private async Task<HttpResponseMessage> WhenRedirectingAsync() =>
-        await Client.GetAsync(Urls.Api.Urls.Get(_shortUrl));
+        await Client.GetAsync(Urls.Api.Urls.Redirect(_shortUrl));
 }

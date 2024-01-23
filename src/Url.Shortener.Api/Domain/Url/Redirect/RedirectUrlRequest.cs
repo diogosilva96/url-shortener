@@ -1,6 +1,4 @@
-﻿using MediatR;
+﻿namespace Url.Shortener.Api.Domain.Url.Redirect;
 
-namespace Url.Shortener.Api.Domain.Url.Redirect;
-
-internal record RedirectUrlRequest(string ShortUrl) : IRequest<string>, IValidatableRequest
+internal record RedirectUrlRequest(string ShortUrl) : IValidatableRequest<string>
 { }

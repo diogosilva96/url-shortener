@@ -1,6 +1,4 @@
-﻿using MediatR;
+﻿namespace Url.Shortener.Api.Domain.Url.Create;
 
-namespace Url.Shortener.Api.Domain.Url.Create;
-
-internal record CreateUrlRequest(string Url, string? ShortUrl = default) : IRequest<string>, IValidatableRequest
+internal record CreateUrlRequest(string Url, string? ShortUrl = default) : IValidatableRequest<string>
 { }

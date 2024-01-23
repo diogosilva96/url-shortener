@@ -2,6 +2,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Url.Shortener.Api.Contracts;
+using Url.Shortener.Api.Domain.Url.Get;
 using Url.Shortener.Api.Domain.Url.Redirect;
 
 namespace Url.Shortener.Api.Domain.Url;
@@ -10,16 +11,24 @@ public class UrlEndpoints : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        var apiUrlGroup = app.MapGroup("")
-                       .WithOpenApi();
-
-        apiUrlGroup.MapPost("api/urls", CreateUrlAsync)
+        var apiUrlGroup = app.MapGroup("api/urls")
+                             .WithOpenApi();
+        
+        apiUrlGroup.MapGet("{shortUrl}", GetUrlAsync)
+                   .WithName("GetUrl")
+                   .WithDescription("Retrieves the url metadata based on the specified short url.")
+                   .Produces<UrlMetadata>()
+                   .Produces<HttpValidationProblemDetails>(StatusCodes.Status400BadRequest)
+                   .Produces<NotFound>(StatusCodes.Status404NotFound)
+                   .Produces<ProblemHttpResult>(StatusCodes.Status500InternalServerError);
+        
+        apiUrlGroup.MapPost(string.Empty, CreateUrlAsync)
              .WithName("CreateUrl")
              .WithDescription("Creates a short url based on the specified request.")
              .Produces<string>()
              .Produces<HttpValidationProblemDetails>(StatusCodes.Status400BadRequest)
              .Produces<ProblemHttpResult>(StatusCodes.Status500InternalServerError);
-
+        
         app.MapGet("{shortUrl}", RedirectUrlAsync)
            .WithOpenApi()
            .WithName("RedirectUrl")
@@ -37,6 +46,13 @@ public class UrlEndpoints : ICarterModule
         return TypedResults.Ok(shortUrl);
     }
 
+    public static async Task<IResult> GetUrlAsync(string shortUrl, IMediator mediator, CancellationToken cancellationToken = default)
+    {
+        var domainRequest = new GetUrlRequest(shortUrl);
+        var metadata = await mediator.Send(domainRequest, cancellationToken);
+        return TypedResults.Ok(metadata);
+    }
+    
     public static async Task<IResult> RedirectUrlAsync(string shortUrl, IMediator mediator, CancellationToken cancellationToken = default)
     {
         var domainRequest = new RedirectUrlRequest(shortUrl);

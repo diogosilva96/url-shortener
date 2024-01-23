@@ -17,8 +17,7 @@ internal class GetUrlRequestHandler : IRequestHandler<GetUrlRequest, UrlMetadata
     }
     public async Task<UrlMetadata> Handle(GetUrlRequest request, CancellationToken cancellationToken)
     {
-        // TODO: make url metadata fetch reusable 
-        // TODO: add caching
+        // TODO: make url metadata mapping reusable (for list url endpoint)
         var metadata = await _dbContext.UrlMetadata
                                        .Where(x => x.ShortUrl == request.ShortUrl)
                                        .Select(x => new UrlMetadata() 

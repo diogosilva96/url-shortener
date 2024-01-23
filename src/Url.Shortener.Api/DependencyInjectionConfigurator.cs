@@ -12,10 +12,6 @@ public static class DependencyInjectionConfigurator
         IConfiguration configuration,
         IHostEnvironment hostEnvironment)
     {
-        ArgumentNullException.ThrowIfNull(serviceCollection);
-        ArgumentNullException.ThrowIfNull(configuration);
-        ArgumentNullException.ThrowIfNull(hostEnvironment);
-
         var dbConnectionString = configuration.GetConnectionString(ConnectionStringNames.ApplicationDatabase)!;
 
         return serviceCollection.AddEndpointsApiExplorer()

@@ -17,6 +17,7 @@ Here is the list of things to do:
   - Get UrlMetadata (no redirect)
   - List UrlMetadata
   - Expire url?
+- Add output caching for read urls?
 - Add auth for UrlMetadata management endpoints (either via azure active directory or Entity framework + identity)
 - Add open telemetry
 - Add automatic expiration of urls (e.g., after 6 months)

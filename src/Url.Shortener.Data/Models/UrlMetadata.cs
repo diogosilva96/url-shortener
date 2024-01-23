@@ -8,5 +8,5 @@ public class UrlMetadata
 
     public required string FullUrl { get; set; } = string.Empty;
 
-    public required DateTimeOffset CreatedAtUtc { get; set; }
+    public required DateTimeOffset CreatedAtUtc { get; init; }
 }

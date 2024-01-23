@@ -15,8 +15,8 @@ The application uses exception middleware & RequestPreProcessors (from MediatR) 
 Here is the list of things to do:
 - Add more url management endpoints such as:
   - Get UrlMetadata (no redirect)
-  - Expire url
   - List UrlMetadata
+  - Expire url?
 - Add auth for UrlMetadata management endpoints (either via azure active directory or Entity framework + identity)
 - Add open telemetry
 - Add automatic expiration of urls (e.g., after 6 months)

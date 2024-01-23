@@ -5,7 +5,7 @@ using Url.Shortener.Api.Domain;
 
 namespace Url.Shortener.Api.UnitTests.Domain.Builder;
 
-internal class ValidationProcessorBuilder<T> where T : IValidatableRequest
+internal class ValidationProcessorBuilder<T> where T : IValidatableRequestBase
 {
     private ILogger<ValidationProcessor<T>> _logger;
     private IValidator<T> _validator;

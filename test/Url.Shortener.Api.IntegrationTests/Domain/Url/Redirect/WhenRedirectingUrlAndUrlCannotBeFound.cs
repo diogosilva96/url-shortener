@@ -9,7 +9,7 @@ namespace Url.Shortener.Api.IntegrationTests.Domain.Url.Redirect;
 
 public sealed class WhenRedirectingUrlAndUrlCannotBeFound : IntegrationTestBase
 {
-    private readonly string _shortUrl;
+    private readonly string _code;
 
     public WhenRedirectingUrlAndUrlCannotBeFound(IntegrationTestWebApplicationFactory webApplicationFactory) : base(webApplicationFactory)
     {
@@ -17,13 +17,13 @@ public sealed class WhenRedirectingUrlAndUrlCannotBeFound : IntegrationTestBase
 
         var metadata = new[]
         {
-            new UrlMetadataBuilder().With(x => x.ShortUrl = fixture.Create<string>()[..15])
+            new UrlMetadataBuilder().With(x => x.Code = fixture.Create<string>()[..15])
                                     .Build(),
-            new UrlMetadataBuilder().With(x => x.ShortUrl = fixture.Create<string>()[..15])
+            new UrlMetadataBuilder().With(x => x.Code = fixture.Create<string>()[..15])
                                     .Build()
         };
 
-        _shortUrl = fixture.Create<string>()[..5];
+        _code = fixture.Create<string>()[..5];
 
         webApplicationFactory.SeedData(context => context.UrlMetadata.AddRange(metadata));
     }
@@ -45,5 +45,5 @@ public sealed class WhenRedirectingUrlAndUrlCannotBeFound : IntegrationTestBase
     }
 
     private async Task<HttpResponseMessage> WhenRedirectingAsync() =>
-        await Client.GetAsync(Urls.Api.Urls.Redirect(_shortUrl));
+        await Client.GetAsync(Urls.Api.Urls.Redirect(_code));
 }

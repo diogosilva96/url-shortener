@@ -5,42 +5,42 @@ using Xunit;
 
 namespace Url.Shortener.Api.UnitTests.Domain.Url.Get.GetUrlRequestValidatorFixture;
 
-public class WhenValidatingRequestWithInvalidShortUrl
+public class WhenValidatingRequestWithInvalidCode
 {
     private readonly GetUrlRequestValidator _validator;
 
-    public WhenValidatingRequestWithInvalidShortUrl() => _validator = GetUrlRequestValidatorBuilder.Build();
+    public WhenValidatingRequestWithInvalidCode() => _validator = GetUrlRequestValidatorBuilder.Build();
 
     [Theory]
     [ClassData(typeof(TestData))]
-    public async Task ThenNoExceptionIsThrown(string shortUrl)
+    public async Task ThenNoExceptionIsThrown(string code)
     {
-        var exception = await Record.ExceptionAsync(() => WhenValidatingAsync(shortUrl));
+        var exception = await Record.ExceptionAsync(() => WhenValidatingAsync(code));
 
         Assert.Null(exception);
     }
 
     [Theory]
     [ClassData(typeof(TestData))]
-    public async Task ThenTheValidationFails(string shortUrl)
+    public async Task ThenTheValidationFails(string code)
     {
-        var validationResult = await WhenValidatingAsync(shortUrl);
+        var validationResult = await WhenValidatingAsync(code);
 
         Assert.False(validationResult.IsValid);
     }
 
     [Theory]
     [ClassData(typeof(TestData))]
-    public async Task ThenTheValidationFailsForTheShortUrl(string shortUrl)
+    public async Task ThenTheValidationFailsForTheCode(string code)
     {
-        var validationResult = await WhenValidatingAsync(shortUrl);
+        var validationResult = await WhenValidatingAsync(code);
 
-        Assert.Contains(validationResult.Errors, e => e.PropertyName == nameof(GetUrlRequest.ShortUrl));
+        Assert.Contains(validationResult.Errors, e => e.PropertyName == nameof(GetUrlRequest.Code));
     }
 
-    private async Task<ValidationResult> WhenValidatingAsync(string shortUrl)
+    private async Task<ValidationResult> WhenValidatingAsync(string code)
     {
-        var request = new GetUrlRequest(shortUrl);
+        var request = new GetUrlRequest(code);
 
         return await _validator.ValidateAsync(request);
     }

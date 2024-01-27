@@ -9,7 +9,7 @@ namespace Url.Shortener.Api.UnitTests.Domain.Url.ServiceCollectionExtensionsFixt
 
 public class WhenBuildingServiceProvider
 {
-    private readonly Action<UrlShortenerOptions> _configureUrlShortenerOptions;
+    private readonly Action<CodeGeneratorOptions> _configureUrlShortenerOptions;
     private readonly IServiceCollection _serviceCollection;
 
     public WhenBuildingServiceProvider()

@@ -9,7 +9,9 @@ internal class CachedRedirectUrlRequestHandler : IRequestHandler<RedirectUrlRequ
     private readonly IRequestHandler<RedirectUrlRequest, string> _handler;
     private readonly IMemoryCache _memoryCache;
 
-    public CachedRedirectUrlRequestHandler([FromKeyedServices(ServiceKeys.RedirectUrlRequestHandler)] IRequestHandler<RedirectUrlRequest, string> handler,
+    public CachedRedirectUrlRequestHandler(
+        [FromKeyedServices(ServiceKeys.RedirectUrlRequestHandler)]
+        IRequestHandler<RedirectUrlRequest, string> handler,
         IMemoryCache memoryCache)
     {
         _handler = handler;
@@ -18,7 +20,7 @@ internal class CachedRedirectUrlRequestHandler : IRequestHandler<RedirectUrlRequ
 
     public async Task<string> Handle(RedirectUrlRequest request, CancellationToken cancellationToken = default) =>
     (
-        await _memoryCache.GetOrCreateAsync(CacheKeys.RedirectUrl(request.ShortUrl),
+        await _memoryCache.GetOrCreateAsync(CacheKeys.RedirectUrl(request.Code),
             async entry =>
             {
                 var result = await _handler.Handle(request, cancellationToken);

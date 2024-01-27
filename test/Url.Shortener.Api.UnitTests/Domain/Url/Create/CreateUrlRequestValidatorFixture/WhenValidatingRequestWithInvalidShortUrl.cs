@@ -7,43 +7,43 @@ using CreateUrlRequest = Url.Shortener.Api.Contracts.CreateUrlRequest;
 
 namespace Url.Shortener.Api.UnitTests.Domain.Url.Create.CreateUrlRequestValidatorFixture;
 
-public class WhenValidatingRequestWithInvalidShortUrl
+public class WhenValidatingRequestWithInvalidCode
 {
     private readonly CreateUrlRequestValidator _validator;
 
-    public WhenValidatingRequestWithInvalidShortUrl() => _validator = CreateUrlRequestValidatorBuilder.Build();
+    public WhenValidatingRequestWithInvalidCode() => _validator = CreateUrlRequestValidatorBuilder.Build();
 
     [Theory]
     [ClassData(typeof(TestData))]
-    public async Task ThenNoExceptionIsThrown(string? shortUrl)
+    public async Task ThenNoExceptionIsThrown(string? code)
     {
-        var exception = await Record.ExceptionAsync(() => WhenValidatingAsync(shortUrl));
+        var exception = await Record.ExceptionAsync(() => WhenValidatingAsync(code));
 
         Assert.Null(exception);
     }
 
     [Theory]
     [ClassData(typeof(TestData))]
-    public async Task ThenTheValidationFails(string? shortUrl)
+    public async Task ThenTheValidationFails(string? code)
     {
-        var validationResult = await WhenValidatingAsync(shortUrl);
+        var validationResult = await WhenValidatingAsync(code);
 
         Assert.False(validationResult.IsValid);
     }
 
     [Theory]
     [ClassData(typeof(TestData))]
-    public async Task ThenTheValidationFailsForTheShortUrl(string? shortUrl)
+    public async Task ThenTheValidationFailsForTheCode(string? code)
     {
-        var validationResult = await WhenValidatingAsync(shortUrl);
+        var validationResult = await WhenValidatingAsync(code);
 
-        Assert.Contains(validationResult.Errors, e => e.PropertyName == nameof(CreateUrlRequest.ShortUrl));
+        Assert.Contains(validationResult.Errors, e => e.PropertyName == nameof(CreateUrlRequest.Code));
     }
 
-    private async Task<ValidationResult> WhenValidatingAsync(string? shortUrl)
+    private async Task<ValidationResult> WhenValidatingAsync(string? code)
     {
         var fixture = new Fixture();
-        var request = new Api.Domain.Url.Create.CreateUrlRequest($"https://{fixture.Create<string>()}.com/{fixture.Create<string>()}", shortUrl!);
+        var request = new Api.Domain.Url.Create.CreateUrlRequest($"https://{fixture.Create<string>()}.com/{fixture.Create<string>()}", code!);
 
         return await _validator.ValidateAsync(request);
     }

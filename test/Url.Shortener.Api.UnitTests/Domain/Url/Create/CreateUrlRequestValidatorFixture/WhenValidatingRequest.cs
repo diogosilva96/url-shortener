@@ -14,25 +14,25 @@ public class WhenValidatingRequest
 
     [Theory]
     [ClassData(typeof(TestData))]
-    public async Task ThenNoExceptionIsThrown(string url, string? shortUrl)
+    public async Task ThenNoExceptionIsThrown(string url, string? code)
     {
-        var exception = await Record.ExceptionAsync(() => WhenValidatingAsync(url, shortUrl));
+        var exception = await Record.ExceptionAsync(() => WhenValidatingAsync(url, code));
 
         Assert.Null(exception);
     }
 
     [Theory]
     [ClassData(typeof(TestData))]
-    public async Task ThenTheValidationSucceeds(string url, string? shortUrl)
+    public async Task ThenTheValidationSucceeds(string url, string? code)
     {
-        var validationResult = await WhenValidatingAsync(url, shortUrl);
+        var validationResult = await WhenValidatingAsync(url, code);
 
         Assert.True(validationResult.IsValid);
     }
 
-    private async Task<ValidationResult> WhenValidatingAsync(string url, string? shortUrl)
+    private async Task<ValidationResult> WhenValidatingAsync(string url, string? code)
     {
-        var request = new CreateUrlRequest(url, shortUrl);
+        var request = new CreateUrlRequest(url, code);
         return await _validator.ValidateAsync(request);
     }
 

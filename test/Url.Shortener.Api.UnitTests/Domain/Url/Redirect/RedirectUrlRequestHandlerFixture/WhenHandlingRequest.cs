@@ -28,7 +28,7 @@ public class WhenHandlingRequest
         _handler = new RedirectUrlRequestHandlerBuilder().With(dbContext)
                                                     .Build();
 
-        _request = new(expectedUrlMetadata.ShortUrl);
+        _request = new(expectedUrlMetadata.Code);
 
         _expectedUrl = expectedUrlMetadata.FullUrl;
     }

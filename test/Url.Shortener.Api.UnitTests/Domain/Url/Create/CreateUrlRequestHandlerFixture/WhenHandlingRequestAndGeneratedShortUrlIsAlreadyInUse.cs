@@ -9,7 +9,7 @@ using Xunit;
 
 namespace Url.Shortener.Api.UnitTests.Domain.Url.Create.CreateUrlRequestHandlerFixture;
 
-public class WhenHandlingRequestAndGeneratedShortUrlIsAlreadyInUse
+public class WhenHandlingRequestAndGeneratedCodeIsAlreadyInUse
 {
     private readonly ApplicationDbContext _dbContext;
     private readonly DateTimeOffset _expectedDateTime;
@@ -18,9 +18,9 @@ public class WhenHandlingRequestAndGeneratedShortUrlIsAlreadyInUse
     private readonly CreateUrlRequestHandler _handler;
     private readonly CreateUrlRequest _request;
     private readonly TimeProvider _timeProvider;
-    private readonly IUrlShortener _urlShortener;
+    private readonly ICodeGenerator _codeGenerator;
 
-    public WhenHandlingRequestAndGeneratedShortUrlIsAlreadyInUse()
+    public WhenHandlingRequestAndGeneratedCodeIsAlreadyInUse()
     {
         var fixture = new Fixture();
 
@@ -38,12 +38,12 @@ public class WhenHandlingRequestAndGeneratedShortUrlIsAlreadyInUse
 
         var generatedUrls = new[]
         {
-            urlMetadata[0].ShortUrl,
-            urlMetadata[1].ShortUrl,
+            urlMetadata[0].Code,
+            urlMetadata[1].Code,
             _expectedUrl
         };
-        _urlShortener = Substitute.For<IUrlShortener>();
-        _urlShortener.GenerateUrl().Returns(generatedUrls[0], generatedUrls[1..]);
+        _codeGenerator = Substitute.For<ICodeGenerator>();
+        _codeGenerator.GenerateCode().Returns(generatedUrls[0], generatedUrls[1..]);
 
         _expectedGeneratedUrlCount = generatedUrls.Length;
 
@@ -52,7 +52,7 @@ public class WhenHandlingRequestAndGeneratedShortUrlIsAlreadyInUse
         _timeProvider.GetUtcNow().Returns(_expectedDateTime);
 
         _handler = new CreateUrlRequestHandlerBuilder().With(_dbContext)
-                                                       .With(_urlShortener)
+                                                       .With(_codeGenerator)
                                                        .With(_timeProvider)
                                                        .Build();
     }
@@ -79,8 +79,8 @@ public class WhenHandlingRequestAndGeneratedShortUrlIsAlreadyInUse
     {
         await WhenHandlingAsync();
 
-        _urlShortener.ReceivedWithAnyArgs(_expectedGeneratedUrlCount)
-                     .GenerateUrl();
+        _codeGenerator.ReceivedWithAnyArgs(_expectedGeneratedUrlCount)
+                     .GenerateCode();
     }
 
     [Fact]
@@ -100,7 +100,7 @@ public class WhenHandlingRequestAndGeneratedShortUrlIsAlreadyInUse
 
         _dbContext.UrlMetadata
                   .Received(1)
-                  .Add(Arg.Is<UrlMetadata>(x => x.ShortUrl == _expectedUrl &&
+                  .Add(Arg.Is<UrlMetadata>(x => x.Code == _expectedUrl &&
                                                 x.FullUrl == _request.Url &&
                                                 x.CreatedAtUtc == _expectedDateTime));
     }

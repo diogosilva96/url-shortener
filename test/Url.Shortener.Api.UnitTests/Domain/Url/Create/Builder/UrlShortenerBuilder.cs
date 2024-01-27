@@ -7,22 +7,22 @@ namespace Url.Shortener.Api.UnitTests.Domain.Url.Create.Builder;
 
 internal class UrlShortenerBuilder
 {
-    private readonly IOptions<UrlShortenerOptions> _options;
+    private readonly IOptions<CodeGeneratorOptions> _options;
 
     public UrlShortenerBuilder()
     {
-        _options = Substitute.For<IOptions<UrlShortenerOptions>>();
+        _options = Substitute.For<IOptions<CodeGeneratorOptions>>();
         AssignOptions(new UrlShortenerOptionsBuilder().Build());
     }
 
-    public UrlShortener Build() => new(_options);
+    public CodeGenerator Build() => new(_options);
 
-    public UrlShortenerBuilder With(UrlShortenerOptions options)
+    public UrlShortenerBuilder With(CodeGeneratorOptions options)
     {
         AssignOptions(options);
 
         return this;
     }
 
-    private void AssignOptions(UrlShortenerOptions options) => _options.Value.Returns(options);
+    private void AssignOptions(CodeGeneratorOptions options) => _options.Value.Returns(options);
 }

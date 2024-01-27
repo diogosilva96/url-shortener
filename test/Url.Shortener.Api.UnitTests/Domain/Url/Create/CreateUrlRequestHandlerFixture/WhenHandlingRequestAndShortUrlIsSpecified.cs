@@ -9,16 +9,16 @@ using Xunit;
 
 namespace Url.Shortener.Api.UnitTests.Domain.Url.Create.CreateUrlRequestHandlerFixture;
 
-public class WhenHandlingRequestAndShortUrlIsSpecified
+public class WhenHandlingRequestAndCodeIsSpecified
 {
     private readonly ApplicationDbContext _dbContext;
     private readonly DateTimeOffset _expectedDateTime;
     private readonly CreateUrlRequestHandler _handler;
     private readonly CreateUrlRequest _request;
     private readonly TimeProvider _timeProvider;
-    private readonly IUrlShortener _urlShortener;
+    private readonly ICodeGenerator _codeGenerator;
 
-    public WhenHandlingRequestAndShortUrlIsSpecified()
+    public WhenHandlingRequestAndCodeIsSpecified()
     {
         var fixture = new Fixture();
 
@@ -26,14 +26,14 @@ public class WhenHandlingRequestAndShortUrlIsSpecified
 
         _dbContext = new UrlShortenerDbContextBuilder().Build();
 
-        _urlShortener = Substitute.For<IUrlShortener>();
+        _codeGenerator = Substitute.For<ICodeGenerator>();
 
         _expectedDateTime = fixture.Create<DateTimeOffset>();
         _timeProvider = Substitute.For<TimeProvider>();
         _timeProvider.GetUtcNow().Returns(_expectedDateTime);
 
         _handler = new CreateUrlRequestHandlerBuilder().With(_dbContext)
-                                                       .With(_urlShortener)
+                                                       .With(_codeGenerator)
                                                        .With(_timeProvider)
                                                        .Build();
     }
@@ -60,8 +60,8 @@ public class WhenHandlingRequestAndShortUrlIsSpecified
     {
         await WhenHandlingAsync();
 
-        _urlShortener.DidNotReceiveWithAnyArgs()
-                     .GenerateUrl();
+        _codeGenerator.DidNotReceiveWithAnyArgs()
+                     .GenerateCode();
     }
 
     [Fact]
@@ -81,7 +81,7 @@ public class WhenHandlingRequestAndShortUrlIsSpecified
 
         _dbContext.UrlMetadata
                   .Received(1)
-                  .Add(Arg.Is<UrlMetadata>(x => x.ShortUrl == _request.ShortUrl &&
+                  .Add(Arg.Is<UrlMetadata>(x => x.Code == _request.Code &&
                                                 x.FullUrl == _request.Url &&
                                                 x.CreatedAtUtc == _expectedDateTime));
     }
@@ -104,11 +104,11 @@ public class WhenHandlingRequestAndShortUrlIsSpecified
     }
 
     [Fact]
-    public async Task ThenTheExpectedShortUrlIsReturned()
+    public async Task ThenTheExpectedCodeIsReturned()
     {
         var url = await WhenHandlingAsync();
 
-        Assert.Equal(_request.ShortUrl, url);
+        Assert.Equal(_request.Code, url);
     }
 
     private async Task<string> WhenHandlingAsync() => await _handler.Handle(_request);

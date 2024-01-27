@@ -5,8 +5,8 @@ namespace Url.Shortener.Api.Domain.Url.Create;
 
 internal static class CreateUrlExceptions
 {
-    public static ValidationException ShortUrlAlreadyInUse() => new(new[]
+    public static ValidationException CodeAlreadyInUse() => new(new[]
     {
-        new ValidationFailure(nameof(Contracts.CreateUrlRequest.ShortUrl), "The specified short url is already in use.")
+        new ValidationFailure(nameof(Contracts.CreateUrlRequest.Code), "The specified code is already in use.")
     });
 }

@@ -11,11 +11,11 @@ internal class CreateUrlRequestValidator : AbstractValidator<CreateUrlRequest>
         RuleFor(x => x.Url).Custom(EnsureValidUrl())
                            .When(x => !string.IsNullOrWhiteSpace(x.Url));
 
-        RuleFor(x => x.ShortUrl!).EnsureValidShortUrl()
-                                 .When(x => !string.IsNullOrWhiteSpace(x.ShortUrl));
+        RuleFor(x => x.Code!).EnsureValidCode()
+                             .When(x => !string.IsNullOrWhiteSpace(x.Code));
 
-        RuleFor(x => x.ShortUrl).NotEmpty()
-                                .When(x => x.ShortUrl is not null);
+        RuleFor(x => x.Code).NotEmpty()
+                            .When(x => x.Code is not null);
     }
 
     private static Action<string, ValidationContext<CreateUrlRequest>> EnsureValidUrl() =>

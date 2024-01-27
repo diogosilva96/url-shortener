@@ -9,7 +9,7 @@ namespace Url.Shortener.Api.Domain;
 internal static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddDomainServices(this IServiceCollection serviceCollection,
-        Action<UrlShortenerOptions> configureUrlShortenerOptions)
+        Action<CodeGeneratorOptions> configureCodeGeneratorOptions)
     {
         return serviceCollection.AddCarter()
                                 .AddMediatR(config =>
@@ -21,6 +21,6 @@ internal static class ServiceCollectionExtensions
                                 })
                                 .AddSingleton<TimeProvider>(_ => TimeProvider.System)
                                 .AddValidatorsFromAssembly(typeof(Program).Assembly, includeInternalTypes: true)
-                                .AddUrlServices(configureUrlShortenerOptions);
+                                .AddUrlServices(configureCodeGeneratorOptions);
     }
 }

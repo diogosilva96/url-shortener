@@ -17,9 +17,9 @@ public class WhenHandlingRequestAndUrlMetadataCannotBeFound
         
         var metadata = new[]
         {
-            new UrlMetadataBuilder().With(x => x.ShortUrl = "1")
+            new UrlMetadataBuilder().With(x => x.Code = "1")
                                     .Build(),
-            new UrlMetadataBuilder().With(x => x.ShortUrl = "2")
+            new UrlMetadataBuilder().With(x => x.Code = "2")
                                     .Build()
         };
         

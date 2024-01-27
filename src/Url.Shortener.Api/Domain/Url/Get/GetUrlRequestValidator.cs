@@ -6,6 +6,6 @@ internal class GetUrlRequestValidator : AbstractValidator<GetUrlRequest>
 {
     public GetUrlRequestValidator()
     {
-        RuleFor(x => x.ShortUrl).EnsureValidShortUrl();
+        RuleFor(x => x.Code).EnsureValidCode();
     }
 }

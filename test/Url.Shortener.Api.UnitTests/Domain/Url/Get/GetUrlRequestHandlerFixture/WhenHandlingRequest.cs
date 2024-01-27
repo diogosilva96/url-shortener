@@ -19,7 +19,7 @@ public class WhenHandlingRequest
 
         _request = new(fixture.Create<string>());
 
-        _expectedUrlMetadata = new UrlMetadataBuilder().With(x => x.ShortUrl = _request.ShortUrl)
+        _expectedUrlMetadata = new UrlMetadataBuilder().With(x => x.Code = _request.Code)
                                                        .Build();
 
         var metadata = new List<UrlMetadata>()
@@ -57,7 +57,7 @@ public class WhenHandlingRequest
     {
         var metadata = await WhenHandlingAsync();
 
-        Assert.True(_expectedUrlMetadata.ShortUrl == metadata.ShortUrl && 
+        Assert.True(_expectedUrlMetadata.Code == metadata.Code && 
                     _expectedUrlMetadata.FullUrl == metadata.FullUrl &&
                     _expectedUrlMetadata.CreatedAtUtc == metadata.CreatedAtUtc);
     }

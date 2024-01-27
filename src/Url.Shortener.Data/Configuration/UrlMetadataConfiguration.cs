@@ -10,18 +10,18 @@ internal class UrlMetadataConfiguration : IEntityTypeConfiguration<UrlMetadata>
     {
         builder.HasKey(x => x.Id);
 
-        builder.Property(x => x.ShortUrl)
-               .HasMaxLength(50)
+        builder.Property(x => x.Code)
+               .HasMaxLength(Constants.MaxCodeLength)
                .IsRequired();
 
         builder.Property(x => x.FullUrl)
-               .HasMaxLength(2048) // max length 2048 just to be safe in different browsers, as the length depends on the browser used.
+               .HasMaxLength(Constants.MaxFullUrlLength) // max length 2048 just to be safe in different browsers, as the length depends on the browser used
                .IsRequired();
 
         builder.Property(x => x.CreatedAtUtc)
                .IsRequired();
 
-        builder.HasIndex(x => x.ShortUrl)
+        builder.HasIndex(x => x.Code)
                .IsUnique();
     }
 }

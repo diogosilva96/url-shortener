@@ -11,7 +11,7 @@ namespace Url.Shortener.Api.IntegrationTests.Domain.Url.Redirect;
 
 public sealed class WhenRedirectingUrlAndRequestIsInvalid : IntegrationTestBase
 {
-    private readonly string _shortUrl;
+    private readonly string _code;
 
     public WhenRedirectingUrlAndRequestIsInvalid(IntegrationTestWebApplicationFactory webApplicationFactory) : base(webApplicationFactory)
     {
@@ -19,14 +19,14 @@ public sealed class WhenRedirectingUrlAndRequestIsInvalid : IntegrationTestBase
 
         var metadata = new[]
         {
-            new UrlMetadataBuilder().With(x => x.ShortUrl = fixture.Create<string>()[..15])
+            new UrlMetadataBuilder().With(x => x.Code = fixture.Create<string>()[..15])
                                     .Build(),
-            new UrlMetadataBuilder().With(x => x.ShortUrl = fixture.Create<string>()[..15])
+            new UrlMetadataBuilder().With(x => x.Code = fixture.Create<string>()[..15])
                                     .Build()
         };
 
         // long short url (invalid)
-        _shortUrl = "EpyD2QL2ecThCbgX1flUmiHXtEpyD2QL2ecThCbgX1flUmiHXtA";
+        _code = "EpyD2QL2ecThCbgX1flUmiHXtEpyD2QL2ecThCbgX1flUmiHXtA";
 
         webApplicationFactory.SeedData(context => context.UrlMetadata.AddRange(metadata));
     }
@@ -57,5 +57,5 @@ public sealed class WhenRedirectingUrlAndRequestIsInvalid : IntegrationTestBase
     }
 
     private async Task<HttpResponseMessage> WhenRedirectingAsync() =>
-        await Client.GetAsync(Urls.Api.Urls.Redirect(_shortUrl));
+        await Client.GetAsync(Urls.Api.Urls.Redirect(_code));
 }

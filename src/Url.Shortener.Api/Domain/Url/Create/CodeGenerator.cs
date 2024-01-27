@@ -4,18 +4,18 @@ using Microsoft.Extensions.Options;
 
 namespace Url.Shortener.Api.Domain.Url.Create;
 
-internal class UrlShortener : IUrlShortener
+internal class CodeGenerator : ICodeGenerator
 {
     private readonly char[] _characters;
     private readonly int _urlSize;
 
-    public UrlShortener(IOptions<UrlShortenerOptions> options)
+    public CodeGenerator(IOptions<CodeGeneratorOptions> options)
     {
         _characters = options.Value.Characters.ToCharArray();
         _urlSize = options.Value.UrlSize;
     }
 
-    public string GenerateUrl()
+    public string GenerateCode()
     {
         var sb = new StringBuilder();
         for (var i = 0; i < _urlSize; i++)

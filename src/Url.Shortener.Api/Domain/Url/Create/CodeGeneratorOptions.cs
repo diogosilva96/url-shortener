@@ -1,8 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Url.Shortener.Data.Configuration;
 
 namespace Url.Shortener.Api.Domain.Url.Create;
 
-internal class UrlShortenerOptions
+internal class CodeGeneratorOptions
 {
     private const int DefaultUrlSize = 10;
 
@@ -10,6 +11,6 @@ internal class UrlShortenerOptions
     public string Characters { get; set; } = string.Empty;
 
     [Required]
-    [Range(5, 50)]
+    [Range(5, Constants.MaxCodeLength)]
     public int UrlSize { get; set; } = DefaultUrlSize;
 }

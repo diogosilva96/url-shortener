@@ -26,7 +26,7 @@ public class WhenHandlingRequestAndUrlIsCached
         _expectedResult = fixture.Create<string>();
         _handler = Substitute.For<IRequestHandler<RedirectUrlRequest, string>>();
 
-        _memoryCache = new MemoryCacheBuilder().Setup(CacheKeys.RedirectUrl(_request.ShortUrl), _expectedResult)
+        _memoryCache = new MemoryCacheBuilder().Setup(CacheKeys.RedirectUrl(_request.Code), _expectedResult)
                                                .Build();
 
         _cachedHandler = new CachedRedirectUrlRequestHandlerBuilder().With(_handler)

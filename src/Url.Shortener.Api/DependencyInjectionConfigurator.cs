@@ -16,12 +16,12 @@ public static class DependencyInjectionConfigurator
 
         return serviceCollection.AddEndpointsApiExplorer()
                                 .AddSwaggerGen()
-                                .AddDomainServices(ConfigureUrlShortenerOptions)
+                                .AddDomainServices(ConfigureCodeGeneratorOptions)
                                 .AddExceptionServices()
                                 .AddDataServices(dbConnectionString)
                                 .AddHealthServices()
                                 .AddAuthorization();
 
-        void ConfigureUrlShortenerOptions(UrlShortenerOptions options) => configuration.GetSection(ConfigurationSectionNames.UrlShortenerOptions).Bind(options);
+        void ConfigureCodeGeneratorOptions(CodeGeneratorOptions options) => configuration.GetSection(ConfigurationSectionNames.CodeGeneratorOptions).Bind(options);
     }
 }

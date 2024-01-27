@@ -8,12 +8,12 @@ using Xunit;
 
 namespace Url.Shortener.Api.UnitTests.Domain.Url.Create.CreateUrlRequestHandlerFixture;
 
-public class WhenHandlingRequestAndShortUrlIsSpecifiedAndShortUrlIsAlreadyInUse
+public class WhenHandlingRequestAndCodeIsSpecifiedAndCodeIsAlreadyInUse
 {
     private readonly CreateUrlRequestHandler _handler;
     private readonly CreateUrlRequest _request;
 
-    public WhenHandlingRequestAndShortUrlIsSpecifiedAndShortUrlIsAlreadyInUse()
+    public WhenHandlingRequestAndCodeIsSpecifiedAndCodeIsAlreadyInUse()
     {
         var fixture = new Fixture();
 
@@ -26,9 +26,9 @@ public class WhenHandlingRequestAndShortUrlIsSpecifiedAndShortUrlIsAlreadyInUse
         var dbContext = new UrlShortenerDbContextBuilder().With(urlMetadata)
                                                           .Build();
 
-        _request = new(fixture.Create<string>(), urlMetadata[0].ShortUrl); // short url already exists in the metadata store
+        _request = new(fixture.Create<string>(), urlMetadata[0].Code); // short url already exists in the metadata store
 
-        var urlShortener = Substitute.For<IUrlShortener>();
+        var urlShortener = Substitute.For<ICodeGenerator>();
 
         _handler = new CreateUrlRequestHandlerBuilder().With(dbContext)
                                                        .With(urlShortener)
@@ -57,7 +57,7 @@ public class WhenHandlingRequestAndShortUrlIsSpecifiedAndShortUrlIsAlreadyInUse
         var exception = await Record.ExceptionAsync(WhenHandlingAsync);
 
         var validationException = (exception as ValidationException)!;
-        var expectedException = CreateUrlExceptions.ShortUrlAlreadyInUse();
+        var expectedException = CreateUrlExceptions.CodeAlreadyInUse();
         Assert.All(expectedException.Errors, expectedError =>
             Assert.Single(validationException.Errors, error => expectedError.ErrorMessage == error.ErrorMessage &&
                                                                expectedError.PropertyName == error.PropertyName));

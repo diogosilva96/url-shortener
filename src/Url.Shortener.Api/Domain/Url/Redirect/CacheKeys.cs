@@ -2,5 +2,5 @@
 
 internal class CacheKeys
 {
-    public static string RedirectUrl(string url) => $"Url-Redirect-{url}";
+    public static string RedirectUrl(string code) => $"Url-Redirect-{code}";
 }

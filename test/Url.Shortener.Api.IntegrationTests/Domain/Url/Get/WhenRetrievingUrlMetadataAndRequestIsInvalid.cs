@@ -11,16 +11,16 @@ namespace Url.Shortener.Api.IntegrationTests.Domain.Url.Get;
 
 public sealed class WhenRetrievingUrlMetadataAndRequestIsInvalid : IntegrationTestBase
 {
-    private readonly string _shortUrl;
+    private readonly string _code;
 
     public WhenRetrievingUrlMetadataAndRequestIsInvalid(IntegrationTestWebApplicationFactory webApplicationFactory) : base(webApplicationFactory)
     {
         var fixture = new Fixture();
-        var urlMetadata = new UrlMetadataBuilder().With(x => x.ShortUrl = fixture.Create<string>()[..15])
+        var urlMetadata = new UrlMetadataBuilder().With(x => x.Code = fixture.Create<string>()[..15])
                                                   .Build();
 
         // short short url (invalid)
-        _shortUrl = "abcd";
+        _code = "abcd";
 
         webApplicationFactory.SeedData(context => context.Add(urlMetadata));
     }
@@ -51,5 +51,5 @@ public sealed class WhenRetrievingUrlMetadataAndRequestIsInvalid : IntegrationTe
     }
 
     private async Task<HttpResponseMessage> WhenRedirectingAsync() =>
-        await Client.GetAsync(Urls.Api.Urls.Get(_shortUrl));
+        await Client.GetAsync(Urls.Api.Urls.Get(_code));
 }

@@ -9,15 +9,15 @@ namespace Url.Shortener.Api.IntegrationTests.Domain.Url.Get;
 
 public sealed class WhenRetrievingUrlMetadataAndUrlMetadataCannotBeFound : IntegrationTestBase
 {
-    private readonly string _shortUrl;
+    private readonly string _code;
 
     public WhenRetrievingUrlMetadataAndUrlMetadataCannotBeFound(IntegrationTestWebApplicationFactory webApplicationFactory) : base(webApplicationFactory)
     {
         var fixture = new Fixture();
-        var urlMetadata = new UrlMetadataBuilder().With(x => x.ShortUrl = fixture.Create<string>()[..15])
+        var urlMetadata = new UrlMetadataBuilder().With(x => x.Code = fixture.Create<string>()[..15])
                                                   .Build();
 
-        _shortUrl = "abcdef";
+        _code = "abcdef";
 
         webApplicationFactory.SeedData(context => context.Add(urlMetadata));
     }
@@ -39,5 +39,5 @@ public sealed class WhenRetrievingUrlMetadataAndUrlMetadataCannotBeFound : Integ
     }
 
     private async Task<HttpResponseMessage> WhenRedirectingAsync() =>
-        await Client.GetAsync(Urls.Api.Urls.Get(_shortUrl));
+        await Client.GetAsync(Urls.Api.Urls.Get(_code));
 }

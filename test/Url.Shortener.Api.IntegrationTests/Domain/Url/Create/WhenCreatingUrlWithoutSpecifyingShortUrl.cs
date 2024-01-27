@@ -8,11 +8,11 @@ using Xunit;
 
 namespace Url.Shortener.Api.IntegrationTests.Domain.Url.Create;
 
-public sealed class WhenCreatingUrlWithoutSpecifyingShortUrl : IntegrationTestBase
+public sealed class WhenCreatingUrlWithoutSpecifyingCode : IntegrationTestBase
 {
     private readonly CreateUrlRequest _request;
 
-    public WhenCreatingUrlWithoutSpecifyingShortUrl(IntegrationTestWebApplicationFactory webApplicationFactory) : base(webApplicationFactory)
+    public WhenCreatingUrlWithoutSpecifyingCode(IntegrationTestWebApplicationFactory webApplicationFactory) : base(webApplicationFactory)
     {
         var fixture = new Fixture();
 
@@ -23,9 +23,9 @@ public sealed class WhenCreatingUrlWithoutSpecifyingShortUrl : IntegrationTestBa
 
         var metadata = new[]
         {
-            new UrlMetadataBuilder().With(x => x.ShortUrl = fixture.Create<string>()[..15])
+            new UrlMetadataBuilder().With(x => x.Code = fixture.Create<string>()[..15])
                                     .Build(),
-            new UrlMetadataBuilder().With(x => x.ShortUrl = fixture.Create<string>()[..15])
+            new UrlMetadataBuilder().With(x => x.Code = fixture.Create<string>()[..15])
                                     .Build()
         };
 
@@ -49,12 +49,12 @@ public sealed class WhenCreatingUrlWithoutSpecifyingShortUrl : IntegrationTestBa
     }
 
     [Fact]
-    public async Task ThenAShortUrlIsReturned()
+    public async Task ThenACodeIsReturned()
     {
         var response = await WhenRetrievingAsync();
 
-        var shortUrl = await response.Content.ReadAsStringAsync();
-        Assert.NotEmpty(shortUrl);
+        var code = await response.Content.ReadAsStringAsync();
+        Assert.NotEmpty(code);
     }
 
     private async Task<HttpResponseMessage> WhenRetrievingAsync() =>

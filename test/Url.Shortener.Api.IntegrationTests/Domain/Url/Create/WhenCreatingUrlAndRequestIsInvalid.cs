@@ -24,9 +24,9 @@ public sealed class WhenCreatingUrlAndRequestIsInvalid : IntegrationTestBase
 
         var metadata = new[]
         {
-            new UrlMetadataBuilder().With(x => x.ShortUrl = fixture.Create<string>()[..15])
+            new UrlMetadataBuilder().With(x => x.Code = fixture.Create<string>()[..15])
                                     .Build(),
-            new UrlMetadataBuilder().With(x => x.ShortUrl = fixture.Create<string>()[..15])
+            new UrlMetadataBuilder().With(x => x.Code = fixture.Create<string>()[..15])
                                     .Build()
         };
 

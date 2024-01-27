@@ -18,14 +18,14 @@ internal class RedirectUrlRequestHandler : IRequestHandler<RedirectUrlRequest, s
     public async Task<string> Handle(RedirectUrlRequest request, CancellationToken cancellationToken = default)
     {
         var fullUrl = await _dbContext.UrlMetadata
-                                      .Where(x => x.ShortUrl == request.ShortUrl)
+                                      .Where(x => x.Code == request.Code)
                                       .Select(x => x.FullUrl)
                                       .FirstOrDefaultAsync(cancellationToken);
 
         // ReSharper disable once InvertIf
         if (string.IsNullOrWhiteSpace(fullUrl))
         {
-            _logger.LogWarning("Could not find metadata for short url '{ShortUrl}'", request.ShortUrl);
+            _logger.LogWarning("Could not find metadata for code '{Code}'", request.Code);
             throw RedirectUrlExceptions.UrlNotFound();
         }
 

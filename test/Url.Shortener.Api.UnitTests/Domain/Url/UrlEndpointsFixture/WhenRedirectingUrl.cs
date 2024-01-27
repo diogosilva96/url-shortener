@@ -13,13 +13,13 @@ public class WhenRetrievingUrl
 {
     private readonly string _expectedUrl;
     private readonly IMediator _mediator;
-    private readonly string _shortUrl;
+    private readonly string _code;
 
     public WhenRetrievingUrl()
     {
         var fixture = new Fixture();
 
-        _shortUrl = fixture.Create<string>();
+        _code = fixture.Create<string>();
         _expectedUrl = fixture.Create<string>();
 
         _mediator = Substitute.For<IMediator>();
@@ -50,7 +50,7 @@ public class WhenRetrievingUrl
         await WhenRedirectingAsync();
 
         await _mediator.Received(1)
-                       .Send(Arg.Is<RedirectUrlRequest>(x => x.ShortUrl == _shortUrl), Arg.Any<CancellationToken>());
+                       .Send(Arg.Is<RedirectUrlRequest>(x => x.Code == _code), Arg.Any<CancellationToken>());
     }
 
     [Fact]
@@ -62,7 +62,7 @@ public class WhenRetrievingUrl
     }
 
     [Fact]
-    public async Task ThenARedirectResultIsReturnedWithTheExpectedShortUrl()
+    public async Task ThenARedirectResultIsReturnedWithTheExpectedCode()
     {
         var result = await WhenRedirectingAsync();
 
@@ -70,5 +70,5 @@ public class WhenRetrievingUrl
         Assert.Equal(_expectedUrl, redirectResult.Url);
     }
 
-    private async Task<IResult> WhenRedirectingAsync() => await UrlEndpoints.RedirectUrlAsync(_shortUrl, _mediator);
+    private async Task<IResult> WhenRedirectingAsync() => await UrlEndpoints.RedirectUrlAsync(_code, _mediator);
 }

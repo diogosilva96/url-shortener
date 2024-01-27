@@ -8,25 +8,25 @@ using Xunit;
 
 namespace Url.Shortener.Api.IntegrationTests.Domain.Url.Create;
 
-public sealed class WhenCreatingUrlWhileSpecifyingShortUrl : IntegrationTestBase
+public sealed class WhenCreatingUrlWhileSpecifyingCode : IntegrationTestBase
 {
     private readonly CreateUrlRequest _request;
 
-    public WhenCreatingUrlWhileSpecifyingShortUrl(IntegrationTestWebApplicationFactory webApplicationFactory) : base(webApplicationFactory)
+    public WhenCreatingUrlWhileSpecifyingCode(IntegrationTestWebApplicationFactory webApplicationFactory) : base(webApplicationFactory)
     {
         var fixture = new Fixture();
 
         _request = new()
         {
             Url = $"https://{fixture.Create<string>()}.com/",
-            ShortUrl = fixture.Create<string>()
+            Code = fixture.Create<string>()
         };
 
         var metadata = new[]
         {
-            new UrlMetadataBuilder().With(x => x.ShortUrl = fixture.Create<string>()[..15])
+            new UrlMetadataBuilder().With(x => x.Code = fixture.Create<string>()[..15])
                                     .Build(),
-            new UrlMetadataBuilder().With(x => x.ShortUrl = fixture.Create<string>()[..15])
+            new UrlMetadataBuilder().With(x => x.Code = fixture.Create<string>()[..15])
                                     .Build()
         };
 
@@ -50,13 +50,13 @@ public sealed class WhenCreatingUrlWhileSpecifyingShortUrl : IntegrationTestBase
     }
 
     [Fact]
-    public async Task ThenTheExpectedShortUrlIsReturned()
+    public async Task ThenTheExpectedCodeIsReturned()
     {
         var response = await WhenRetrievingAsync();
 
-        var shortUrl = await response.Content.ReadAsStringAsync();
+        var code = await response.Content.ReadAsStringAsync();
 
-        Assert.Contains(_request.ShortUrl!, shortUrl);
+        Assert.Contains(_request.Code!, code);
     }
 
     private async Task<HttpResponseMessage> WhenRetrievingAsync() =>

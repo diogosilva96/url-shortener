@@ -20,7 +20,7 @@ public sealed class WhenRetrievingUrlMetadataAndRequestIsInvalid : IntegrationTe
                                                   .Build();
 
         // short short url (invalid)
-        _code = "abcd";
+        _code = "ab";
 
         webApplicationFactory.SeedData(context => context.Add(urlMetadata));
     }

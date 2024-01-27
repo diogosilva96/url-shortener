@@ -39,7 +39,7 @@ public class WhenValidatingRequest
     {
         public TestData()
         {
-            Add("abcde");                                              // 5 length string
+            Add("abc");                                              // 3 length string
             Add("tAJqPRr@ywgK5Av+nzu6c@WgB5AfxWj4Mmnt5o3UuqEqYFsARJ"); // 50 length string
         }
     }

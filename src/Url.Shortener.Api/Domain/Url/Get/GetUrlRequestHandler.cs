@@ -33,7 +33,7 @@ internal class GetUrlRequestHandler : IRequestHandler<GetUrlRequest, UrlMetadata
         if (metadata is null)
         {
             _logger.LogWarning("Could not find url metadata for code '{Code}'", request.Code);
-            throw GetUrlExceptions.UrlNotFound();
+            throw GetUrlExceptions.CodeNotFound();
         }
 
         return metadata;

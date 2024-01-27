@@ -53,7 +53,7 @@ public class WhenHandlingRequestAndUrlMetadataCannotBeFound
         var exception = await Record.ExceptionAsync(WhenHandlingAsync);
 
         var notFoundException = (exception as NotFoundException)!;
-        var expectedException = RedirectUrlExceptions.UrlNotFound();
+        var expectedException = RedirectUrlExceptions.CodeNotFound();
 
         Assert.Equal(expectedException.Message, notFoundException.Message);
     }

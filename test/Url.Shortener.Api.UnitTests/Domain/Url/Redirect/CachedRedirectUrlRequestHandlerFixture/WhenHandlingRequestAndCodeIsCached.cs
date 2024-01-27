@@ -1,6 +1,5 @@
 ﻿using AutoFixture;
 using MediatR;
-using Microsoft.Extensions.Caching.Memory;
 using NSubstitute;
 using Url.Shortener.Api.Domain.Url.Redirect;
 using Url.Shortener.Api.UnitTests.Builder;
@@ -9,15 +8,14 @@ using Xunit;
 
 namespace Url.Shortener.Api.UnitTests.Domain.Url.Redirect.CachedRedirectUrlRequestHandlerFixture;
 
-public class WhenHandlingRequestAndUrlIsCached
+public class WhenHandlingRequestAndCodeIsCached
 {
     private readonly CachedRedirectUrlRequestHandler _cachedHandler;
     private readonly string _expectedResult;
     private readonly IRequestHandler<RedirectUrlRequest, string> _handler;
-    private readonly IMemoryCache _memoryCache;
     private readonly RedirectUrlRequest _request;
 
-    public WhenHandlingRequestAndUrlIsCached()
+    public WhenHandlingRequestAndCodeIsCached()
     {
         var fixture = new Fixture();
 
@@ -26,12 +24,12 @@ public class WhenHandlingRequestAndUrlIsCached
         _expectedResult = fixture.Create<string>();
         _handler = Substitute.For<IRequestHandler<RedirectUrlRequest, string>>();
 
-        _memoryCache = new MemoryCacheBuilder().Setup(CacheKeys.RedirectUrl(_request.Code), _expectedResult)
-                                               .Build();
+        var memoryCache = new MemoryCacheBuilder().Setup(CacheKeys.RedirectUrl(_request.Code), _expectedResult)
+                                                  .Build();
 
         _cachedHandler = new CachedRedirectUrlRequestHandlerBuilder().With(_handler)
-                                                                .With(_memoryCache)
-                                                                .Build();
+                                                                     .With(memoryCache)
+                                                                     .Build();
     }
 
     [Fact]

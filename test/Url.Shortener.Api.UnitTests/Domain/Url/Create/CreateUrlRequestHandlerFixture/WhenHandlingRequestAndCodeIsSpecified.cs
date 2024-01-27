@@ -9,43 +9,24 @@ using Xunit;
 
 namespace Url.Shortener.Api.UnitTests.Domain.Url.Create.CreateUrlRequestHandlerFixture;
 
-public class WhenHandlingRequestAndGeneratedCodeIsAlreadyInUse
+public class WhenHandlingRequestAndCodeIsSpecified
 {
+    private readonly ICodeGenerator _codeGenerator;
     private readonly ApplicationDbContext _dbContext;
     private readonly DateTimeOffset _expectedDateTime;
-    private readonly int _expectedGeneratedUrlCount;
-    private readonly string _expectedUrl;
     private readonly CreateUrlRequestHandler _handler;
     private readonly CreateUrlRequest _request;
     private readonly TimeProvider _timeProvider;
-    private readonly ICodeGenerator _codeGenerator;
 
-    public WhenHandlingRequestAndGeneratedCodeIsAlreadyInUse()
+    public WhenHandlingRequestAndCodeIsSpecified()
     {
         var fixture = new Fixture();
 
-        _request = new(fixture.Create<string>());
+        _request = new(fixture.Create<string>(), fixture.Create<string>());
 
-        var urlMetadata = new[]
-        {
-            new UrlMetadataBuilder().Build(),
-            new UrlMetadataBuilder().Build()
-        };
+        _dbContext = new UrlShortenerDbContextBuilder().Build();
 
-        _dbContext = new UrlShortenerDbContextBuilder().With(urlMetadata)
-                                                       .Build();
-        _expectedUrl = fixture.Create<string>();
-
-        var generatedUrls = new[]
-        {
-            urlMetadata[0].Code,
-            urlMetadata[1].Code,
-            _expectedUrl
-        };
         _codeGenerator = Substitute.For<ICodeGenerator>();
-        _codeGenerator.GenerateCode().Returns(generatedUrls[0], generatedUrls[1..]);
-
-        _expectedGeneratedUrlCount = generatedUrls.Length;
 
         _expectedDateTime = fixture.Create<DateTimeOffset>();
         _timeProvider = Substitute.For<TimeProvider>();
@@ -75,12 +56,12 @@ public class WhenHandlingRequestAndGeneratedCodeIsAlreadyInUse
     }
 
     [Fact]
-    public async Task ThenAUrlIsGenerated()
+    public async Task ThenNoUrlIsGenerated()
     {
         await WhenHandlingAsync();
 
-        _codeGenerator.ReceivedWithAnyArgs(_expectedGeneratedUrlCount)
-                     .GenerateCode();
+        _codeGenerator.DidNotReceiveWithAnyArgs()
+                      .GenerateCode();
     }
 
     [Fact]
@@ -100,7 +81,7 @@ public class WhenHandlingRequestAndGeneratedCodeIsAlreadyInUse
 
         _dbContext.UrlMetadata
                   .Received(1)
-                  .Add(Arg.Is<UrlMetadata>(x => x.Code == _expectedUrl &&
+                  .Add(Arg.Is<UrlMetadata>(x => x.Code == _request.Code &&
                                                 x.FullUrl == _request.Url &&
                                                 x.CreatedAtUtc == _expectedDateTime));
     }
@@ -123,11 +104,11 @@ public class WhenHandlingRequestAndGeneratedCodeIsAlreadyInUse
     }
 
     [Fact]
-    public async Task ThenTheExpectedUrlIsReturned()
+    public async Task ThenTheExpectedCodeIsReturned()
     {
         var url = await WhenHandlingAsync();
 
-        Assert.Equal(_expectedUrl, url);
+        Assert.Equal(_request.Code, url);
     }
 
     private async Task<string> WhenHandlingAsync() => await _handler.Handle(_request);

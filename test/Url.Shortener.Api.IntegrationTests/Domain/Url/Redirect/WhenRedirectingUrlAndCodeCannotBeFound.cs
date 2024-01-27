@@ -7,11 +7,11 @@ using Xunit;
 
 namespace Url.Shortener.Api.IntegrationTests.Domain.Url.Redirect;
 
-public sealed class WhenRedirectingUrlAndUrlCannotBeFound : IntegrationTestBase
+public sealed class WhenRedirectingUrlAndCodeCannotBeFound : IntegrationTestBase
 {
     private readonly string _code;
 
-    public WhenRedirectingUrlAndUrlCannotBeFound(IntegrationTestWebApplicationFactory webApplicationFactory) : base(webApplicationFactory)
+    public WhenRedirectingUrlAndCodeCannotBeFound(IntegrationTestWebApplicationFactory webApplicationFactory) : base(webApplicationFactory)
     {
         var fixture = new Fixture();
 

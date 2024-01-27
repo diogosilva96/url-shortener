@@ -26,7 +26,7 @@ internal class RedirectUrlRequestHandler : IRequestHandler<RedirectUrlRequest, s
         if (string.IsNullOrWhiteSpace(fullUrl))
         {
             _logger.LogWarning("Could not find metadata for code '{Code}'", request.Code);
-            throw RedirectUrlExceptions.UrlNotFound();
+            throw RedirectUrlExceptions.CodeNotFound();
         }
 
         return fullUrl;

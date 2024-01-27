@@ -25,7 +25,7 @@ Here is the list of things to do:
 ## Adding migrations
 To add a migration to the `Url.Shortener.Data.Migrator` project do the following:
 1. Go to base path (`/`) of the project
-2. Run command ` dotnet ef migrations add <migrationName> --startup-project tools\Url.Shortener.Data.Migrator\` - make sure to replace `<migrationName>` with your actual migration name
+2. Run command `dotnet ef migrations add <migrationName> --startup-project tools\Url.Shortener.Data.Migrator\` - make sure to replace `<migrationName>` with your actual migration name
 
 ## Running the application (locally)
 1. Run `docker-compose up -d` in the base folder of the project

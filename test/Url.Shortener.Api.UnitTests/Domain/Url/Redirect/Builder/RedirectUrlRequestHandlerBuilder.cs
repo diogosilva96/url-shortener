@@ -6,7 +6,7 @@ using Url.Shortener.Data;
 
 namespace Url.Shortener.Api.UnitTests.Domain.Url.Redirect.Builder;
 
-internal class RedirectUrlRequestHandlerBuilder
+public class RedirectUrlRequestHandlerBuilder
 {
     private ApplicationDbContext _dbContext;
     private ILogger<RedirectUrlRequestHandler> _logger;

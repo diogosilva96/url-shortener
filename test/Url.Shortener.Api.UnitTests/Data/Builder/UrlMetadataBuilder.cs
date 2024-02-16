@@ -4,7 +4,7 @@ using Url.Shortener.Data.Models;
 
 namespace Url.Shortener.Api.UnitTests.Data.Builder;
 
-internal class UrlMetadataBuilder : TestBuilderBase<UrlMetadata>
+public class UrlMetadataBuilder : TestBuilderBase<UrlMetadata>
 {
     protected override UrlMetadata CreateDefault() =>
         Fixture.Build<UrlMetadata>()

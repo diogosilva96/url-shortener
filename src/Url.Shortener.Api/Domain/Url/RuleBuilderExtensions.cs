@@ -3,7 +3,7 @@ using Url.Shortener.Data.Configuration;
 
 namespace Url.Shortener.Api.Domain.Url;
 
-internal static class RuleBuilderExtensions
+public static class RuleBuilderExtensions
 {
     public static IRuleBuilderOptions<T, string> EnsureValidCode<T>(this IRuleBuilder<T, string> ruleBuilder) =>
         ruleBuilder.MinimumLength(3)

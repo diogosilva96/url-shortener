@@ -3,7 +3,7 @@ using FluentValidation.Results;
 
 namespace Url.Shortener.Api.Domain.Url.Create;
 
-internal static class CreateUrlExceptions
+public static class CreateUrlExceptions
 {
     public static ValidationException CodeAlreadyInUse() => new(new[]
     {

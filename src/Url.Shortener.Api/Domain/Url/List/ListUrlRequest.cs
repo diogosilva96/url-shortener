@@ -1,3 +1,6 @@
-﻿namespace Url.Shortener.Api.Domain.Url.List;
+﻿using MediatR;
+using Url.Shortener.Api.Contracts;
 
-internal record ListUrlRequest(int PageSize, int Page);
+namespace Url.Shortener.Api.Domain.Url.List;
+
+public record ListUrlRequest(int PageSize, int Page) : IRequest<PagedResult<UrlMetadata>>;

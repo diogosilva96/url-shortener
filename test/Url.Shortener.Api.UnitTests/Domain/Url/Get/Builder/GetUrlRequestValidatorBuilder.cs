@@ -2,7 +2,7 @@
 
 namespace Url.Shortener.Api.UnitTests.Domain.Url.Get.Builder;
 
-internal static class GetUrlRequestValidatorBuilder
+public static class GetUrlRequestValidatorBuilder
 {
     public static GetUrlRequestValidator Build() => new();
 }

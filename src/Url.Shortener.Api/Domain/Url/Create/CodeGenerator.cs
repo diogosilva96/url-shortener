@@ -4,7 +4,7 @@ using Microsoft.Extensions.Options;
 
 namespace Url.Shortener.Api.Domain.Url.Create;
 
-internal class CodeGenerator : ICodeGenerator
+public class CodeGenerator : ICodeGenerator
 {
     private readonly char[] _characters;
     private readonly int _urlSize;

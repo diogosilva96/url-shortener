@@ -4,7 +4,7 @@ using Url.Shortener.Data;
 
 namespace Url.Shortener.Api.Domain.Url.Redirect;
 
-internal class RedirectUrlRequestHandler : IRequestHandler<RedirectUrlRequest, string>
+public class RedirectUrlRequestHandler : IRequestHandler<RedirectUrlRequest, string>
 {
     private readonly ApplicationDbContext _dbContext;
     private readonly ILogger<RedirectUrlRequestHandler> _logger;

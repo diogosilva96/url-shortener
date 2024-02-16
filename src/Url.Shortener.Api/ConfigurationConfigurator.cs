@@ -1,6 +1,6 @@
 ﻿namespace Url.Shortener.Api;
 
-internal static class WebApplicationBuilderExtensions
+public static class WebApplicationBuilderExtensions
 {
     public static ConfigurationManager Configure(this ConfigurationManager configurationManager, IHostEnvironment environment)
     {

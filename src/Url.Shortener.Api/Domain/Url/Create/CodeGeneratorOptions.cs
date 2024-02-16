@@ -3,7 +3,7 @@ using Url.Shortener.Data.Configuration;
 
 namespace Url.Shortener.Api.Domain.Url.Create;
 
-internal class CodeGeneratorOptions
+public class CodeGeneratorOptions
 {
     private const int DefaultUrlSize = 10;
 

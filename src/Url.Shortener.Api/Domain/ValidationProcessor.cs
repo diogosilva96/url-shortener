@@ -3,7 +3,7 @@ using MediatR.Pipeline;
 
 namespace Url.Shortener.Api.Domain;
 
-internal class ValidationProcessor<TRequest> : IRequestPreProcessor<TRequest> where TRequest : IValidatableRequestBase
+public class ValidationProcessor<TRequest> : IRequestPreProcessor<TRequest> where TRequest : IValidatableRequestBase
 {
     private readonly IValidator<TRequest> _validator;
     private readonly ILogger<ValidationProcessor<TRequest>> _logger;

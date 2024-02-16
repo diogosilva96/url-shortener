@@ -3,7 +3,7 @@ using Microsoft.Extensions.Caching.Memory;
 
 namespace Url.Shortener.Api.Domain.Url.Redirect;
 
-internal class CachedRedirectUrlRequestHandler : IRequestHandler<RedirectUrlRequest, string>
+public class CachedRedirectUrlRequestHandler : IRequestHandler<RedirectUrlRequest, string>
 {
     private static readonly TimeSpan _relativeExpirationTimespan = TimeSpan.FromMinutes(5);
     private readonly IRequestHandler<RedirectUrlRequest, string> _handler;

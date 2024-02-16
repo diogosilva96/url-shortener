@@ -2,12 +2,12 @@
 
 namespace Url.Shortener.Api.Domain;
 
-internal interface IValidatableRequest : IRequest, IValidatableRequestBase
+public interface IValidatableRequest : IRequest, IValidatableRequestBase
 { }
 
-internal interface IValidatableRequest<out TResponse> : IRequest<TResponse>, IValidatableRequestBase
+public interface IValidatableRequest<out TResponse> : IRequest<TResponse>, IValidatableRequestBase
 { }
 
 // marker interface for validation
-internal interface IValidatableRequestBase : IBaseRequest
+public interface IValidatableRequestBase : IBaseRequest
 { }

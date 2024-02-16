@@ -2,7 +2,7 @@
 
 namespace Url.Shortener.Api.UnitTests.Domain.Url.List.Builder;
 
-internal static class ListUrlRequestValidatorBuilder
+public static class ListUrlRequestValidatorBuilder
 {
     public static ListUrlRequestValidator Build() => new();
 }

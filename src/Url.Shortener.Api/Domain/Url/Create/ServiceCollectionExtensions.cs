@@ -1,6 +1,6 @@
 ﻿namespace Url.Shortener.Api.Domain.Url.Create;
 
-internal static class ServiceCollectionExtensions
+public static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddCreateUrlServices(this IServiceCollection serviceCollection,
         Action<CodeGeneratorOptions> configureCodeGeneratorOptions) =>

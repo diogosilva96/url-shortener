@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Diagnostics;
 
 namespace Url.Shortener.Api.Exceptions;
 
-internal class DomainExceptionHandler : IExceptionHandler
+public class DomainExceptionHandler : IExceptionHandler
 {
     private const int BadRequestStatusCode = StatusCodes.Status400BadRequest;
     private const int NotFoundStatusCode = StatusCodes.Status404NotFound;

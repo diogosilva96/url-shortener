@@ -6,7 +6,7 @@ using Url.Shortener.Api.Domain.Url.Create;
 
 namespace Url.Shortener.Api.Domain;
 
-internal static class ServiceCollectionExtensions
+public static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddDomainServices(this IServiceCollection serviceCollection,
         Action<CodeGeneratorOptions> configureCodeGeneratorOptions)

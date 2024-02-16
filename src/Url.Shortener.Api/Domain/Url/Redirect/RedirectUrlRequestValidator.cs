@@ -2,7 +2,7 @@
 
 namespace Url.Shortener.Api.Domain.Url.Redirect;
 
-internal class RedirectUrlRequestValidator : AbstractValidator<RedirectUrlRequest>
+public class RedirectUrlRequestValidator : AbstractValidator<RedirectUrlRequest>
 {
     public RedirectUrlRequestValidator()
     {

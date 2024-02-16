@@ -5,7 +5,7 @@ using Url.Shortener.Data.Models;
 
 namespace Url.Shortener.Api.Domain.Url.Create;
 
-internal class CreateUrlRequestHandler : IRequestHandler<CreateUrlRequest, string>
+public class CreateUrlRequestHandler : IRequestHandler<CreateUrlRequest, string>
 {
     private readonly ICodeGenerator _codeGenerator;
     private readonly ApplicationDbContext _dbContext;
@@ -62,7 +62,7 @@ internal class CreateUrlRequestHandler : IRequestHandler<CreateUrlRequest, strin
         var isValidUrl = false;
 
         // TODO: this loop can be optimized, we have a few options:
-        // - We could simply fail fast by returning internal server error (500) if the url cannot be generated, so that the api consumers can retry at a later time
+        // - We could simply fail fast by returning public server error (500) if the url cannot be generated, so that the api consumers can retry at a later time
         // - We could simply insert into db and check for unique constraint exception.
         // - We could generate a bunch of codes and then checks which one does not exist in the db (with a single network call)
         var retryCount = 0;

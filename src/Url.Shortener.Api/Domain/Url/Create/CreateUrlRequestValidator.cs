@@ -2,7 +2,7 @@
 
 namespace Url.Shortener.Api.Domain.Url.Create;
 
-internal class CreateUrlRequestValidator : AbstractValidator<CreateUrlRequest>
+public class CreateUrlRequestValidator : AbstractValidator<CreateUrlRequest>
 {
     public CreateUrlRequestValidator()
     {

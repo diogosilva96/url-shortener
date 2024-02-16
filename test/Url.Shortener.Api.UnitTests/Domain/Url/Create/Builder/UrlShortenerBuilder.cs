@@ -5,7 +5,7 @@ using Url.Shortener.Api.Tests.Common.Domain.Url.Builder;
 
 namespace Url.Shortener.Api.UnitTests.Domain.Url.Create.Builder;
 
-internal class UrlShortenerBuilder
+public class UrlShortenerBuilder
 {
     private readonly IOptions<CodeGeneratorOptions> _options;
 

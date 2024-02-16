@@ -6,7 +6,7 @@ using Url.Shortener.Data.Models;
 
 namespace Url.Shortener.Api.UnitTests.Data.Builder;
 
-internal class UrlShortenerDbContextBuilder
+public class UrlShortenerDbContextBuilder
 {
     private IEnumerable<UrlMetadata> _urlMetadata = BuildDbSet(Array.Empty<UrlMetadata>());
 

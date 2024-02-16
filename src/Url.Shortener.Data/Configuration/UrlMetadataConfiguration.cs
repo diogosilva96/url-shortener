@@ -4,7 +4,7 @@ using Url.Shortener.Data.Models;
 
 namespace Url.Shortener.Data.Configuration;
 
-internal class UrlMetadataConfiguration : IEntityTypeConfiguration<UrlMetadata>
+public class UrlMetadataConfiguration : IEntityTypeConfiguration<UrlMetadata>
 {
     public void Configure(EntityTypeBuilder<UrlMetadata> builder)
     {

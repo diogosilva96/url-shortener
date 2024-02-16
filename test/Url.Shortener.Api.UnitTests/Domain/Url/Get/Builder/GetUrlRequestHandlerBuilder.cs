@@ -6,7 +6,7 @@ using Url.Shortener.Data;
 
 namespace Url.Shortener.Api.UnitTests.Domain.Url.Get.Builder;
 
-internal class GetUrlRequestHandlerBuilder
+public class GetUrlRequestHandlerBuilder
 {
     private ApplicationDbContext _dbContext;
     private ILogger<GetUrlRequestHandler> _logger;

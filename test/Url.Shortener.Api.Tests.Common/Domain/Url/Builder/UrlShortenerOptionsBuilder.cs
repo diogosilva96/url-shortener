@@ -4,7 +4,7 @@ using Url.Shortener.Api.Tests.Common.Builder;
 
 namespace Url.Shortener.Api.Tests.Common.Domain.Url.Builder;
 
-internal class UrlShortenerOptionsBuilder : TestBuilderBase<CodeGeneratorOptions>
+public class UrlShortenerOptionsBuilder : TestBuilderBase<CodeGeneratorOptions>
 {
     protected override CodeGeneratorOptions CreateDefault()
     {

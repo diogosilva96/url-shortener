@@ -2,7 +2,7 @@
 
 namespace Url.Shortener.Api.Domain.Url.List;
 
-internal class ListUrlRequestValidator : AbstractValidator<ListUrlRequest>
+public class ListUrlRequestValidator : AbstractValidator<ListUrlRequest>
 {
     public ListUrlRequestValidator()
     {

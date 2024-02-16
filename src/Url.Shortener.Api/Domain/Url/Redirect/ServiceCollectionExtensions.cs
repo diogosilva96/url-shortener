@@ -3,7 +3,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Url.Shortener.Api.Domain.Url.Redirect;
 
-internal static class ServiceCollectionExtensions
+public static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddRedirectUrlServices(this IServiceCollection serviceCollection) =>
         serviceCollection.AddMemoryCache()

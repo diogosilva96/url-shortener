@@ -5,7 +5,7 @@ using Url.Shortener.Data;
 
 namespace Url.Shortener.Api.Domain.Url.Get;
 
-internal class GetUrlRequestHandler : IRequestHandler<GetUrlRequest, UrlMetadata>
+public class GetUrlRequestHandler : IRequestHandler<GetUrlRequest, UrlMetadata>
 {
     private readonly ApplicationDbContext _dbContext;
     private readonly ILogger<GetUrlRequestHandler> _logger;

@@ -2,7 +2,7 @@
 
 namespace Url.Shortener.Api.Health;
 
-internal static class ServiceCollectionExtensions
+public static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddHealthServices(this IServiceCollection serviceCollection) =>
         serviceCollection.AddHealthChecks()

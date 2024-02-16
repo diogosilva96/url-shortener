@@ -14,34 +14,31 @@ public class WhenValidatingRequest
 
     [Theory]
     [ClassData(typeof(TestData))]
-    public async Task ThenNoExceptionIsThrown(int pageSize, int page)
+    public async Task ThenNoExceptionIsThrown(ListUrlRequest request)
     {
-        var exception = await Record.ExceptionAsync(() => WhenValidatingAsync(pageSize, page));
+        var exception = await Record.ExceptionAsync(() => WhenValidatingAsync(request));
 
         Assert.Null(exception);
     }
 
     [Theory]
     [ClassData(typeof(TestData))]
-    public async Task ThenTheValidationSucceeds(int pageSize, int page)
+    public async Task ThenTheValidationSucceeds(ListUrlRequest request)
     {
-        var validationResult = await WhenValidatingAsync(pageSize, page);
+        var validationResult = await WhenValidatingAsync(request);
 
         Assert.True(validationResult.IsValid);
     }
 
-    private async Task<ValidationResult> WhenValidatingAsync(int pageSize, int page)
-    {
-        var request = new ListUrlRequest(pageSize, page);
-        return await _validator.ValidateAsync(request);
-    }
+    private async Task<ValidationResult> WhenValidatingAsync(ListUrlRequest request) => await _validator.ValidateAsync(request);
 
-    private class TestData : TheoryData<int, int>
+
+    private class TestData : TheoryData<ListUrlRequest>
     {
         public TestData()
         {
-            Add(1, 1);
-            Add(200, 1000);
+            Add(new(1, 1));
+            Add(new(200, 1000));
         }
     }
 }

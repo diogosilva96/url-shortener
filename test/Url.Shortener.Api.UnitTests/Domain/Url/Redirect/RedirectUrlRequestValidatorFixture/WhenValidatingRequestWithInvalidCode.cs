@@ -13,46 +13,42 @@ public class WhenValidatingRequestWithInvalidCode
 
     [Theory]
     [ClassData(typeof(TestData))]
-    public async Task ThenNoExceptionIsThrown(string? code)
+    public async Task ThenNoExceptionIsThrown(RedirectUrlRequest request)
     {
-        var exception = await Record.ExceptionAsync(() => WhenValidatingAsync(code));
+        var exception = await Record.ExceptionAsync(() => WhenValidatingAsync(request));
 
         Assert.Null(exception);
     }
 
     [Theory]
     [ClassData(typeof(TestData))]
-    public async Task ThenTheValidationFails(string? code)
+    public async Task ThenTheValidationFails(RedirectUrlRequest request)
     {
-        var validationResult = await WhenValidatingAsync(code);
+        var validationResult = await WhenValidatingAsync(request);
 
         Assert.False(validationResult.IsValid);
     }
 
     [Theory]
     [ClassData(typeof(TestData))]
-    public async Task ThenTheValidationFailsForTheCode(string? code)
+    public async Task ThenTheValidationFailsForTheCode(RedirectUrlRequest request)
     {
-        var validationResult = await WhenValidatingAsync(code);
+        var validationResult = await WhenValidatingAsync(request);
 
         Assert.Contains(validationResult.Errors, e => e.PropertyName == nameof(RedirectUrlRequest.Code));
     }
 
-    private async Task<ValidationResult> WhenValidatingAsync(string? code)
-    {
-        var request = new RedirectUrlRequest(code!);
+    private async Task<ValidationResult> WhenValidatingAsync(RedirectUrlRequest request) => await _validator.ValidateAsync(request);
 
-        return await _validator.ValidateAsync(request);
-    }
-
-    private class TestData : TheoryData<string?>
+    private class TestData : TheoryData<RedirectUrlRequest>
     {
         public TestData()
         {
-            Add(string.Empty);
-            Add(default!);
-            Add("  ");
-            Add("EpyD2QL2ecThCbgX1flUmiHXtEpyD2QL2ecThCbgX1flUmiHXtA"); // more than 50 characters long
+            var request = new RedirectUrlRequest(string.Empty);
+            Add(request with { Code = string.Empty });
+            Add(request with { Code = default! });
+            Add(request with { Code = "  " });
+            Add(request with { Code = "EpyD2QL2ecThCbgX1flUmiHXtEpyD2QL2ecThCbgX1flUmiHXtA" }); // more than 50 characters long
         }
     }
 }

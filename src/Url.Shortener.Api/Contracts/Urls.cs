@@ -13,13 +13,18 @@ public static class Urls
 
         public static class Urls
         {
-            private const string BasePath = $"{Api.BasePath}/urls";
+            public const string BasePath = $"{Api.BasePath}/urls";
 
             public const string Create = BasePath;
-            
+
             public static string Get(string code) => $"{BasePath}/{code}";
 
             public static string Redirect(string code) => $"{code}";
         }
+    }
+
+    public static class Health
+    {
+        public const string BasePath = "health";
     }
 }

@@ -11,7 +11,7 @@ public class UrlEndpoints : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        var apiUrlGroup = app.MapGroup("api/urls")
+        var apiUrlGroup = app.MapGroup(Urls.Api.Urls.BasePath)
                              .WithOpenApi();
 
         apiUrlGroup.MapGet("{code}", GetUrlAsync)

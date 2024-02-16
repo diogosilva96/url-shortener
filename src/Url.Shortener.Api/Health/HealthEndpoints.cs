@@ -19,9 +19,7 @@ public class HealthEndpoints : ICarterModule
     {
         // TODO: add host filtering? e.g., .RequireHost("*:5001")
         var group = app.MapGroup(Urls.Health.BasePath);
-
-        group.MapHealthChecks(string.Empty, CreateHealthCheckOptions());
-
+        
         group.MapHealthChecks("live", CreateHealthCheckOptions(check => check.Tags.Contains(HealthTags.Live)));
 
         group.MapHealthChecks("ready", CreateHealthCheckOptions(check => check.Tags.Contains(HealthTags.Ready)));

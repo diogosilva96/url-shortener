@@ -13,20 +13,21 @@ public class ListUrlRequestHandler : IRequestHandler<ListUrlRequest, PagedResult
 
     public async Task<PagedResult<UrlMetadata>> Handle(ListUrlRequest request, CancellationToken cancellationToken)
     {
-        var queryable = _dbContext.UrlMetadata;
+        var queryable = _dbContext.UrlMetadata.OrderByDescending(x => x.CreatedAtUtc);
         var totalCount = await queryable.CountAsync(cancellationToken);
-        if (totalCount == 0)
+        var pageCount = (int)Math.Ceiling((double)totalCount / request.PageSize);
+        var itemsToSkip = (request.Page - 1) * request.PageSize;
+        if (totalCount == 0 || itemsToSkip >= totalCount)
         {
             return new()
             {
                 Data = Enumerable.Empty<UrlMetadata>(),
                 Page = request.Page,
                 PageSize = request.PageSize,
-                PageCount = totalCount
+                PageCount = pageCount
             };
         }
-
-        var itemsToSkip = request.PageSize - 1 * request.Page;
+        
         var items = await queryable.Skip(itemsToSkip)
                                    .Take(request.PageSize)
                                    .MapToUrlMetadataContract()
@@ -37,7 +38,7 @@ public class ListUrlRequestHandler : IRequestHandler<ListUrlRequest, PagedResult
             Data = items,
             Page = request.Page,
             PageSize = request.PageSize,
-            PageCount = totalCount
+            PageCount = pageCount
         };
     }
 }

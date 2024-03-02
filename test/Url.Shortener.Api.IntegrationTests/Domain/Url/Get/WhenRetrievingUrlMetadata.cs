@@ -26,7 +26,7 @@ public sealed class WhenRetrievingUrlMetadata : IntegrationTestBase
     [Fact]
     public async Task ThenNoExceptionIsThrown()
     {
-        var exception = await Record.ExceptionAsync(WhenRedirectingAsync);
+        var exception = await Record.ExceptionAsync(WhenRetrievingAsync);
 
         Assert.Null(exception);
     }
@@ -34,7 +34,7 @@ public sealed class WhenRetrievingUrlMetadata : IntegrationTestBase
     [Fact]
     public async Task ThenAnOkResponseIsReturned()
     {
-        var response = await WhenRedirectingAsync();
+        var response = await WhenRetrievingAsync();
 
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
     }
@@ -42,7 +42,7 @@ public sealed class WhenRetrievingUrlMetadata : IntegrationTestBase
     [Fact]
     public async Task ThenTheExpectedUrlMetadataIsRetrieved()
     {
-        var response = await WhenRedirectingAsync();
+        var response = await WhenRetrievingAsync();
 
         var urlMetadata = await response.Content.ReadFromJsonAsync<UrlMetadata>();
 
@@ -53,6 +53,6 @@ public sealed class WhenRetrievingUrlMetadata : IntegrationTestBase
         );
     }
 
-    private async Task<HttpResponseMessage> WhenRedirectingAsync() =>
+    private async Task<HttpResponseMessage> WhenRetrievingAsync() =>
         await Client.GetAsync(Urls.Api.Urls.Get(_code));
 }

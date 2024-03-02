@@ -25,7 +25,7 @@ public sealed class WhenRetrievingUrlMetadataAndUrlMetadataCannotBeFound : Integ
     [Fact]
     public async Task ThenNoExceptionIsThrown()
     {
-        var exception = await Record.ExceptionAsync(WhenRedirectingAsync);
+        var exception = await Record.ExceptionAsync(WhenRetrievingAsync);
 
         Assert.Null(exception);
     }
@@ -33,11 +33,11 @@ public sealed class WhenRetrievingUrlMetadataAndUrlMetadataCannotBeFound : Integ
     [Fact]
     public async Task ThenANotFoundResponseIsReturned()
     {
-        var response = await WhenRedirectingAsync();
+        var response = await WhenRetrievingAsync();
 
         Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
     }
 
-    private async Task<HttpResponseMessage> WhenRedirectingAsync() =>
+    private async Task<HttpResponseMessage> WhenRetrievingAsync() =>
         await Client.GetAsync(Urls.Api.Urls.Get(_code));
 }

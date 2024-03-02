@@ -1,4 +1,4 @@
-﻿namespace Url.Shortener.Api.Endpoint;
+﻿namespace Url.Shortener.Api.Endpoints;
 
 public interface IEndpoint
 {

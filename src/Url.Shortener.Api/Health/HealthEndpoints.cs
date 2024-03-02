@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Url.Shortener.Api.Contracts;
-using Url.Shortener.Api.Endpoint;
+using Url.Shortener.Api.Endpoints;
 
 namespace Url.Shortener.Api.Health;
 

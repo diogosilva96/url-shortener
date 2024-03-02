@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Url.Shortener.Api.Contracts;
 using Url.Shortener.Api.Domain.Url.Get;
 using Url.Shortener.Api.Domain.Url.Redirect;
-using Url.Shortener.Api.Endpoint;
+using Url.Shortener.Api.Endpoints;
 using ListUrlRequest = Url.Shortener.Api.Domain.Url.List.ListUrlRequest;
 
 namespace Url.Shortener.Api.Domain.Url;

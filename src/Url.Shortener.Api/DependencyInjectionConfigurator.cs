@@ -1,7 +1,7 @@
 ﻿using Url.Shortener.Api.Data;
 using Url.Shortener.Api.Domain;
 using Url.Shortener.Api.Domain.Url.Create;
-using Url.Shortener.Api.Endpoint;
+using Url.Shortener.Api.Endpoints;
 using Url.Shortener.Api.Exceptions;
 using Url.Shortener.Api.Health;
 

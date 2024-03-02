@@ -1,5 +1,5 @@
 ﻿using Serilog;
-using Url.Shortener.Api.Endpoint;
+using Url.Shortener.Api.Endpoints;
 
 namespace Url.Shortener.Api;
 

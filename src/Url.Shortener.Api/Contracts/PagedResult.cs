@@ -2,7 +2,7 @@
 
 public class PagedResult<T>
 {
-    public required T Data { get; init; }
+    public required IEnumerable<T> Data { get; init; }
     
     public required int Page { get; init; }
     

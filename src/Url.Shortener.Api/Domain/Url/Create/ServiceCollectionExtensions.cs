@@ -1,16 +1,16 @@
 ﻿namespace Url.Shortener.Api.Domain.Url.Create;
 
-internal static class ServiceCollectionExtensions
+public static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddCreateUrlServices(this IServiceCollection serviceCollection,
-        Action<UrlShortenerOptions> configureUrlShortenerOptions) =>
-        serviceCollection.AddUrlShortenerOptions(configureUrlShortenerOptions)
-                         .AddSingleton<IUrlShortener, UrlShortener>();
+        Action<CodeGeneratorOptions> configureCodeGeneratorOptions) =>
+        serviceCollection.AddUrlShortenerOptions(configureCodeGeneratorOptions)
+                         .AddSingleton<ICodeGenerator, CodeGenerator>();
 
     private static IServiceCollection AddUrlShortenerOptions(this IServiceCollection serviceCollection,
-        Action<UrlShortenerOptions> configureUrlShortenerOptions) =>
-        serviceCollection.AddOptions<UrlShortenerOptions>()
-                         .Configure(configureUrlShortenerOptions)
+        Action<CodeGeneratorOptions> configureCodeGeneratorOptions) =>
+        serviceCollection.AddOptions<CodeGeneratorOptions>()
+                         .Configure(configureCodeGeneratorOptions)
                          .ValidateDataAnnotations()
                          .ValidateOnStart()
                          .Services;

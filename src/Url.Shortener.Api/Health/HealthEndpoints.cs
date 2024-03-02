@@ -1,9 +1,12 @@
-﻿using Carter;
+﻿using HealthChecks.UI.Client;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
+using Url.Shortener.Api.Contracts;
+using Url.Shortener.Api.Endpoints;
 
 namespace Url.Shortener.Api.Health;
 
-public class HealthEndpoints : ICarterModule
+public class HealthEndpoints : IEndpoint
 {
     private static readonly IDictionary<HealthStatus, int> _healthStatusCodeMapper = new Dictionary<HealthStatus, int>
     {
@@ -14,19 +17,19 @@ public class HealthEndpoints : ICarterModule
 
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        var group = app.MapGroup("health");
-
         // TODO: add host filtering? e.g., .RequireHost("*:5001")
-        group.MapHealthChecks("live", new()
-        {
-            ResultStatusCodes = _healthStatusCodeMapper,
-            Predicate = check => check.Tags.Contains(HealthTags.Live)
-        });
+        var group = app.MapGroup(Urls.Health.BasePath);
 
-        group.MapHealthChecks("ready", new()
+        group.MapHealthChecks("live", CreateHealthCheckOptions(check => check.Tags.Contains(HealthTags.Live)));
+
+        group.MapHealthChecks("ready", CreateHealthCheckOptions(check => check.Tags.Contains(HealthTags.Ready)));
+    }
+
+    private static HealthCheckOptions CreateHealthCheckOptions(Func<HealthCheckRegistration, bool>? healthCheckPredicate = default) =>
+        new()
         {
             ResultStatusCodes = _healthStatusCodeMapper,
-            Predicate = check => check.Tags.Contains(HealthTags.Ready)
-        });
-    }
+            ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse,
+            Predicate = healthCheckPredicate
+        };
 }

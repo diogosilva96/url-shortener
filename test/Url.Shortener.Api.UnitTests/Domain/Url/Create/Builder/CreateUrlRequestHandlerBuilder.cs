@@ -6,22 +6,22 @@ using Url.Shortener.Data;
 
 namespace Url.Shortener.Api.UnitTests.Domain.Url.Create.Builder;
 
-internal class CreateUrlRequestHandlerBuilder
+public class CreateUrlRequestHandlerBuilder
 {
+    private ICodeGenerator _codeGenerator;
     private ApplicationDbContext _dbContext;
     private ILogger<CreateUrlRequestHandler> _logger;
     private TimeProvider _timeProvider;
-    private IUrlShortener _urlShortener;
 
     public CreateUrlRequestHandlerBuilder()
     {
         _dbContext = new UrlShortenerDbContextBuilder().Build();
-        _urlShortener = Substitute.For<IUrlShortener>();
+        _codeGenerator = Substitute.For<ICodeGenerator>();
         _timeProvider = Substitute.For<TimeProvider>();
         _logger = Substitute.For<ILogger<CreateUrlRequestHandler>>();
     }
 
-    public CreateUrlRequestHandler Build() => new(_dbContext, _urlShortener, _timeProvider, _logger);
+    public CreateUrlRequestHandler Build() => new(_dbContext, _codeGenerator, _timeProvider, _logger);
 
     public CreateUrlRequestHandlerBuilder With(ApplicationDbContext dbContext)
     {
@@ -30,9 +30,9 @@ internal class CreateUrlRequestHandlerBuilder
         return this;
     }
 
-    public CreateUrlRequestHandlerBuilder With(IUrlShortener urlShortener)
+    public CreateUrlRequestHandlerBuilder With(ICodeGenerator codeGenerator)
     {
-        _urlShortener = urlShortener;
+        _codeGenerator = codeGenerator;
 
         return this;
     }

@@ -26,7 +26,7 @@ public class WhenHandlingRequest
                 .Returns(_expectedResult);
 
         _cachedHandler = new CachedRedirectUrlRequestHandlerBuilder().With(_handler)
-                                                                .Build();
+                                                                     .Build();
     }
 
     [Fact]

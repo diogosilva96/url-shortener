@@ -11,13 +11,13 @@ namespace Url.Shortener.Api.UnitTests.Domain.Url.Create.CreateUrlRequestHandlerF
 
 public class WhenHandlingRequest
 {
+    private readonly ICodeGenerator _codeGenerator;
     private readonly ApplicationDbContext _dbContext;
+    private readonly string _expectedCode;
     private readonly DateTimeOffset _expectedDateTime;
-    private readonly string _expectedShortUrl;
     private readonly CreateUrlRequestHandler _handler;
     private readonly CreateUrlRequest _request;
     private readonly TimeProvider _timeProvider;
-    private readonly IUrlShortener _urlShortener;
 
     public WhenHandlingRequest()
     {
@@ -27,16 +27,16 @@ public class WhenHandlingRequest
 
         _dbContext = new UrlShortenerDbContextBuilder().Build();
 
-        _expectedShortUrl = fixture.Create<string>();
-        _urlShortener = Substitute.For<IUrlShortener>();
-        _urlShortener.GenerateUrl().Returns(_expectedShortUrl);
+        _expectedCode = fixture.Create<string>();
+        _codeGenerator = Substitute.For<ICodeGenerator>();
+        _codeGenerator.GenerateCode().Returns(_expectedCode);
 
         _expectedDateTime = fixture.Create<DateTimeOffset>();
         _timeProvider = Substitute.For<TimeProvider>();
         _timeProvider.GetUtcNow().Returns(_expectedDateTime);
 
         _handler = new CreateUrlRequestHandlerBuilder().With(_dbContext)
-                                                       .With(_urlShortener)
+                                                       .With(_codeGenerator)
                                                        .With(_timeProvider)
                                                        .Build();
     }
@@ -63,8 +63,8 @@ public class WhenHandlingRequest
     {
         await WhenHandlingAsync();
 
-        _urlShortener.ReceivedWithAnyArgs(1)
-                     .GenerateUrl();
+        _codeGenerator.ReceivedWithAnyArgs(1)
+                      .GenerateCode();
     }
 
     [Fact]
@@ -84,7 +84,7 @@ public class WhenHandlingRequest
 
         _dbContext.UrlMetadata
                   .Received(1)
-                  .Add(Arg.Is<UrlMetadata>(x => x.ShortUrl == _expectedShortUrl &&
+                  .Add(Arg.Is<UrlMetadata>(x => x.Code == _expectedCode &&
                                                 x.FullUrl == _request.Url &&
                                                 x.CreatedAtUtc == _expectedDateTime));
     }
@@ -107,11 +107,11 @@ public class WhenHandlingRequest
     }
 
     [Fact]
-    public async Task ThenTheExpectedShortUrlIsReturned()
+    public async Task ThenTheExpectedCodeIsReturned()
     {
         var url = await WhenHandlingAsync();
 
-        Assert.Equal(_expectedShortUrl, url);
+        Assert.Equal(_expectedCode, url);
     }
 
     private async Task<string> WhenHandlingAsync() => await _handler.Handle(_request);

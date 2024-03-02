@@ -3,7 +3,6 @@ using FluentValidation.Results;
 using Url.Shortener.Api.Domain.Url.Create;
 using Url.Shortener.Api.UnitTests.Domain.Url.Create.Builder;
 using Xunit;
-using CreateUrlRequest = Url.Shortener.Api.Contracts.CreateUrlRequest;
 
 namespace Url.Shortener.Api.UnitTests.Domain.Url.Create.CreateUrlRequestValidatorFixture;
 
@@ -15,49 +14,46 @@ public class WhenValidatingRequestWithInvalidUrl
 
     [Theory]
     [ClassData(typeof(TestData))]
-    public async Task ThenNoExceptionIsThrown(string? url)
+    public async Task ThenNoExceptionIsThrown(CreateUrlRequest request)
     {
-        var exception = await Record.ExceptionAsync(() => WhenValidatingAsync(url));
+        var exception = await Record.ExceptionAsync(() => WhenValidatingAsync(request));
 
         Assert.Null(exception);
     }
 
     [Theory]
     [ClassData(typeof(TestData))]
-    public async Task ThenTheValidationFails(string? url)
+    public async Task ThenTheValidationFails(CreateUrlRequest request)
     {
-        var validationResult = await WhenValidatingAsync(url);
+        var validationResult = await WhenValidatingAsync(request);
 
         Assert.False(validationResult.IsValid);
     }
 
     [Theory]
     [ClassData(typeof(TestData))]
-    public async Task ThenTheValidationFailsForTheUrl(string? url)
+    public async Task ThenTheValidationFailsForTheUrl(CreateUrlRequest request)
     {
-        var validationResult = await WhenValidatingAsync(url);
+        var validationResult = await WhenValidatingAsync(request);
 
         Assert.Contains(validationResult.Errors, e => e.PropertyName == nameof(CreateUrlRequest.Url));
     }
 
-    private async Task<ValidationResult> WhenValidatingAsync(string? url)
-    {
-        var request = new Api.Domain.Url.Create.CreateUrlRequest(url!);
+    private async Task<ValidationResult> WhenValidatingAsync(CreateUrlRequest request) => await _validator.ValidateAsync(request);
 
-        return await _validator.ValidateAsync(request);
-    }
 
-    private class TestData : TheoryData<string?>
+    private class TestData : TheoryData<CreateUrlRequest>
     {
         public TestData()
         {
             var fixture = new Fixture();
-            Add(string.Empty);
-            Add(default!);
-            Add("  ");
-            Add(fixture.Create<string>());
-            Add($"http://{fixture.Create<string>()}.com");
-            Add($"https://{fixture.Create<string>()}");
+            var request = new CreateUrlRequest(string.Empty);
+            Add(request with { Url = string.Empty });
+            Add(request with { Url = default! });
+            Add(request with { Url = "  " });
+            Add(request with { Url = fixture.Create<string>() });
+            Add(request with { Url = $"http://{fixture.Create<string>()}.com" });
+            Add(request with { Url = $"https://{fixture.Create<string>()}" });
         }
     }
 }

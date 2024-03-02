@@ -2,5 +2,5 @@
 
 public static class ConfigurationSectionNames
 {
-    public const string UrlShortenerOptions = "UrlShortenerOptions";
+    public const string CodeGeneratorOptions = "CodeGeneratorOptions";
 }

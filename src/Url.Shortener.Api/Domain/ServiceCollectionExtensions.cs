@@ -1,18 +1,16 @@
-﻿using Carter;
-using FluentValidation;
+﻿using FluentValidation;
 using MediatR.Pipeline;
 using Url.Shortener.Api.Domain.Url;
 using Url.Shortener.Api.Domain.Url.Create;
 
 namespace Url.Shortener.Api.Domain;
 
-internal static class ServiceCollectionExtensions
+public static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddDomainServices(this IServiceCollection serviceCollection,
-        Action<UrlShortenerOptions> configureUrlShortenerOptions)
+        Action<CodeGeneratorOptions> configureCodeGeneratorOptions)
     {
-        return serviceCollection.AddCarter()
-                                .AddMediatR(config =>
+        return serviceCollection.AddMediatR(config =>
                                 {
                                     config.Lifetime = ServiceLifetime.Transient;
                                     config.RegisterServicesFromAssemblyContaining<Program>();
@@ -21,6 +19,6 @@ internal static class ServiceCollectionExtensions
                                 })
                                 .AddSingleton<TimeProvider>(_ => TimeProvider.System)
                                 .AddValidatorsFromAssembly(typeof(Program).Assembly, includeInternalTypes: true)
-                                .AddUrlServices(configureUrlShortenerOptions);
+                                .AddUrlServices(configureCodeGeneratorOptions);
     }
 }

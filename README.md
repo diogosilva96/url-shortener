@@ -4,7 +4,6 @@ The application makes use of the following packages:
 - `Entity Framework Core` - for data access
 - `MediatR` - for request handling & request middleware
 - `FluentValidation` - for validation
-- `Carter` - for minimal api endpoint registration
 - `XUnit` - for unit & integration tests
 - `NSubstitute` - for mocking
 - `AutoFixture` - for creating test data
@@ -13,10 +12,7 @@ The application uses exception middleware & RequestPreProcessors (from MediatR) 
 
 ## TODO
 Here is the list of things to do:
-- Add more url management endpoints such as:
-  - Get UrlMetadata (no redirect)
-  - Expire url
-  - List UrlMetadata
+- Add output caching for read urls?
 - Add auth for UrlMetadata management endpoints (either via azure active directory or Entity framework + identity)
 - Add open telemetry
 - Add automatic expiration of urls (e.g., after 6 months)
@@ -24,7 +20,7 @@ Here is the list of things to do:
 ## Adding migrations
 To add a migration to the `Url.Shortener.Data.Migrator` project do the following:
 1. Go to base path (`/`) of the project
-2. Run command ` dotnet ef migrations add <migrationName> --startup-project tools\Url.Shortener.Data.Migrator\` - make sure to replace `<migrationName>` with your actual migration name
+2. Run command `dotnet ef migrations add <migrationName> --startup-project tools\Url.Shortener.Data.Migrator\` - make sure to replace `<migrationName>` with your actual migration name
 
 ## Running the application (locally)
 1. Run `docker-compose up -d` in the base folder of the project

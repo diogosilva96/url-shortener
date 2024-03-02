@@ -9,13 +9,13 @@ namespace Url.Shortener.Api.UnitTests.Domain.ServiceCollectionExtensionsFixture;
 
 public class WhenBuildingServiceProvider
 {
-    private readonly Action<UrlShortenerOptions> _configureUrlShortenerOptions;
+    private readonly Action<CodeGeneratorOptions> _configureCodeGeneratorOptions;
     private readonly IServiceCollection _serviceCollection;
 
     public WhenBuildingServiceProvider()
     {
         var urlShortenerOptions = new UrlShortenerOptionsBuilder().Build();
-        _configureUrlShortenerOptions = options =>
+        _configureCodeGeneratorOptions = options =>
         {
             options.Characters = urlShortenerOptions.Characters;
             options.UrlSize = urlShortenerOptions.UrlSize;
@@ -40,6 +40,6 @@ public class WhenBuildingServiceProvider
         Assert.NotNull(provider.GetService<TimeProvider>());
     }
 
-    private IServiceProvider WhenBuilding() => _serviceCollection.AddDomainServices(_configureUrlShortenerOptions)
+    private IServiceProvider WhenBuilding() => _serviceCollection.AddDomainServices(_configureCodeGeneratorOptions)
                                                                  .BuildServiceProvider();
 }

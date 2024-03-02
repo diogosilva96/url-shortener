@@ -5,7 +5,7 @@ using Url.Shortener.Api.Domain.Url.Redirect;
 
 namespace Url.Shortener.Api.UnitTests.Domain.Url.Redirect.Builder;
 
-internal class CachedRedirectUrlRequestHandlerBuilder
+public class CachedRedirectUrlRequestHandlerBuilder
 {
     private IRequestHandler<RedirectUrlRequest, string> _handler;
     private IMemoryCache _memoryCache;

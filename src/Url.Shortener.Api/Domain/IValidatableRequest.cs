@@ -1,7 +1,13 @@
-﻿namespace Url.Shortener.Api.Domain;
+﻿using MediatR;
+
+namespace Url.Shortener.Api.Domain;
+
+public interface IValidatableRequest : IRequest, IValidatableRequestBase
+{ }
+
+public interface IValidatableRequest<out TResponse> : IRequest<TResponse>, IValidatableRequestBase
+{ }
 
 // marker interface for validation
-internal interface IValidatableRequest
-{
-    
-}
+public interface IValidatableRequestBase : IBaseRequest
+{ }

@@ -12,4 +12,5 @@ app.ConfigureMiddleware();
 
 app.Run();
 
-public partial class Program { }
+public partial class Program
+{ }

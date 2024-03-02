@@ -9,16 +9,16 @@ namespace Url.Shortener.Api.IntegrationTests.Domain.Url.Redirect;
 
 public sealed class WhenRedirectingUrl : IntegrationTestBase
 {
+    private readonly string _code;
     private readonly string _expectedRedirectUrl;
-    private readonly string _shortUrl;
 
     public WhenRedirectingUrl(IntegrationTestWebApplicationFactory webApplicationFactory) : base(webApplicationFactory)
     {
         var fixture = new Fixture();
-        var urlMetadata = new UrlMetadataBuilder().With(x => x.ShortUrl = fixture.Create<string>()[..15])
+        var urlMetadata = new UrlMetadataBuilder().With(x => x.Code = fixture.Create<string>()[..15])
                                                   .Build();
 
-        _shortUrl = urlMetadata.ShortUrl;
+        _code = urlMetadata.Code;
         _expectedRedirectUrl = urlMetadata.FullUrl;
 
         webApplicationFactory.SeedData(context => context.Add(urlMetadata));
@@ -49,5 +49,5 @@ public sealed class WhenRedirectingUrl : IntegrationTestBase
     }
 
     private async Task<HttpResponseMessage> WhenRedirectingAsync() =>
-        await Client.GetAsync(Urls.Api.Urls.Get(_shortUrl));
+        await Client.GetAsync(Urls.Api.Urls.Redirect(_code));
 }

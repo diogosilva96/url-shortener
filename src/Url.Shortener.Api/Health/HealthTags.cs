@@ -1,6 +1,6 @@
 ﻿namespace Url.Shortener.Api.Health;
 
-internal static class HealthTags
+public static class HealthTags
 {
     public const string Ready = "ready";
 

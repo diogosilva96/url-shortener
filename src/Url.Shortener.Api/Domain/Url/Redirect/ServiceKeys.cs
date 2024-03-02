@@ -3,7 +3,7 @@
 /// <summary>
 /// Class that contains service keys.
 /// </summary>
-internal static class ServiceKeys
+public static class ServiceKeys
 {
     /// <summary>
     /// The service key for the GetUrlRequestHandler.

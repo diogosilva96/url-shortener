@@ -2,7 +2,7 @@
 
 namespace Url.Shortener.Api.UnitTests.Builder;
 
-internal class MemoryCacheBuilder
+public class MemoryCacheBuilder
 {
     private readonly List<Action<IMemoryCache>> _setupActions;
 

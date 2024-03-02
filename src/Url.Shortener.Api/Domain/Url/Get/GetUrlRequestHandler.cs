@@ -18,15 +18,9 @@ public class GetUrlRequestHandler : IRequestHandler<GetUrlRequest, UrlMetadata>
 
     public async Task<UrlMetadata> Handle(GetUrlRequest request, CancellationToken cancellationToken)
     {
-        // TODO: make url metadata mapping reusable (for list url endpoint)
         var metadata = await _dbContext.UrlMetadata
                                        .Where(x => x.Code == request.Code)
-                                       .Select(x => new UrlMetadata
-                                       {
-                                           FullUrl = x.FullUrl,
-                                           Code = x.Code,
-                                           CreatedAtUtc = x.CreatedAtUtc
-                                       })
+                                       .MapToUrlMetadataContract()
                                        .SingleOrDefaultAsync(cancellationToken);
 
         // ReSharper disable once InvertIf

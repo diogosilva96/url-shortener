@@ -62,9 +62,9 @@ public class UrlEndpoints : IEndpoint
         return TypedResults.Ok(metadata);
     }
     
-    public static async Task<IResult> ListUrlsAsync(IMediator mediator, [FromQuery]int page = 50, [FromQuery]int pageSize = 1, CancellationToken cancellationToken = default)
+    public static async Task<IResult> ListUrlsAsync(IMediator mediator, [FromQuery]int? pageSize = default, [FromQuery]int? page = default, CancellationToken cancellationToken = default)
     {
-        var domainRequest = new ListUrlRequest(pageSize, page);
+        var domainRequest = new ListUrlRequest(pageSize ?? 50, page ?? 1);
         var metadata = await mediator.Send(domainRequest, cancellationToken);
         return TypedResults.Ok(metadata);
     }

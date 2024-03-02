@@ -75,5 +75,5 @@ public class WhenListingUrls
         Assert.Equal(_expectedResult, okResult.Value);
     }
 
-    private async Task<IResult> WhenListingAsync() => await UrlEndpoints.ListUrlsAsync(_mediator, _page, _pageSize);
+    private async Task<IResult> WhenListingAsync() => await UrlEndpoints.ListUrlsAsync(_mediator, pageSize: _pageSize, page: _page);
 }

@@ -18,6 +18,8 @@ public static class Urls
             public const string Create = BasePath;
 
             public static string Get(string code) => $"{BasePath}/{code}";
+            
+            public static string List(int pageSize, int page) => $"{BasePath}?pageSize={pageSize}&page={page}";
 
             public static string Redirect(string code) => $"{code}";
         }

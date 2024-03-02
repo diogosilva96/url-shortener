@@ -62,5 +62,5 @@ public class WhenHandlingRequest
                     _expectedUrlMetadata.CreatedAtUtc == metadata.CreatedAtUtc);
     }
 
-    private async Task<Contracts.UrlMetadata> WhenHandlingAsync() => await _handler.Handle(_request, CancellationToken.None);
+    private async Task<Api.Contracts.UrlMetadata> WhenHandlingAsync() => await _handler.Handle(_request, CancellationToken.None);
 }

@@ -49,5 +49,5 @@ public class WhenHandlingRequestAndThereIsNoUrlMetadata
         );
     }
 
-    private async Task<PagedResult<Contracts.UrlMetadata>> WhenHandlingAsync() => await _handler.Handle(_request, CancellationToken.None);
+    private async Task<PagedResult<Api.Contracts.UrlMetadata>> WhenHandlingAsync() => await _handler.Handle(_request, CancellationToken.None);
 }

@@ -51,5 +51,5 @@ public class WhenMappingToUrlMetadataContract
                                                                                 x.FullUrl == expectedMetadata.FullUrl && 
                                                                                 x.CreatedAtUtc == expectedMetadata.CreatedAtUtc));
     }
-    private Contracts.UrlMetadata[] WhenMapping() => _urlMetadata.MapToUrlMetadataContract().ToArray();
+    private Api.Contracts.UrlMetadata[] WhenMapping() => _urlMetadata.MapToUrlMetadataContract().ToArray();
 }

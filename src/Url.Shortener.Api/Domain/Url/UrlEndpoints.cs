@@ -1,9 +1,11 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
 using Url.Shortener.Api.Contracts;
 using Url.Shortener.Api.Domain.Url.Get;
 using Url.Shortener.Api.Domain.Url.Redirect;
 using Url.Shortener.Api.Endpoint;
+using ListUrlRequest = Url.Shortener.Api.Domain.Url.List.ListUrlRequest;
 
 namespace Url.Shortener.Api.Domain.Url;
 
@@ -20,6 +22,13 @@ public class UrlEndpoints : IEndpoint
                    .Produces<UrlMetadata>()
                    .Produces<HttpValidationProblemDetails>(StatusCodes.Status400BadRequest)
                    .Produces<NotFound>(StatusCodes.Status404NotFound)
+                   .Produces<ProblemHttpResult>(StatusCodes.Status500InternalServerError);
+        
+        apiUrlGroup.MapGet(string.Empty, ListUrlsAsync)
+                   .WithName("ListUrls")
+                   .WithDescription("Lists the url metadata.")
+                   .Produces<UrlMetadata>()
+                   .Produces<HttpValidationProblemDetails>(StatusCodes.Status400BadRequest)
                    .Produces<ProblemHttpResult>(StatusCodes.Status500InternalServerError);
 
         apiUrlGroup.MapPost(string.Empty, CreateUrlAsync)
@@ -52,6 +61,14 @@ public class UrlEndpoints : IEndpoint
         var metadata = await mediator.Send(domainRequest, cancellationToken);
         return TypedResults.Ok(metadata);
     }
+    
+    public static async Task<IResult> ListUrlsAsync(IMediator mediator, [FromQuery]int page = 50, [FromQuery]int pageSize = 1, CancellationToken cancellationToken = default)
+    {
+        var domainRequest = new ListUrlRequest(pageSize, page);
+        var metadata = await mediator.Send(domainRequest, cancellationToken);
+        return TypedResults.Ok(metadata);
+    }
+
 
     public static async Task<IResult> RedirectUrlAsync(string code, IMediator mediator, CancellationToken cancellationToken = default)
     {

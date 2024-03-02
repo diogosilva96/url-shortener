@@ -9,13 +9,13 @@ using Xunit;
 
 namespace Url.Shortener.Api.UnitTests.Domain.Url.UrlEndpointsFixture;
 
-public class WhenRetrievingUrl
+public class WhenRedirectingUrl
 {
+    private readonly string _code;
     private readonly string _expectedUrl;
     private readonly IMediator _mediator;
-    private readonly string _code;
 
-    public WhenRetrievingUrl()
+    public WhenRedirectingUrl()
     {
         var fixture = new Fixture();
 

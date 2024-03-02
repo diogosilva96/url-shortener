@@ -36,7 +36,7 @@ public sealed class WhenCreatingUrlWhileSpecifyingCode : IntegrationTestBase
     [Fact]
     public async Task ThenNoExceptionIsThrown()
     {
-        var exception = await Record.ExceptionAsync(WhenRetrievingAsync);
+        var exception = await Record.ExceptionAsync(WhenCreatingAsync);
 
         Assert.Null(exception);
     }
@@ -44,7 +44,7 @@ public sealed class WhenCreatingUrlWhileSpecifyingCode : IntegrationTestBase
     [Fact]
     public async Task ThenAnOkResponseIsReturned()
     {
-        var response = await WhenRetrievingAsync();
+        var response = await WhenCreatingAsync();
 
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
     }
@@ -52,13 +52,13 @@ public sealed class WhenCreatingUrlWhileSpecifyingCode : IntegrationTestBase
     [Fact]
     public async Task ThenTheExpectedCodeIsReturned()
     {
-        var response = await WhenRetrievingAsync();
+        var response = await WhenCreatingAsync();
 
         var code = await response.Content.ReadAsStringAsync();
 
         Assert.Contains(_request.Code!, code);
     }
 
-    private async Task<HttpResponseMessage> WhenRetrievingAsync() =>
+    private async Task<HttpResponseMessage> WhenCreatingAsync() =>
         await Client.PostAsync(Urls.Api.Urls.Create, JsonContent.Create(_request));
 }

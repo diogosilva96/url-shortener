@@ -36,7 +36,7 @@ public sealed class WhenCreatingUrlAndRequestIsInvalid : IntegrationTestBase
     [Fact]
     public async Task ThenNoExceptionIsThrown()
     {
-        var exception = await Record.ExceptionAsync(WhenRetrievingAsync);
+        var exception = await Record.ExceptionAsync(WhenCreatingAsync);
 
         Assert.Null(exception);
     }
@@ -44,7 +44,7 @@ public sealed class WhenCreatingUrlAndRequestIsInvalid : IntegrationTestBase
     [Fact]
     public async Task ThenABadRequestResponseIsReturned()
     {
-        var response = await WhenRetrievingAsync();
+        var response = await WhenCreatingAsync();
 
         Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
     }
@@ -52,12 +52,12 @@ public sealed class WhenCreatingUrlAndRequestIsInvalid : IntegrationTestBase
     [Fact]
     public async Task ThenValidationProblemsAreReturned()
     {
-        var response = await WhenRetrievingAsync();
+        var response = await WhenCreatingAsync();
 
         var problem = (await response.Content.ReadFromJsonAsync<HttpValidationProblemDetails>())!;
         Assert.NotEmpty(problem.Errors);
     }
 
-    private async Task<HttpResponseMessage> WhenRetrievingAsync() =>
+    private async Task<HttpResponseMessage> WhenCreatingAsync() =>
         await Client.PostAsync(Urls.Api.Urls.Create, JsonContent.Create(_request));
 }

@@ -4,7 +4,6 @@ The application makes use of the following packages:
 - `Entity Framework Core` - for data access
 - `MediatR` - for request handling & request middleware
 - `FluentValidation` - for validation
-- `Carter` - for minimal api endpoint registration
 - `XUnit` - for unit & integration tests
 - `NSubstitute` - for mocking
 - `AutoFixture` - for creating test data

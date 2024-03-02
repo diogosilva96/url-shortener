@@ -1,6 +1,7 @@
 ﻿using Url.Shortener.Api.Data;
 using Url.Shortener.Api.Domain;
 using Url.Shortener.Api.Domain.Url.Create;
+using Url.Shortener.Api.Endpoint;
 using Url.Shortener.Api.Exceptions;
 using Url.Shortener.Api.Health;
 
@@ -16,6 +17,7 @@ public static class DependencyInjectionConfigurator
 
         return serviceCollection.AddEndpointsApiExplorer()
                                 .AddSwaggerGen()
+                                .AddEndpoints(typeof(Program).Assembly)
                                 .AddDomainServices(ConfigureCodeGeneratorOptions)
                                 .AddExceptionServices()
                                 .AddDataServices(dbConnectionString)

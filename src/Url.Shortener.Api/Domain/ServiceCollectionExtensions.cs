@@ -1,5 +1,4 @@
-﻿using Carter;
-using FluentValidation;
+﻿using FluentValidation;
 using MediatR.Pipeline;
 using Url.Shortener.Api.Domain.Url;
 using Url.Shortener.Api.Domain.Url.Create;
@@ -11,8 +10,7 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddDomainServices(this IServiceCollection serviceCollection,
         Action<CodeGeneratorOptions> configureCodeGeneratorOptions)
     {
-        return serviceCollection.AddCarter()
-                                .AddMediatR(config =>
+        return serviceCollection.AddMediatR(config =>
                                 {
                                     config.Lifetime = ServiceLifetime.Transient;
                                     config.RegisterServicesFromAssemblyContaining<Program>();

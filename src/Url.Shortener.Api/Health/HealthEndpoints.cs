@@ -1,12 +1,13 @@
-﻿using Carter;
-using HealthChecks.UI.Client;
+﻿using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Url.Shortener.Api.Contracts;
+using Url.Shortener.Api.Domain;
+using Url.Shortener.Api.Endpoint;
 
 namespace Url.Shortener.Api.Health;
 
-public class HealthEndpoints : ICarterModule
+public class HealthEndpoints : IEndpoint
 {
     private static readonly IDictionary<HealthStatus, int> _healthStatusCodeMapper = new Dictionary<HealthStatus, int>
     {

@@ -1,13 +1,13 @@
-﻿using Carter;
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Url.Shortener.Api.Contracts;
 using Url.Shortener.Api.Domain.Url.Get;
 using Url.Shortener.Api.Domain.Url.Redirect;
+using Url.Shortener.Api.Endpoint;
 
 namespace Url.Shortener.Api.Domain.Url;
 
-public class UrlEndpoints : ICarterModule
+public class UrlEndpoints : IEndpoint
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {

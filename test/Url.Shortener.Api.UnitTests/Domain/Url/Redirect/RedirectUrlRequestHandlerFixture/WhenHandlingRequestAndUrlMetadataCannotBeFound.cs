@@ -26,7 +26,7 @@ public class WhenHandlingRequestAndUrlMetadataCannotBeFound
                                                           .Build();
 
         _handler = new RedirectUrlRequestHandlerBuilder().With(dbContext)
-                                                    .Build();
+                                                         .Build();
 
         _request = new(fixture.Create<string>());
     }

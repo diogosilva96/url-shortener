@@ -1,5 +1,4 @@
-﻿using MediatR;
-using Url.Shortener.Api.Contracts;
+﻿using Url.Shortener.Api.Contracts;
 
 namespace Url.Shortener.Api.Domain.Url.List;
 

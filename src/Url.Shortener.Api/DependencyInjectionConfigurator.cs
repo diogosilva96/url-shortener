@@ -24,6 +24,7 @@ public static class DependencyInjectionConfigurator
                                 .AddHealthServices()
                                 .AddAuthorization();
 
-        void ConfigureCodeGeneratorOptions(CodeGeneratorOptions options) => configuration.GetSection(ConfigurationSectionNames.CodeGeneratorOptions).Bind(options);
+        void ConfigureCodeGeneratorOptions(CodeGeneratorOptions options) =>
+            configuration.GetSection(ConfigurationSectionNames.CodeGeneratorOptions).Bind(options);
     }
 }

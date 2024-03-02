@@ -9,8 +9,8 @@ namespace Url.Shortener.Api.IntegrationTests.Domain.Url.Redirect;
 
 public sealed class WhenRedirectingUrl : IntegrationTestBase
 {
-    private readonly string _expectedRedirectUrl;
     private readonly string _code;
+    private readonly string _expectedRedirectUrl;
 
     public WhenRedirectingUrl(IntegrationTestWebApplicationFactory webApplicationFactory) : base(webApplicationFactory)
     {

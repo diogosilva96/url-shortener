@@ -7,8 +7,8 @@ namespace Url.Shortener.Api.UnitTests.Domain.Url.Create.CodeGeneratorFixture;
 
 public class WhenGeneratingCode
 {
-    private readonly CodeGeneratorOptions _options;
     private readonly CodeGenerator _codeGenerator;
+    private readonly CodeGeneratorOptions _options;
 
     public WhenGeneratingCode()
     {
@@ -17,7 +17,7 @@ public class WhenGeneratingCode
                                                    .Build();
 
         _codeGenerator = new UrlShortenerBuilder().With(_options)
-                                                 .Build();
+                                                  .Build();
     }
 
     [Fact]

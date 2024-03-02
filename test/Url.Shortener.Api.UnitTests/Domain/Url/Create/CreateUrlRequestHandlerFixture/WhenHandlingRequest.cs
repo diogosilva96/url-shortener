@@ -11,13 +11,13 @@ namespace Url.Shortener.Api.UnitTests.Domain.Url.Create.CreateUrlRequestHandlerF
 
 public class WhenHandlingRequest
 {
+    private readonly ICodeGenerator _codeGenerator;
     private readonly ApplicationDbContext _dbContext;
-    private readonly DateTimeOffset _expectedDateTime;
     private readonly string _expectedCode;
+    private readonly DateTimeOffset _expectedDateTime;
     private readonly CreateUrlRequestHandler _handler;
     private readonly CreateUrlRequest _request;
     private readonly TimeProvider _timeProvider;
-    private readonly ICodeGenerator _codeGenerator;
 
     public WhenHandlingRequest()
     {
@@ -64,7 +64,7 @@ public class WhenHandlingRequest
         await WhenHandlingAsync();
 
         _codeGenerator.ReceivedWithAnyArgs(1)
-                     .GenerateCode();
+                      .GenerateCode();
     }
 
     [Fact]

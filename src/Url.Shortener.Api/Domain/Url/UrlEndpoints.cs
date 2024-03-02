@@ -23,7 +23,7 @@ public class UrlEndpoints : IEndpoint
                    .Produces<HttpValidationProblemDetails>(StatusCodes.Status400BadRequest)
                    .Produces<NotFound>(StatusCodes.Status404NotFound)
                    .Produces<ProblemHttpResult>(StatusCodes.Status500InternalServerError);
-        
+
         apiUrlGroup.MapGet(string.Empty, ListUrlsAsync)
                    .WithName("ListUrls")
                    .WithDescription("Lists the url metadata.")
@@ -61,8 +61,11 @@ public class UrlEndpoints : IEndpoint
         var metadata = await mediator.Send(domainRequest, cancellationToken);
         return TypedResults.Ok(metadata);
     }
-    
-    public static async Task<IResult> ListUrlsAsync(IMediator mediator, [FromQuery]int? pageSize = default, [FromQuery]int? page = default, CancellationToken cancellationToken = default)
+
+    public static async Task<IResult> ListUrlsAsync(IMediator mediator,
+        [FromQuery] int? pageSize = default,
+        [FromQuery] int? page = default,
+        CancellationToken cancellationToken = default)
     {
         var domainRequest = new ListUrlRequest(pageSize ?? 50, page ?? 1);
         var metadata = await mediator.Send(domainRequest, cancellationToken);

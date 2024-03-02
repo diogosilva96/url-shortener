@@ -1,4 +1,5 @@
-﻿using Url.Shortener.Api.Domain.Url.Get;
+﻿using Url.Shortener.Api.Contracts;
+using Url.Shortener.Api.Domain.Url.Get;
 using Url.Shortener.Api.Exceptions;
 using Url.Shortener.Api.UnitTests.Data.Builder;
 using Url.Shortener.Api.UnitTests.Domain.Url.Get.Builder;
@@ -14,7 +15,7 @@ public class WhenHandlingRequestAndUrlMetadataCannotBeFound
     public WhenHandlingRequestAndUrlMetadataCannotBeFound()
     {
         _request = new("123");
-        
+
         var metadata = new[]
         {
             new UrlMetadataBuilder().With(x => x.Code = "1")
@@ -22,10 +23,10 @@ public class WhenHandlingRequestAndUrlMetadataCannotBeFound
             new UrlMetadataBuilder().With(x => x.Code = "2")
                                     .Build()
         };
-        
+
 
         var dbContext = new UrlShortenerDbContextBuilder().With(metadata)
-                                                           .Build();
+                                                          .Build();
 
         _handler = new GetUrlRequestHandlerBuilder().With(dbContext)
                                                     .Build();
@@ -58,5 +59,5 @@ public class WhenHandlingRequestAndUrlMetadataCannotBeFound
         Assert.Equal(expectedException.Message, notFoundException.Message);
     }
 
-    private async Task<Api.Contracts.UrlMetadata> WhenHandlingAsync() => await _handler.Handle(_request, CancellationToken.None);
+    private async Task<UrlMetadata> WhenHandlingAsync() => await _handler.Handle(_request, CancellationToken.None);
 }

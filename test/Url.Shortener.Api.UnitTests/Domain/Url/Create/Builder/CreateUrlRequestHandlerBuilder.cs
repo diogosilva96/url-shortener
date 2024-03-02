@@ -8,10 +8,10 @@ namespace Url.Shortener.Api.UnitTests.Domain.Url.Create.Builder;
 
 public class CreateUrlRequestHandlerBuilder
 {
+    private ICodeGenerator _codeGenerator;
     private ApplicationDbContext _dbContext;
     private ILogger<CreateUrlRequestHandler> _logger;
     private TimeProvider _timeProvider;
-    private ICodeGenerator _codeGenerator;
 
     public CreateUrlRequestHandlerBuilder()
     {

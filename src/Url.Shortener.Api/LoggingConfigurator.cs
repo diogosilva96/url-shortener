@@ -8,11 +8,11 @@ public static class LoggingConfigurator
         IConfiguration configuration)
     {
         hostBuilder.Logging.ClearProviders();
-        
+
         var logger = new LoggerConfiguration().MinimumLevel.Debug()
                                               .ReadFrom.Configuration(configuration)
                                               .CreateLogger();
-        
+
         hostBuilder.Host.UseSerilog(logger);
 
         return hostBuilder;

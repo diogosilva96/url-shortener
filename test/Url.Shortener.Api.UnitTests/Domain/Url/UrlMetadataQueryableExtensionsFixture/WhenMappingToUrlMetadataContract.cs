@@ -8,7 +8,7 @@ namespace Url.Shortener.Api.UnitTests.Domain.Url.UrlMetadataQueryableExtensionsF
 public class WhenMappingToUrlMetadataContract
 {
     private readonly IQueryable<UrlMetadata> _urlMetadata;
-    
+
     public WhenMappingToUrlMetadataContract()
     {
         _urlMetadata = new[]
@@ -22,18 +22,18 @@ public class WhenMappingToUrlMetadataContract
     public void ThenNoExceptionIsThrown()
     {
         var exception = Record.Exception(WhenMapping);
-        
+
         Assert.Null(exception);
     }
-    
+
     [Fact]
     public void ThenTheUrlMetadataIsMapped()
     {
         var result = WhenMapping();
-        
+
         Assert.NotEmpty(result);
     }
-    
+
     [Fact]
     public void ThenTheExpectedNumberOfUrlMetadataIsMapped()
     {
@@ -41,15 +41,16 @@ public class WhenMappingToUrlMetadataContract
 
         Assert.Equal(_urlMetadata.Count(), result.Length);
     }
-    
+
     [Fact]
     public void ThenTheExpectedUrlMetadataIsMapped()
     {
         var result = WhenMapping();
 
-        Assert.All(_urlMetadata, expectedMetadata => Assert.Single(result, x => x.Code == expectedMetadata.Code && 
-                                                                                x.FullUrl == expectedMetadata.FullUrl && 
+        Assert.All(_urlMetadata, expectedMetadata => Assert.Single(result, x => x.Code == expectedMetadata.Code &&
+                                                                                x.FullUrl == expectedMetadata.FullUrl &&
                                                                                 x.CreatedAtUtc == expectedMetadata.CreatedAtUtc));
     }
+
     private Api.Contracts.UrlMetadata[] WhenMapping() => _urlMetadata.MapToUrlMetadataContract().ToArray();
 }

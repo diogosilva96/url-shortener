@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Url.Shortener.Api.Contracts;
-using Url.Shortener.Api.Domain;
 using Url.Shortener.Api.Endpoint;
 
 namespace Url.Shortener.Api.Health;
@@ -20,7 +19,7 @@ public class HealthEndpoints : IEndpoint
     {
         // TODO: add host filtering? e.g., .RequireHost("*:5001")
         var group = app.MapGroup(Urls.Health.BasePath);
-        
+
         group.MapHealthChecks("live", CreateHealthCheckOptions(check => check.Tags.Contains(HealthTags.Live)));
 
         group.MapHealthChecks("ready", CreateHealthCheckOptions(check => check.Tags.Contains(HealthTags.Ready)));

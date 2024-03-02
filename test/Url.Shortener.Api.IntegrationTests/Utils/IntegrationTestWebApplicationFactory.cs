@@ -27,11 +27,11 @@ public sealed class IntegrationTestWebApplicationFactory : WebApplicationFactory
     public async Task InitializeAsync()
     {
         await _dbContainer.StartAsync();
-        
+
         using var scope = Services.CreateScope();
         await using var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
         await dbContext.Database.EnsureCreatedAsync();
-    } 
+    }
 
     public new Task DisposeAsync() => _dbContainer.StopAsync();
 
@@ -73,9 +73,9 @@ public sealed class IntegrationTestWebApplicationFactory : WebApplicationFactory
             services.Remove(descriptor);
         }
 
-        services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(_dbContainer.GetConnectionString(), 
-                                                                           x => x.MigrationsAssembly("Url.Shortener.Data.Migrator"))
-                                                                       .UseSnakeCaseNamingConvention());
+        services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(_dbContainer.GetConnectionString(),
+                                                                          x => x.MigrationsAssembly("Url.Shortener.Data.Migrator"))
+                                                                      .UseSnakeCaseNamingConvention());
     }
 
     public void SeedData(Action<ApplicationDbContext> seedDelegate)

@@ -1,11 +1,11 @@
-﻿using Url.Shortener.Data.Models;
+﻿using Url.Shortener.Api.Contracts;
 
 namespace Url.Shortener.Api.Domain.Url;
 
 public static class UrlMetadataQueryableExtensions
 {
-    public static IQueryable<Contracts.UrlMetadata> MapToUrlMetadataContract(this IQueryable<UrlMetadata> queryable) => 
-        queryable.Select(x => new Contracts.UrlMetadata()
+    public static IQueryable<UrlMetadata> MapToUrlMetadataContract(this IQueryable<Shortener.Data.Models.UrlMetadata> queryable) =>
+        queryable.Select(x => new UrlMetadata
         {
             Code = x.Code,
             FullUrl = x.FullUrl,

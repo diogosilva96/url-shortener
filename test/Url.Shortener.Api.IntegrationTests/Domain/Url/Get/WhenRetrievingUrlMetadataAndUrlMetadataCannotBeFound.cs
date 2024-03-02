@@ -11,7 +11,8 @@ public sealed class WhenRetrievingUrlMetadataAndUrlMetadataCannotBeFound : Integ
 {
     private readonly string _code;
 
-    public WhenRetrievingUrlMetadataAndUrlMetadataCannotBeFound(IntegrationTestWebApplicationFactory webApplicationFactory) : base(webApplicationFactory)
+    public WhenRetrievingUrlMetadataAndUrlMetadataCannotBeFound(IntegrationTestWebApplicationFactory webApplicationFactory) : base(
+        webApplicationFactory)
     {
         var fixture = new Fixture();
         var urlMetadata = new UrlMetadataBuilder().With(x => x.Code = fixture.Create<string>()[..15])

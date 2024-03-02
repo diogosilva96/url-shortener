@@ -50,7 +50,7 @@ public class WhenValidatingRequestWithInvalidCode
             Add(request with { Code = "tA" });                                                  // string with 2 length
             Add(request with { Code = "tAJqPRr@ywgK5Av*nzu6c@Wg+5#fxWj4Mmnt5o3UuqEqYFsARJT" }); // string with 51 length
             Add(request with { Code = "abcde/ab" });                                            // path separator ('/') character not allowed
-            Add(request with { Code = "abcde\\ab" });                                            // invalid relative uri
+            Add(request with { Code = "abcde\\ab" });                                           // invalid relative uri
         }
     }
 }

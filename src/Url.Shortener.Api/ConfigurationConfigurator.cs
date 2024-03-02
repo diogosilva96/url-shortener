@@ -11,7 +11,7 @@ public static class WebApplicationBuilderExtensions
         }
 
         configurationManager.AddEnvironmentVariables("App_");
-        
+
         return configurationManager;
     }
 }

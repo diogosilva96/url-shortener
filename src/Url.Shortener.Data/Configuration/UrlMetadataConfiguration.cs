@@ -15,7 +15,8 @@ public class UrlMetadataConfiguration : IEntityTypeConfiguration<UrlMetadata>
                .IsRequired();
 
         builder.Property(x => x.FullUrl)
-               .HasMaxLength(Constants.MaxFullUrlLength) // max length 2048 just to be safe in different browsers, as the length depends on the browser used
+               .HasMaxLength(Constants
+                   .MaxFullUrlLength) // max length 2048 just to be safe in different browsers, as the length depends on the browser used
                .IsRequired();
 
         builder.Property(x => x.CreatedAtUtc)

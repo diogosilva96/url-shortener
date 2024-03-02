@@ -7,12 +7,13 @@ public static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddDataServices(this IServiceCollection serviceCollection, string connectionString)
     {
-        if (string.IsNullOrWhiteSpace(connectionString)) throw new ArgumentException("The connection string should be specified.", nameof(connectionString));
-        
+        if (string.IsNullOrWhiteSpace(connectionString))
+            throw new ArgumentException("The connection string should be specified.", nameof(connectionString));
+
         return serviceCollection.AddDbContext<ApplicationDbContext>
         (
-            options => options.UseNpgsql(connectionString, 
-            x => x.MigrationsAssembly("Url.Shortener.Data.Migrator"))
+            options => options.UseNpgsql(connectionString,
+                x => x.MigrationsAssembly("Url.Shortener.Data.Migrator"))
         );
     }
 }

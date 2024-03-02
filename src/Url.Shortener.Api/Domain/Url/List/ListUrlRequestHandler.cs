@@ -27,7 +27,7 @@ public class ListUrlRequestHandler : IRequestHandler<ListUrlRequest, PagedResult
                 PageCount = pageCount
             };
         }
-        
+
         var items = await queryable.Skip(itemsToSkip)
                                    .Take(request.PageSize)
                                    .MapToUrlMetadataContract()

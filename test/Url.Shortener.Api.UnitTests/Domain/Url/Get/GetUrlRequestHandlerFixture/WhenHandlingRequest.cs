@@ -22,7 +22,7 @@ public class WhenHandlingRequest
         _expectedUrlMetadata = new UrlMetadataBuilder().With(x => x.Code = _request.Code)
                                                        .Build();
 
-        var metadata = new List<UrlMetadata>()
+        var metadata = new List<UrlMetadata>
         {
             _expectedUrlMetadata,
             new UrlMetadataBuilder().Build(),
@@ -30,7 +30,7 @@ public class WhenHandlingRequest
         };
 
         var dbContext = new UrlShortenerDbContextBuilder().With(metadata)
-                                                           .Build();
+                                                          .Build();
 
         _handler = new GetUrlRequestHandlerBuilder().With(dbContext)
                                                     .Build();
@@ -57,7 +57,7 @@ public class WhenHandlingRequest
     {
         var metadata = await WhenHandlingAsync();
 
-        Assert.True(_expectedUrlMetadata.Code == metadata.Code && 
+        Assert.True(_expectedUrlMetadata.Code == metadata.Code &&
                     _expectedUrlMetadata.FullUrl == metadata.FullUrl &&
                     _expectedUrlMetadata.CreatedAtUtc == metadata.CreatedAtUtc);
     }

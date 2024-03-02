@@ -10,7 +10,7 @@ public class GetUrlRequestHandlerBuilder
 {
     private ApplicationDbContext _dbContext;
     private ILogger<GetUrlRequestHandler> _logger;
-    
+
 
     public GetUrlRequestHandlerBuilder()
     {
@@ -26,7 +26,7 @@ public class GetUrlRequestHandlerBuilder
 
         return this;
     }
-    
+
     public GetUrlRequestHandlerBuilder With(ILogger<GetUrlRequestHandler> logger)
     {
         _logger = logger;
